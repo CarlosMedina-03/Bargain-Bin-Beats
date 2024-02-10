@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+   MyApp({Key? key}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -82,7 +82,11 @@ class GenreContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+    onTap: () {  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        final snackBar = SnackBar(content: Text(genre));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar); },
+    child: Container(
       margin: EdgeInsets.all(10),
       height: 150,
       decoration: BoxDecoration(
@@ -104,6 +108,7 @@ class GenreContainer extends StatelessWidget {
           ),
         ],
       ),
+    )
     );
   }
 }

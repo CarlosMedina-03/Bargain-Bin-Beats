@@ -103,3 +103,10 @@ build/5ac2f0046179d5c246a76aed8c877cba/.filecache
 *.old
 .dart_tool/chrome-device/Default/Extension State/LOG
 .dart_tool/chrome-device/Default/DIPS
+build/flutter_assets/NOTICES
+*.prefs
+build/5ac2f0046179d5c246a76aed8c877cba/.filecache
+*.json
+*.d
+*.stamp
+*.frag

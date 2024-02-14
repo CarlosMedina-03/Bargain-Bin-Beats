@@ -42,10 +42,6 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 .dart_tool/dartpad/web_plugin_registrant.dart
-.dart_tool/dartpad/web_plugin_registrant.dart
-.dart_tool/dartpad/web_plugin_registrant.dart
-.dart_tool/dartpad/web_plugin_registrant.dart
-.dart_tool/dartpad/web_plugin_registrant.dart
 .dart_tool/package_config.json
 .dart_tool/package_config_subset
 build/.last_build_id
@@ -63,50 +59,76 @@ build/5ac2f0046179d5c246a76aed8c877cba/gen_localizations.stamp
 build/flutter_assets/NOTICES
 *.dill
 *.stamp
-*.d
-*.json
 build/5ac2f0046179d5c246a76aed8c877cba/.filecache
 *.prefs
 .dart_tool/package_config_subset
-*.json
 .dart_tool/chrome-device/Default/WebStorage/QuotaManager
 .dart_tool/chrome-device/Default/Visited Links
 .dart_tool/chrome-device/Default/TransportSecurity
 *.old
 .dart_tool/chrome-device/Default/Sync Data/LevelDB/LOG
-*.old
 .dart_tool/chrome-device/Default/Site Characteristics Database/LOG
 *.log
-*.old
 .dart_tool/chrome-device/Default/shared_proto_db/metadata/LOG
-*.log
-*.old
 .dart_tool/chrome-device/Default/shared_proto_db/LOG
-*.log
 .dart_tool/chrome-device/Default/Shared Dictionary/cache/index-dir/the-real-index
-*.old
 .dart_tool/chrome-device/Default/Session Storage/LOG
-*.log
 .dart_tool/chrome-device/Default/Service Worker/ScriptCache/index-dir/the-real-index
-*.old
 .dart_tool/chrome-device/Default/Service Worker/Database/LOG
-*.log
 .dart_tool/chrome-device/Default/Reporting and NEL
 .dart_tool/chrome-device/Default/Preferences
 .dart_tool/chrome-device/Default/Network Persistent State
-*.old
 .dart_tool/chrome-device/Default/Local Storage/leveldb/LOG
 .dart_tool/chrome-device/Default/History
-*.old
 .dart_tool/chrome-device/Default/GCM Store/Encryption/LOG
 .dart_tool/chrome-device/Default/Favicons
-*.old
 .dart_tool/chrome-device/Default/Extension State/LOG
 .dart_tool/chrome-device/Default/DIPS
 build/flutter_assets/NOTICES
-*.prefs
 build/5ac2f0046179d5c246a76aed8c877cba/.filecache
-*.json
-*.d
-*.stamp
-*.frag
+//individual files
+windows/flutter/generated_plugins.cmake
+windows/flutter/generated_plugin_registrant.h
+windows/flutter/generated_plugin_registrant.cc
+macos/Flutter/GeneratedPluginRegistrant.swift
+linux/flutter/generated_plugins.cmake
+linux/flutter/generated_plugin_registrant.h
+linux/flutter/generated_plugin_registrant.cc
+build/flutter_assets/shaders/ink_sparkle.frag
+build/flutter_assets/NOTICES
+build/9ffe3fb9e2063e195ddfbcea0cabcfef.cache.dill.track.dill
+build/5ac2f0046179d5c246a76aed8c877cba/gen_localizations.stamp
+build/5ac2f0046179d5c246a76aed8c877cba/gen_localizations.d
+build/5ac2f0046179d5c246a76aed8c877cba/gen_l10n_inputs_and_outputs.json
+build/5ac2f0046179d5c246a76aed8c877cba/.filecache
+android/.settings/org.eclipse.buildship.core.prefs
+.dart_tool/package_config_subset
+.dart_tool/package_config.json
+.dart_tool/dartpad/web_plugin_registrant.dart
+.dart_tool/chrome-device/Default/Visited Links
+.dart_tool/chrome-device/Default/Sync Data/LevelDB/LOG.old
+.dart_tool/chrome-device/Default/Sync Data/LevelDB/LOG
+.dart_tool/chrome-device/Default/Site Characteristics Database/MANIFEST-000001
+.dart_tool/chrome-device/Default/Site Characteristics Database/LOG.old
+.dart_tool/chrome-device/Default/Site Characteristics Database/LOG
+.dart_tool/chrome-device/Default/Site Characteristics Database/CURRENT
+.dart_tool/chrome-device/Default/shared_proto_db/metadata/LOG.old
+.dart_tool/chrome-device/Default/shared_proto_db/metadata/LOG
+.dart_tool/chrome-device/Default/Shared Dictionary/cache/index-dir/the-real-index
+.dart_tool/chrome-device/Default/Session Storage/LOG
+.dart_tool/chrome-device/Default/Session Storage/CURRENT
+.dart_tool/chrome-device/Default/Session Storage/000003.log
+.dart_tool/chrome-device/Default/Secure Preferences
+.dart_tool/chrome-device/Default/Preferences
+android/.settings/org.eclipse.buildship.core.prefs
+.dart_tool/chrome-device/Default/Local Storage/leveldb/LOG
+.dart_tool/chrome-device/Default/Local Storage/leveldb/CURRENT
+.dart_tool/chrome-device/Default/History-journal
+.dart_tool/chrome-device/Default/History
+.dart_tool/chrome-device/Default/GCM Store/Encryption/LOG.old
+.dart_tool/chrome-device/Default/GCM Store/Encryption/LOG
+.dart_tool/chrome-device/Default/Extension State/LOG.old
+.dart_tool/chrome-device/Default/Extension State/LOG
+.dart_tool/chrome-device/Default/Extension Scripts/LOG
+.dart_tool/chrome-device/Default/Extension Rules/LOG
+.dart_tool/chrome-device/Default/DIPS

@@ -132,3 +132,11 @@ android/.settings/org.eclipse.buildship.core.prefs
 .dart_tool/chrome-device/Default/Extension Scripts/LOG
 .dart_tool/chrome-device/Default/Extension Rules/LOG
 .dart_tool/chrome-device/Default/DIPS
+build/flutter_assets/NOTICES
+.dart_tool/chrome-device/Default/Visited Links
+*.old
+.dart_tool/chrome-device/Default/Sync Data/LevelDB/LOG
+.dart_tool/chrome-device/Default/Sync Data/LevelDB/LOG
+.dart_tool/chrome-device/Default/Site Characteristics Database/LOG
+.dart_tool/chrome-device/Default/Extension Rules/LOG
+.dart_tool/chrome-device/Default/Extension Scripts/LOG

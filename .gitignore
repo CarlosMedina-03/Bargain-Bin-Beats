@@ -55,7 +55,7 @@ build/5ac2f0046179d5c246a76aed8c877cba/gen_localizations.stamp
 *.cc
 *.h
 *.cmake
-*.swift
+#*.swift
 build/flutter_assets/NOTICES
 *.stamp
 *.prefs
@@ -84,7 +84,7 @@ build/flutter_assets/NOTICES
 windows/flutter/generated_plugins.cmake
 windows/flutter/generated_plugin_registrant.h
 windows/flutter/generated_plugin_registrant.cc
-macos/Flutter/GeneratedPluginRegistrant.swift
+#macos/Flutter/GeneratedPluginRegistrant.swift
 linux/flutter/generated_plugins.cmake
 linux/flutter/generated_plugin_registrant.h
 linux/flutter/generated_plugin_registrant.cc

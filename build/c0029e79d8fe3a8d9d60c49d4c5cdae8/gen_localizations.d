@@ -1,1 +1,0 @@
- /Users/cam_333/Desktop/VSCode/flutter_application_1/.dart_tool/flutter_gen/gen_l10n/app_localizations_en.dart /Users/cam_333/Desktop/VSCode/flutter_application_1/.dart_tool/flutter_gen/gen_l10n/app_localizations.dart:  /Users/cam_333/Desktop/VSCode/flutter_application_1/l10n.yaml /Users/cam_333/Desktop/VSCode/flutter_application_1/lib/src/localization/app_en.arb

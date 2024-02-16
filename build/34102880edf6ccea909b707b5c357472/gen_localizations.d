@@ -1,1 +1,0 @@
- /Users/cam_333/Desktop/VSCode/Spotify-Tinder/.dart_tool/flutter_gen/gen_l10n/app_localizations_en.dart /Users/cam_333/Desktop/VSCode/Spotify-Tinder/.dart_tool/flutter_gen/gen_l10n/app_localizations.dart:  /Users/cam_333/Desktop/VSCode/Spotify-Tinder/l10n.yaml /Users/cam_333/Desktop/VSCode/Spotify-Tinder/lib/src/localization/app_en.arb

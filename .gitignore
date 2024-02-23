@@ -106,3 +106,9 @@ build/5ac2f0046179d5c246a76aed8c877cba/gen_l10n_inputs_and_outputs.json
 .dart_tool/chrome-device/Default/Extension State/LOG.old
 .dart_tool/chrome-device/Default/Extension Scripts/LOG
 .dart_tool/chrome-device/Default/Extension Rules/LOG
+ios/Runner/AppDelegate.swift
+ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json
+ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json
+ios/RunnerTests/RunnerTests.swift
+macos/RunnerTests/RunnerTests.swift
+web/manifest.json

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/GenrePage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -18,28 +19,10 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   List<String> genres = [
-    "Pop",
-    "Rock",
-    "Jazz",
-    "Hip Hop",
-    "Classical",
-    "Electronic",
-    "Country",
-    "R&B",
-    "Reggae",
-    "Blues",
-    "Folk",
-    "Metal",
-    "Punk",
-    "Alternative",
-    "Indie",
-    "Latin",
-    "Gospel",
-    "Funk",
-    "Soul",
-    "Disco",
-  ];
-
+    "Pop", "Rock", "Jazz", "Hip Hop", "Classical",
+    "Electronic", "Country", "R&B", "Reggae", "Blues",
+    "Folk", "Metal", "Punk", "Alternative", "Indie",
+    "Latin", "Gospel", "Funk", "Soul", "Disco",];
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -81,6 +64,7 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
+
 
 void navigateToGenrePage(BuildContext context, String genre) {
   Navigator.of(context).push(
@@ -125,27 +109,6 @@ class GenreContainer extends StatelessWidget {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class GenrePage extends StatelessWidget {
-  final String genre;
-
-  const GenrePage({required this.genre, Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(genre),
-      ),
-      body: Center(
-        child: Text(
-          'This is the $genre page.',
-          style: TextStyle(fontSize: 24),
         ),
       ),
     );

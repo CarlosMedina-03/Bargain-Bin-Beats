@@ -71,15 +71,35 @@ class Song {
   }
   }
   
-  // Future<List<String>> fetchTracksByPopularity(String genre, String accessToken){
-  //   List<String> allTracks = [];
-  //   int numTracks =0;
-  //   int offset = 0;
-  //   while(numTracks < 100){
-  //     final response =  fetchTracks(genre, accessToken, offset);
-      
-  //   }
-  // }
+  Future<List<String>> fetchTracksByPopularity(String genre, String accessToken) async {
+  List<String> allTracks = [];
+  int numTracks = 0;
+  int offset = 0;
+  
+  while (numTracks < 100) {
+    final response = await fetchTracks(genre, accessToken, offset);
+    final List<dynamic> items = response['tracks']['items'];
+
+    for (var track in items) {
+      int popularityLevel = track['popularity'];
+      if (popularityLevel >= 30) {
+        allTracks.add(track["name"]);
+        numTracks++;
+      }
+      if (numTracks >= 100) {
+        break;
+      }
+    }
+    offset += 50;
+
+    // If offset exceeds the number of available tracks, break the loop
+    if (offset >= response['tracks']['total']) {
+      break;
+    }
+  }
+  return allTracks;
+}
+
 
 
   Future<Map<String, dynamic>> fetchTracks(String genre, String accessToken, int offset) async {
@@ -94,7 +114,6 @@ class Song {
 
 void main() async {
   var song1 = new Song("title", "artist", "genre");
-  print("title: ${song1.title}");
 
   final String refreshToken = song1.getRefreshToken(); // Replace with your refresh token
   final String accessToken = await song1.getAccessToken(refreshToken);
@@ -102,9 +121,12 @@ void main() async {
   var arr = await song1.getAvailableGenres(refreshToken);
   print(arr);
 
-  final tracks = await song1.fetchTracks("pop", accessToken, 0);
-  print(tracks);
 
+  // final Map<String, dynamic> myTracks = await song1.fetchTracks("pop", accessToken, 0);
+  // print(myTracks);
+  final List<String> tracks = await song1.fetchTracksByPopularity("pop", accessToken);
+  print(tracks);
+  print(tracks.length);
   
  
 }

@@ -71,7 +71,11 @@ class Song {
   }
   }
 
-  
+  Future<Map<String, dynamic>> _fetchTracks(String genre, String accessToken, int offset) async {
+  final url = Uri.parse('https://api.spotify.com/v1/search?q=genre:$genre&type=track&market=US&limit=50&offset=$offset&sort=popularity');
+  final response = await http.get(url, headers: {'Authorization': 'Bearer $accessToken'});
+  return json.decode(response.body);
+}
 }
 
 void main() async {

@@ -70,6 +70,18 @@ class Song {
     return []; // Return empty list if an error occurs
   }
   }
+  
+  // Future<List<String>> fetchTracksByPopularity(String genre, String accessToken){
+  //   List<String> allTracks = [];
+  //   int numTracks =0;
+  //   int offset = 0;
+  //   while(numTracks < 100){
+  //     final response =  fetchTracks(genre, accessToken, offset);
+      
+  //   }
+  // }
+
+
   Future<Map<String, dynamic>> fetchTracks(String genre, String accessToken, int offset) async {
   final url = Uri.parse('https://api.spotify.com/v1/search?q=genre:$genre&type=track&market=US&limit=50&offset=$offset&sort=popularity');
   final response = await http.get(url, headers: {'Authorization': 'Bearer $accessToken'});
@@ -92,5 +104,8 @@ void main() async {
 
   final tracks = await song1.fetchTracks("pop", accessToken, 0);
   print(tracks);
+
+  
+ 
 }
 

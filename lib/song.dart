@@ -70,12 +70,14 @@ class Song {
     return []; // Return empty list if an error occurs
   }
   }
-
-  Future<Map<String, dynamic>> _fetchTracks(String genre, String accessToken, int offset) async {
+  Future<Map<String, dynamic>> fetchTracks(String genre, String accessToken, int offset) async {
   final url = Uri.parse('https://api.spotify.com/v1/search?q=genre:$genre&type=track&market=US&limit=50&offset=$offset&sort=popularity');
   final response = await http.get(url, headers: {'Authorization': 'Bearer $accessToken'});
   return json.decode(response.body);
 }
+  
+
+
 }
 
 void main() async {
@@ -83,8 +85,12 @@ void main() async {
   print("title: ${song1.title}");
 
   final String refreshToken = song1.getRefreshToken(); // Replace with your refresh token
+  final String accessToken = await song1.getAccessToken(refreshToken);
 
   var arr = await song1.getAvailableGenres(refreshToken);
   print(arr);
+
+  final tracks = await song1.fetchTracks("pop", accessToken, 0);
+  print(tracks);
 }
 

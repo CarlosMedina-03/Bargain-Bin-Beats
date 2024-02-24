@@ -43,6 +43,8 @@ class Song {
   }
 }
 
+}
+
 void main() async {
   var song1 = new Song("title", "artist", "genre");
   print("title: ${song1.title}");
@@ -65,7 +67,4 @@ void main() async {
     print('Error: $e');
   }
 }
-}
-
-
 

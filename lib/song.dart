@@ -17,32 +17,7 @@ class Song {
   Song.fetch(String url) {
 
   }
-}
-
-void main() async {
-  var song1 = new Song("title", "artist", "genre");
-  print("title: ${song1.title}");
-
-   final String refreshToken = 'AQCml-ILsuS9NXX0oa0u03tVOAP7Jwx5dxDoZKhJEX6aLSoF6NkHzBcvjhtDhmiQ5MUw7iMppEH1eNdAum6ugjW89sz7k0Zdl66Q7s_LkB91fIc5q7P_77AVFqRAiGgw0eU'; // Replace with your refresh token
-  try {
-    final String accessToken = await getAccessToken(refreshToken);
-    final String url = 'https://api.spotify.com/v1/recommendations/available-genre-seeds';
-    print("is this thing working?");
-    final response = await http.get(
-      Uri.parse(url),
-      headers: {'Authorization': 'Bearer $accessToken'},
-    );
-    if (response.statusCode == 200) {
-      print('Response body: ${response.body}');
-    } else {
-      print('Failed to fetch data: ${response.statusCode}');
-    }
-  } catch (e) {
-    print('Error: $e');
-  }
-}
-
-Future<String> getAccessToken(String refreshToken) async {
+  Future<String> getAccessToken(String refreshToken) async {
   final String clientId = 'da3531944d1f4a7fa2c20b63a46d1d60';
   final String clientSecret = '01c615f0104e4ce585ed871ae37f4490';
   final String tokenUrl = 'https://accounts.spotify.com/api/token';
@@ -69,3 +44,28 @@ Future<String> getAccessToken(String refreshToken) async {
     throw Exception('Failed to refresh token: $e');
   }
 }
+}
+
+void main() async {
+  var song1 = new Song("title", "artist", "genre");
+  print("title: ${song1.title}");
+
+   final String refreshToken = 'AQCml-ILsuS9NXX0oa0u03tVOAP7Jwx5dxDoZKhJEX6aLSoF6NkHzBcvjhtDhmiQ5MUw7iMppEH1eNdAum6ugjW89sz7k0Zdl66Q7s_LkB91fIc5q7P_77AVFqRAiGgw0eU'; // Replace with your refresh token
+  try {
+    final String accessToken = await song1.getAccessToken(refreshToken);
+    final String url = 'https://api.spotify.com/v1/recommendations/available-genre-seeds';
+    print("is this thing working?");
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {'Authorization': 'Bearer $accessToken'},
+    );
+    if (response.statusCode == 200) {
+      print('Response body: ${response.body}');
+    } else {
+      print('Failed to fetch data: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error: $e');
+  }
+}
+

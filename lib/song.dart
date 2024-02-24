@@ -14,29 +14,6 @@ class Song {
     this.genre = genre;
   }
 
-  Future<List<String>> getAvailableGenres(String theRefreshToken) async {
-     try {
-    final String accessToken = await getAccessToken(theRefreshToken);
-    final String url = 'https://api.spotify.com/v1/recommendations/available-genre-seeds';
-    print("is this thing working?");
-    final response = await http.get(
-      Uri.parse(url),
-      headers: {'Authorization': 'Bearer $accessToken'},
-    );
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body)['genres'];
-      final List<String> genres = List<String>.from(data);
-      return genres;
-    } else {
-      print('Failed to fetch data: ${response.statusCode}');
-      return []; // Return empty list if request fails
-    }
-  } catch (e) {
-    print('Error: $e');
-    return []; // Return empty list if an error occurs
-  }
-  }
-
   /**
    * Getter Method for refresh token 
    */
@@ -71,7 +48,30 @@ class Song {
     throw Exception('Failed to refresh token: $e');
   }
 }
+  Future<List<String>> getAvailableGenres(String theRefreshToken) async {
+     try {
+    final String accessToken = await getAccessToken(theRefreshToken);
+    final String url = 'https://api.spotify.com/v1/recommendations/available-genre-seeds';
+    print("is this thing working?");
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {'Authorization': 'Bearer $accessToken'},
+    );
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body)['genres'];
+      final List<String> genres = List<String>.from(data);
+      return genres;
+    } else {
+      print('Failed to fetch data: ${response.statusCode}');
+      return []; // Return empty list if request fails
+    }
+  } catch (e) {
+    print('Error: $e');
+    return []; // Return empty list if an error occurs
+  }
+  }
 
+  
 }
 
 void main() async {

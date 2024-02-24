@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/GenrePage.dart';
+import 'package:flutter_application_1/HomePage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -40,7 +41,7 @@ class _MyAppState extends State<MyApp> {
                       child: GenreContainer(
                         genre: genres[firstGenreIndex],
                         onTap: () {
-                          navigateToGenrePage(context, genres[firstGenreIndex]);
+                          navigateToHomePage(context, genres[firstGenreIndex]);
                         },
                       ),
                     ),
@@ -50,7 +51,7 @@ class _MyAppState extends State<MyApp> {
                           ? GenreContainer(
                               genre: genres[secondGenreIndex],
                               onTap: () {
-                                navigateToGenrePage(context, genres[secondGenreIndex]);
+                                navigateToHomePage(context, genres[secondGenreIndex]);
                               },
                             )
                           : SizedBox(),
@@ -69,6 +70,13 @@ class _MyAppState extends State<MyApp> {
 void navigateToGenrePage(BuildContext context, String genre) {
   Navigator.of(context).push(
     MaterialPageRoute(builder: (context) => GenrePage(genre: genre)),
+  );
+}
+
+//void doOnGenreClick
+void navigateToHomePage(BuildContext context, String genre) {
+  Navigator.of(context).push(
+    MaterialPageRoute(builder: (context) => HomePage(genre: genre)),
   );
 }
 

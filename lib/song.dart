@@ -14,9 +14,7 @@ class Song {
     this.genre = genre;
   }
 
-  Song.fetch(String url) {
 
-  }
   Future<String> getAccessToken(String refreshToken) async {
   final String clientId = 'da3531944d1f4a7fa2c20b63a46d1d60';
   final String clientSecret = '01c615f0104e4ce585ed871ae37f4490';
@@ -44,7 +42,6 @@ class Song {
     throw Exception('Failed to refresh token: $e');
   }
 }
-}
 
 void main() async {
   var song1 = new Song("title", "artist", "genre");
@@ -68,4 +65,7 @@ void main() async {
     print('Error: $e');
   }
 }
+}
+
+
 

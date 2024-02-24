@@ -14,6 +14,35 @@ class Song {
     this.genre = genre;
   }
 
+  Future<List<String>> getAvailableGenres(String theRefreshToken) async {
+     try {
+    final String accessToken = await getAccessToken(theRefreshToken);
+    final String url = 'https://api.spotify.com/v1/recommendations/available-genre-seeds';
+    print("is this thing working?");
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {'Authorization': 'Bearer $accessToken'},
+    );
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body)['genres'];
+      final List<String> genres = List<String>.from(data);
+      return genres;
+    } else {
+      print('Failed to fetch data: ${response.statusCode}');
+      return []; // Return empty list if request fails
+    }
+  } catch (e) {
+    print('Error: $e');
+    return []; // Return empty list if an error occurs
+  }
+  }
+
+  /**
+   * Getter Method for refresh token 
+   */
+  String getRefreshToken(){
+    return 'AQCml-ILsuS9NXX0oa0u03tVOAP7Jwx5dxDoZKhJEX6aLSoF6NkHzBcvjhtDhmiQ5MUw7iMppEH1eNdAum6ugjW89sz7k0Zdl66Q7s_LkB91fIc5q7P_77AVFqRAiGgw0eU';
+  }
 
   Future<String> getAccessToken(String refreshToken) async {
   final String clientId = 'da3531944d1f4a7fa2c20b63a46d1d60';
@@ -49,22 +78,9 @@ void main() async {
   var song1 = new Song("title", "artist", "genre");
   print("title: ${song1.title}");
 
-   final String refreshToken = 'AQCml-ILsuS9NXX0oa0u03tVOAP7Jwx5dxDoZKhJEX6aLSoF6NkHzBcvjhtDhmiQ5MUw7iMppEH1eNdAum6ugjW89sz7k0Zdl66Q7s_LkB91fIc5q7P_77AVFqRAiGgw0eU'; // Replace with your refresh token
-  try {
-    final String accessToken = await song1.getAccessToken(refreshToken);
-    final String url = 'https://api.spotify.com/v1/recommendations/available-genre-seeds';
-    print("is this thing working?");
-    final response = await http.get(
-      Uri.parse(url),
-      headers: {'Authorization': 'Bearer $accessToken'},
-    );
-    if (response.statusCode == 200) {
-      print('Response body: ${response.body}');
-    } else {
-      print('Failed to fetch data: ${response.statusCode}');
-    }
-  } catch (e) {
-    print('Error: $e');
-  }
+  final String refreshToken = song1.getRefreshToken(); // Replace with your refresh token
+
+  var arr = await song1.getAvailableGenres(refreshToken);
+  print(arr);
 }
 

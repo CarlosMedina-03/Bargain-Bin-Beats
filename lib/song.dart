@@ -71,12 +71,12 @@ class Song {
   }
   }
   
-  Future<List<String>> fetchTracksByPopularity(String genre, String accessToken) async {
+  Future<List<String>> fetchTracksByPopularity(String genre, String accessToken, int numTracksReturned) async {
   List<String> allTracks = [];
   int numTracks = 0;
   int offset = 0;
   
-  while (numTracks < 100) {
+  while (numTracks < numTracksReturned) {
     final response = await fetchTracks(genre, accessToken, offset);
     final List<dynamic> items = response['tracks']['items'];
 
@@ -86,7 +86,7 @@ class Song {
         allTracks.add(track["name"]);
         numTracks++;
       }
-      if (numTracks >= 100) {
+      if (numTracks >= numTracksReturned) {
         break;
       }
     }
@@ -122,7 +122,7 @@ void main() async {
   print(arr);
 
 
-  final Map<String, dynamic> myTracks = await song1.fetchTracks("pop", accessToken, 0);
+  final Map<String, dynamic> myTracks = await song1.fetchTracks("pop", accessToken, 100);
   print(myTracks);
   // final List<String> tracks = await song1.fetchTracksByPopularity("pop", accessToken);
   // print(tracks);

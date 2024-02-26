@@ -82,7 +82,7 @@ class Song {
 
     for (var track in items) {
       int popularityLevel = track['popularity'];
-      if (popularityLevel >= 30) {
+      if (popularityLevel >1 && popularityLevel <=25) {
         allTracks.add(track["name"]);
         numTracks++;
       }
@@ -122,11 +122,11 @@ void main() async {
   print(arr);
 
 
-  // final Map<String, dynamic> myTracks = await song1.fetchTracks("pop", accessToken, 0);
-  // print(myTracks);
-  final List<String> tracks = await song1.fetchTracksByPopularity("pop", accessToken);
-  print(tracks);
-  print(tracks.length);
+  final Map<String, dynamic> myTracks = await song1.fetchTracks("pop", accessToken, 0);
+  print(myTracks);
+  // final List<String> tracks = await song1.fetchTracksByPopularity("pop", accessToken);
+  // print(tracks);
+  // print(tracks.length);
   
  
 }

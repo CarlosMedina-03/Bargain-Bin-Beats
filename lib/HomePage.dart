@@ -1,23 +1,31 @@
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
-  final String genre;
-
-  const HomePage({required this.genre, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(genre),
+        // title: Text(),
       ),
       body: Center(
-        child: Text(
-          '''Welcome to 
-          Song Tinder.''',
-          style: TextStyle(fontSize: 24),
-        ),
-      ),
+        // children: [
+        //   Expanded(
+        //     child: Text(
+        //     '''Welcome to 
+        //     Song Tinder.''',
+        //     style: TextStyle(fontSize: 24),
+        //     ),
+        //   )
+        // child:TextButton( 
+        //   style: ButtonStyle(
+        //     foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+        //   ),
+        //   onPressed: () { },
+        //   child: Text("Hello"),
+        // ) 
+      )
     );
   }
 }
+

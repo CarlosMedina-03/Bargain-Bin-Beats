@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/GenrePage.dart';
-import 'package:flutter_application_1/homePage.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+// import 'package:flutter_application_1/genrePage.dart';
+// import 'package:flutter_application_1/homePage.dart';
+// import 'package:http/http.dart' as http;
+// import 'dart:convert';
 
 class GenreContainer extends StatelessWidget {
     final String genre;

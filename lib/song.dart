@@ -70,21 +70,64 @@ class Song {
     return []; // Return empty list if an error occurs
   }
   }
+  
+  Future<List<String>> fetchTracksByPopularity(String genre, String accessToken, int numTracksReturned) async {
+  List<String> allTracks = [];
+  int numTracks = 0;
+  int offset = 0;
+  
+  while (numTracks < numTracksReturned) {
+    final response = await fetchTracks(genre, accessToken, offset);
+    final List<dynamic> items = response['tracks']['items'];
 
-  Future<Map<String, dynamic>> _fetchTracks(String genre, String accessToken, int offset) async {
+    for (var track in items) {
+      int popularityLevel = track['popularity'];
+      if (popularityLevel >1 && popularityLevel <=25) {
+        allTracks.add(track["name"]);
+        numTracks++;
+      }
+      if (numTracks >= numTracksReturned) {
+        break;
+      }
+    }
+    offset += 50;
+
+    // If offset exceeds the number of available tracks, break the loop
+    if (offset >= response['tracks']['total']) {
+      break;
+    }
+  }
+  return allTracks;
+}
+
+
+
+  Future<Map<String, dynamic>> fetchTracks(String genre, String accessToken, int offset) async {
   final url = Uri.parse('https://api.spotify.com/v1/search?q=genre:$genre&type=track&market=US&limit=50&offset=$offset&sort=popularity');
   final response = await http.get(url, headers: {'Authorization': 'Bearer $accessToken'});
   return json.decode(response.body);
 }
+  
+
+
 }
 
 void main() async {
   var song1 = new Song("title", "artist", "genre");
-  print("title: ${song1.title}");
 
   final String refreshToken = song1.getRefreshToken(); // Replace with your refresh token
+  final String accessToken = await song1.getAccessToken(refreshToken);
 
   var arr = await song1.getAvailableGenres(refreshToken);
   print(arr);
+
+
+  final Map<String, dynamic> myTracks = await song1.fetchTracks("pop", accessToken, 100);
+  print(myTracks);
+  // final List<String> tracks = await song1.fetchTracksByPopularity("pop", accessToken);
+  // print(tracks);
+  // print(tracks.length);
+  
+ 
 }
 

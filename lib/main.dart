@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/HomePage.dart';
+import 'package:flutter_application_1/homePage.dart';
 // import 'package:flutter_application_1/genrePage.dart';
 // import 'package:flutter_application_1/homePage.dart';
 import 'package:flutter_application_1/genreSelectionPage.dart';

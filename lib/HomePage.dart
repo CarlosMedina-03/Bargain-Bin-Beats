@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/genreSelectionPage.dart';
 // import 'package:flutter_application_1/genrePage.dart';
 // import 'package:flutter_application_1/main.dart';
 // import 'package:flutter_application_1/genreSelectionPage.dart';
@@ -11,25 +12,41 @@ class homePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        backgroundColor: Colors.deepPurple[200],
         body: Center(
           child: Column(
             children: [
-              Expanded(
-                child: Text(
+                Text(
                   '''Welcome to 
-                  Song Tinder - helloooo?.''',
+                  Song Tinder''',
                   style: TextStyle(fontSize: 24),
                 ),
-              ),
-              Expanded(
-                child:TextButton( 
+                TextButton( 
                   style: ButtonStyle(
                     foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
                   ),
-                  onPressed: () { },
-                  child: Text("Hello"),
-                ) 
-              )
+                  onPressed: () { 
+                    Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => genreSelectionPage()),
+                    );
+                  },
+                  child: Text("Start"),
+                  
+                ), 
+                SizedBox(height: 30),
+                TextButton( 
+                  style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                  ),
+                  onPressed: () { 
+                    Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => genreSelectionPage()),
+                    );
+                  },
+                  child: Text("Playlists"),
+                  
+                ), 
+                SizedBox(height: 30),
             ]
           )
         )

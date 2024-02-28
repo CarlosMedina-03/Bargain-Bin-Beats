@@ -119,9 +119,9 @@ class Song {
   return json.decode(response.body);
 }
   
-Future <String> getTrackPrevUrl (List<String> allTracks){
+// Future <String> getTrackPrevUrl (List<String> allTracks){
   
-}
+// }
 
 }
 

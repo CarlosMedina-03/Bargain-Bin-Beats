@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/genrePage.dart';
-// import 'package:flutter_application_1/homePage.dart';
+import 'package:flutter_application_1/src/genrePage.dart';
+import 'package:flutter_application_1/src/homePage.dart';
 // import 'package:flutter_application_1/main.dart';
-import 'package:flutter_application_1/genreContainer.dart';
+import 'package:flutter_application_1/src/genreContainer.dart';
 
 class genreSelectionPage extends StatelessWidget {
   List<String> genres = [

@@ -122,11 +122,11 @@ void main() async {
   print(arr);
 
 
-  final Map<String, dynamic> myTracks = await song1.fetchTracks("pop", accessToken, 100);
-  print(myTracks);
-  // final List<String> tracks = await song1.fetchTracksByPopularity("pop", accessToken);
-  // print(tracks);
-  // print(tracks.length);
+  // final Map<String, dynamic> myTracks = await song1.fetchTracks("pop", accessToken, 100);
+  // print(myTracks);
+  final List<String> tracks = await song1.fetchTracksByPopularity("pop", accessToken,100);
+  print(tracks);
+  print(tracks.length);
   
  
 }

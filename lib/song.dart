@@ -70,6 +70,15 @@ class Song {
     return []; // Return empty list if an error occurs
   }
   }
+
+  Future<List<String>> getSongQueue(List<String> genres, String accessToken) async {
+    List<String> songQueue = [];
+    for (String genre in genres) {
+      songQueue.addAll(await fetchTracksByPopularity(genre, accessToken, (100/genres.length).floor()));
+    }
+
+    return songQueue;
+  }
   
   Future<List<String>> fetchTracksByPopularity(String genre, String accessToken, int numTracksReturned) async {
   List<String> allTracks = [];

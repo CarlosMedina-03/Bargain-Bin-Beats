@@ -24,6 +24,7 @@ class homePage extends StatelessWidget {
                 TextButton( 
                   style: ButtonStyle(
                     foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
                   ),
                   onPressed: () { 
                     Navigator.of(context).push(
@@ -36,7 +37,8 @@ class homePage extends StatelessWidget {
                 SizedBox(height: 30),
                 TextButton( 
                   style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                    foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.indigoAccent),
                   ),
                   onPressed: () { 
                     Navigator.of(context).push(

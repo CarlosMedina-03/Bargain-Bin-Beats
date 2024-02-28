@@ -70,6 +70,17 @@ class Song {
     return []; // Return empty list if an error occurs
   }
   }
+
+  Future<List<String>> getSongQueue(List<String> genres, String accessToken) async {
+    List<String> songQueue = [];
+    for (String genre in genres) {
+      songQueue.addAll(await fetchTracksByPopularity(genre, accessToken, (100/genres.length).floor()));
+    }
+
+    songQueue.shuffle(); // randomize the order of the songs
+
+    return songQueue;
+  }
   
   Future<List<String>> fetchTracksByPopularity(String genre, String accessToken, int numTracksReturned) async {
   List<String> allTracks = [];
@@ -118,15 +129,16 @@ void main() async {
   final String refreshToken = song1.getRefreshToken(); // Replace with your refresh token
   final String accessToken = await song1.getAccessToken(refreshToken);
 
-  var arr = await song1.getAvailableGenres(refreshToken);
-  print(arr);
+  // var arr = await song1.getAvailableGenres(refreshToken);
+  // print(arr);
 
 
-  final Map<String, dynamic> myTracks = await song1.fetchTracks("pop", accessToken, 100);
-  print(myTracks);
-  // final List<String> tracks = await song1.fetchTracksByPopularity("pop", accessToken);
-  // print(tracks);
-  // print(tracks.length);
+  // final Map<String, dynamic> myTracks = await song1.fetchTracks("pop", accessToken, 100);
+  // print(myTracks);
+  List<String> genres = ["pop", "rock", "jazz"];
+  final List<String> tracks = await song1.getSongQueue(genres, accessToken);
+  print(tracks);
+  print(tracks.length);
   
  
 }

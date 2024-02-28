@@ -77,6 +77,8 @@ class Song {
       songQueue.addAll(await fetchTracksByPopularity(genre, accessToken, (100/genres.length).floor()));
     }
 
+    songQueue.shuffle(); // randomize the order of the songs
+
     return songQueue;
   }
   

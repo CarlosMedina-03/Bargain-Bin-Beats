@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/homePage.dart';
-// import 'package:flutter_application_1/genrePage.dart';
-// import 'package:flutter_application_1/homePage.dart';
+import 'package:flutter_application_1/genrePage.dart';
 import 'package:flutter_application_1/genreSelectionPage.dart';
-// import 'package:http/http.dart' as http;
-// import 'dart:convert';t
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 void main() async {
   runApp(MaterialApp(

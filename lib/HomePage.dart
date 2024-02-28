@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/genreSelectionPage.dart';
+import 'package:flutter_application_1/src/playlistPage.dart';
 // import 'package:flutter_application_1/genrePage.dart';
 // import 'package:flutter_application_1/main.dart';
 // import 'package:flutter_application_1/genreSelectionPage.dart';
@@ -15,6 +16,7 @@ class homePage extends StatelessWidget {
         backgroundColor: Colors.deepPurple[200],
         body: Center(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
                 Text(
                   '''Welcome to 
@@ -40,7 +42,7 @@ class homePage extends StatelessWidget {
                   ),
                   onPressed: () { 
                     Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => genreSelectionPage()),
+                    MaterialPageRoute(builder: (context) => playlistPage()),
                     );
                   },
                   child: Text("Playlists"),

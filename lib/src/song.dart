@@ -119,21 +119,33 @@ class Song {
   return json.decode(response.body);
 }
   
-// Future <String> getTrackPrevUrl (List<String> allTracks, String accessToken){
-// 	Map<String, dynamic> trackUrl = {};
-// 	for(String trackName in allTracks){
-// 		final url = Uri.parse('https://api.spotify.com/v1/search?q=$trackName&type=track');
-// 		final response = await http.get(url, headers: {'Authorization': 'Bearer $accessToken'});
-// 		final Map<String, dynamic> data = json.decode(response.body);
+Future<Map<String, dynamic>> getTrackPrevUrl(List<String> allTracks, String accessToken) async {
+  Map<String, dynamic> trackUrl = {};
+  try {
+    for (String trackName in allTracks) {
+      final encodedTrackName = Uri.encodeComponent(trackName);
+      final url = Uri.parse('https://api.spotify.com/v1/search?q=$encodedTrackName&type=track');
+      final response = await http.get(url, headers: {'Authorization': 'Bearer $accessToken'});
+      final Map<String, dynamic> data = json.decode(response.body);
 
-//     final String prevUrl = data['tracks']['items']['preview_url'];
-   
-// }
+      if (data['tracks']['items'].isNotEmpty) {
+        final List<dynamic> tracks = data['tracks']['items'];
+        final String? previewUrl = tracks[0]['preview_url']; // Assuming the first track is the one we're interested in
+        if (previewUrl != null) {
+          trackUrl[trackName] = previewUrl;
+        }
+      }
+    }
+  } catch (e) {
+    print('Error fetching track previews: $e');
+  }
+  return trackUrl;
+}
 	
 
-// }
-
 }
+
+
 
 void main() async {
   var song1 = new Song("title", "artist", "genre");
@@ -151,7 +163,8 @@ void main() async {
   final List<String> tracks = await song1.getSongQueue(genres, accessToken);
   print(tracks);
   print(tracks.length);
-  
+  Map<String, dynamic> m =await song1.getTrackPrevUrl(tracks, accessToken);
+  print(m);
  
 }
 

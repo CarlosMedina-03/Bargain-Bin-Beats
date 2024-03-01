@@ -32,9 +32,6 @@ class homePage extends StatelessWidget {
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => genreSelectionPage()),
                     );
-                    // setState((){
-                    //   startIsPressed = !startIsPressed;
-                    // });
                   },
                   child: Text("Start"),
                   
@@ -51,7 +48,6 @@ class homePage extends StatelessWidget {
                     );
                   },
                   child: Text("Playlists"),
-                  
                 ), 
                 SizedBox(height: 30),
             ]

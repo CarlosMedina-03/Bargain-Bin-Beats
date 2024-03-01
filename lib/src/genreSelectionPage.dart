@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/tinderPage.dart';
 import 'package:flutter_application_1/src/homePage.dart';
-// import 'package:flutter_application_1/main.dart';
+import 'package:flutter_application_1/src/main.dart';
 import 'package:flutter_application_1/src/genreContainer.dart';
 import 'package:flutter_application_1/src/playlistPage.dart';
 
@@ -14,44 +14,48 @@ class genreSelectionPage extends StatelessWidget {
 
   List <String> selectedGenres = [];
 
-    @override
-    Widget build(BuildContext context) {
-      return Scaffold(
-        backgroundColor: Colors.deepPurple[200],
-        appBar: AppBar(
-          title: Text("Select 1-3 genres:"),
-          backgroundColor: Colors.deepPurple[900],
-          foregroundColor: Colors.white,
-        ),
-        body: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              children: List.generate((genres.length / 2).ceil(), (index) {
-                final int firstGenreIndex = index * 2;
-                final int secondGenreIndex = firstGenreIndex + 1;
-                return Row(
-                  children: [
-                    Expanded(
-                      child: GenreContainer(
-                        genre: genres[firstGenreIndex],
-                        onTap: () {
-                          if (selectedGenres.length < 3 && !selectedGenres.contains(genres[firstGenreIndex])) {
-                            selectedGenres.add(genres[firstGenreIndex]);
-                          }
-                          navigateToGenrePage(context, genres[firstGenreIndex]);
-                          print(selectedGenres);
-                        },
-                      ),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.deepPurple[200],
+      appBar: AppBar(
+        title: Text("Select 1-3 genres:"),
+        backgroundColor: Colors.deepPurple[900],
+        foregroundColor: Colors.white,
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            children: List.generate((genres.length / 2).ceil(), (index) {
+              final int firstGenreIndex = index * 2;
+              final int secondGenreIndex = firstGenreIndex + 1;
+              return Row(
+                children: [
+                  Expanded(
+                    child: GenreContainer(
+                      genre: genres[firstGenreIndex],
+                      onTap: () {
+                        if (selectedGenres.length < 3 && !selectedGenres.contains(genres[firstGenreIndex])) {
+                          selectedGenres.add(genres[firstGenreIndex]);
+                        }
+                        // navigateToGenrePage(context, genres[firstGenreIndex]);
+                        print(selectedGenres);
+                      },
                     ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: secondGenreIndex < genres.length
-                        ? GenreContainer(
-                            genre: genres[secondGenreIndex],
-                            onTap: () {
-                              navigateToGenrePage(context, genres[secondGenreIndex]);
-                            },
-                          )
+                  ),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: secondGenreIndex < genres.length
+                      ? GenreContainer(
+                          genre: genres[secondGenreIndex],
+                          onTap: () {
+                            if (selectedGenres.length < 3 && !selectedGenres.contains(genres[secondGenreIndex])) {
+                              selectedGenres.add(genres[secondGenreIndex]);
+                            }
+                            print(selectedGenres);
+                            // navigateToGenrePage(context, genres[secondGenreIndex]);
+                          },
+                        )
                     : SizedBox(),
                     ),
                   ],
@@ -77,9 +81,9 @@ class genreSelectionPage extends StatelessWidget {
       );
     }
 
-  void navigateToGenrePage(BuildContext context, String genre) {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => tinderPage()),
-    );
-  }
+  // void navigateToGenrePage(BuildContext context, String genre) {
+  //   Navigator.of(context).push(
+  //     MaterialPageRoute(builder: (context) => tinderPage()),
+  //   );
+  // }
 }

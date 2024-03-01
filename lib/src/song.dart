@@ -71,8 +71,8 @@ class Song {
   }
   }
 
-  Future<List<String>> getSongQueue(List<String> genres, String accessToken) async {
-    List<String> songQueue = [];
+  Future<List<dynamic>> getSongQueue(List<String> genres, String accessToken) async {
+    List<dynamic> songQueue = [];
     for (String genre in genres) {
       songQueue.addAll(await fetchTracksByPopularity(genre, accessToken, (100/genres.length).floor()));
     }
@@ -82,8 +82,8 @@ class Song {
     return songQueue;
   }
   
-  Future<List<String>> fetchTracksByPopularity(String genre, String accessToken, int numTracksReturned) async {
-  List<String> allTracks = [];
+  Future<List<dynamic>> fetchTracksByPopularity(String genre, String accessToken, int numTracksReturned) async {
+  List<dynamic> allTracks = [];
   int numTracks = 0;
   int offset = 0;
   
@@ -94,7 +94,7 @@ class Song {
     for (var track in items) {
       int popularityLevel = track['popularity'];
       if (popularityLevel >1 && popularityLevel <=25) {
-        allTracks.add(track["name"]);
+        allTracks.add(track);
         numTracks++;
       }
       if (numTracks >= numTracksReturned) {
@@ -160,11 +160,11 @@ void main() async {
   // final Map<String, dynamic> myTracks = await song1.fetchTracks("pop", accessToken, 100);
   // print(myTracks);
   List<String> genres = ["pop", "rock", "jazz"];
-  final List<String> tracks = await song1.getSongQueue(genres, accessToken);
+  final List<dynamic> tracks = await song1.getSongQueue(genres, accessToken);
   print(tracks);
   print(tracks.length);
-  Map<String, dynamic> m =await song1.getTrackPrevUrl(tracks, accessToken);
-  print(m);
+  // Map<String, dynamic> m =await song1.getTrackPrevUrl(tracks, accessToken);
+  // print(m);
  
 }
 

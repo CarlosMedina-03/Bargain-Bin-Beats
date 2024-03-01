@@ -20,8 +20,8 @@ class genreSelectionPage extends StatelessWidget {
       backgroundColor: Colors.deepPurple[200],
       appBar: AppBar(
         title: Text("Select 1-3 genres:"),
-        backgroundColor: Colors.deepPurple[900],
-        foregroundColor: Colors.white,
+        backgroundColor: Color.fromARGB(255, 20, 5, 70),
+        foregroundColor: Color.fromARGB(255, 185, 165, 235),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -76,14 +76,14 @@ class genreSelectionPage extends StatelessWidget {
             onPressed: () { 
               if (selectedGenres.isNotEmpty && selectedGenres.length <= 3) {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => tinderPage()),
+                  MaterialPageRoute(builder: (context) => tinderPage(playlistSongs: [],)),
                 );
               }
               print(selectedGenres);
             },
             style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 20, 5, 70)),
               foregroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 185, 165, 235)),
-              backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 56, 1, 151)),
             ),
           )
         ],

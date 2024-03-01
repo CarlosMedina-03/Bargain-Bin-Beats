@@ -7,8 +7,8 @@ import 'package:flutter_application_1/src/playlistPage.dart';
 
 class tinderPage extends StatelessWidget {
 
-  // final String songTitle;
-  // const tinderPage({required this.songTitle, Key? key}) : super(key: key);
+  List<String> playlistSongs = [];
+  tinderPage({required this.playlistSongs, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +16,8 @@ class tinderPage extends StatelessWidget {
     List<String> songTitles = ["Song1", "Song2", "Song3", "Song4", "Song5"];
     Icon thumbsUp = Icon(Icons.thumb_up);
     Icon thumbsDown = Icon(Icons.thumb_down);
-    Icon doneIcon = Icon(Icons.save_alt_rounded);
-    List<String> playlistSongs = [];
+    Icon doneIcon = Icon(Icons.check_circle);
+    // List<String> playlistSongs = [];
     String currentSong = songTitles[Random().nextInt(5)];
 
     return Scaffold(
@@ -28,7 +28,8 @@ class tinderPage extends StatelessWidget {
         title: Text("Add some songs to your playlist!"),
       ),
       body: Center(
-        child: Text(currentSong, // How do we make this update with everything else without destroying the list??
+      // How do we make this update with everything else without destroying the list??
+        child: Text(currentSong, 
           style: TextStyle(fontSize: 24, color: Color.fromARGB(255, 20, 5, 70)),
         ),
       ),
@@ -75,5 +76,9 @@ class tinderPage extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  String getPlaylistSongsAsString(){
+    return playlistSongs.toString();
   }
 }

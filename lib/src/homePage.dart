@@ -11,7 +11,7 @@ class homePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Colors.deepPurple[200],
+        backgroundColor: Color.fromARGB(255, 185, 165, 235),
         body: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -19,12 +19,12 @@ class homePage extends StatelessWidget {
                 Text(
                   '''Welcome to 
                   Song Tinder''',
-                  style: TextStyle(fontSize: 24, color: Colors.deepPurple[900]),
+                  style: TextStyle(fontSize: 24, color: Color.fromARGB(255, 20, 5, 70)),
                 ),
                 TextButton( 
                   style: ButtonStyle(
                     foregroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 185, 165, 235)),
-                    backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 56, 1, 151)),
+                    backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 20, 5, 70)),
                   ),
                   onPressed: () { 
                     Navigator.of(context).push(
@@ -38,7 +38,8 @@ class homePage extends StatelessWidget {
                 TextButton( 
                   style: ButtonStyle(
                     foregroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 185, 165, 235)),
-                    backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 56, 1, 151)),
+                    backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 20, 5, 70)),
+
                   ),
                   onPressed: () { 
                     Navigator.of(context).push(

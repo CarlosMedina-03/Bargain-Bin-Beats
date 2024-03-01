@@ -25,7 +25,7 @@ class GenreContainer extends StatelessWidget {
           height: 150,
 
           decoration: BoxDecoration(
-            color: Colors.deepPurple,
+            color: Color.fromARGB(255, 20, 5, 70),
             borderRadius: BorderRadius.circular(20),
           ),
 
@@ -37,7 +37,7 @@ class GenreContainer extends StatelessWidget {
               Text(
                 genre,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Color.fromARGB(255, 185, 165, 235),
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                 ),

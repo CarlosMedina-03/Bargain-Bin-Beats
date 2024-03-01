@@ -5,13 +5,12 @@ import 'dart:convert';
 class Song {
   String? title;
   String? artist;
-  String? genre;
   String? url; //please do not fetch the url of a song not intialized through Song.fetch
 
-  Song(String title, String artist, String genre) {
+  Song(String title, String artist, String url) {
     this.title = title;
     this.artist = artist;
-    this.genre = genre;
+    this.url = url;
   }
 
   /**

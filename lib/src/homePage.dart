@@ -1,12 +1,14 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/playlistPage.dart';
-import 'package:flutter_application_1/src/genrePage.dart';
+import 'package:flutter_application_1/src/tinderPage.dart';
 import 'package:flutter_application_1/src/genreSelectionPage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class homePage extends StatelessWidget {
-
+  bool startIsPressed = false;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,17 +21,20 @@ class homePage extends StatelessWidget {
                 Text(
                   '''Welcome to 
                   Song Tinder''',
-                  style: TextStyle(fontSize: 24),
+                  style: TextStyle(fontSize: 24, color: Colors.deepPurple[900]),
                 ),
                 TextButton( 
                   style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
-                    backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                    foregroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 185, 165, 235)),
+                    backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 56, 1, 151)),
                   ),
                   onPressed: () { 
                     Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => genreSelectionPage()),
+                      MaterialPageRoute(builder: (context) => genreSelectionPage()),
                     );
+                    // setState((){
+                    //   startIsPressed = !startIsPressed;
+                    // });
                   },
                   child: Text("Start"),
                   
@@ -37,8 +42,8 @@ class homePage extends StatelessWidget {
                 SizedBox(height: 30),
                 TextButton( 
                   style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
-                    backgroundColor: MaterialStateProperty.all<Color>(Colors.indigoAccent),
+                    foregroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 185, 165, 235)),
+                    backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 56, 1, 151)),
                   ),
                   onPressed: () { 
                     Navigator.of(context).push(

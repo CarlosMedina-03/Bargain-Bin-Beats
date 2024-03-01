@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/src/genrePage.dart';
+import 'package:flutter_application_1/src/tinderPage.dart';
 import 'package:flutter_application_1/src/homePage.dart';
 // import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/src/genreContainer.dart';
+import 'package:flutter_application_1/src/playlistPage.dart';
 
 class genreSelectionPage extends StatelessWidget {
   List<String> genres = [
@@ -10,6 +11,9 @@ class genreSelectionPage extends StatelessWidget {
       "Electronic", "Country", "R&B", "Reggae", "Blues",
       "Folk", "Metal", "Punk", "Alternative", "Indie",
       "Latin", "Gospel", "Funk", "Soul", "Disco",];
+
+  List <String> selectedGenres = [];
+
     @override
     Widget build(BuildContext context) {
       return Scaffold(
@@ -31,7 +35,11 @@ class genreSelectionPage extends StatelessWidget {
                       child: GenreContainer(
                         genre: genres[firstGenreIndex],
                         onTap: () {
+                          if (selectedGenres.length < 3 && !selectedGenres.contains(genres[firstGenreIndex])) {
+                            selectedGenres.add(genres[firstGenreIndex]);
+                          }
                           navigateToGenrePage(context, genres[firstGenreIndex]);
+                          print(selectedGenres);
                         },
                       ),
                     ),
@@ -41,8 +49,7 @@ class genreSelectionPage extends StatelessWidget {
                         ? GenreContainer(
                             genre: genres[secondGenreIndex],
                             onTap: () {
-                              
-                              // navigateToGenrePage(context, genres[secondGenreIndex]);
+                              navigateToGenrePage(context, genres[secondGenreIndex]);
                             },
                           )
                     : SizedBox(),
@@ -53,12 +60,26 @@ class genreSelectionPage extends StatelessWidget {
             ),
           ),
         ),
+        persistentFooterButtons: [
+          TextButton(
+            child: Text("Next"), 
+            onPressed: () { 
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => playlistPage()),
+              );
+            },
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 185, 165, 235)),
+              backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 56, 1, 151)),
+            ),
+          )
+        ],
       );
     }
 
   void navigateToGenrePage(BuildContext context, String genre) {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => GenrePage(genre: genre)),
+      MaterialPageRoute(builder: (context) => tinderPage()),
     );
   }
 }

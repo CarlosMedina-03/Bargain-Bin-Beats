@@ -16,15 +16,20 @@ class GenreContainer extends StatelessWidget {
 
     @override
     Widget build(BuildContext context) {
+      
+
       return GestureDetector(
         onTap: onTap,
+
         child: Container(
           margin: EdgeInsets.all(10),
           height: 150,
+
           decoration: BoxDecoration(
             color: Colors.deepPurple,
             borderRadius: BorderRadius.circular(20),
           ),
+
           padding: const EdgeInsets.all(20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -43,4 +48,4 @@ class GenreContainer extends StatelessWidget {
         ),
       );
     }
-  }
+}

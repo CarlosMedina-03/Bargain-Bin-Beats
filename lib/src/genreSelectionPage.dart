@@ -10,7 +10,7 @@ class genreSelectionPage extends StatelessWidget {
       "Pop", "Rock", "Jazz", "Hip Hop", "Classical",
       "Electronic", "Country", "R&B", "Reggae", "Blues",
       "Folk", "Metal", "Punk", "Alternative", "Indie",
-      "Latin", "Gospel", "Funk", "Soul", "Disco",];
+      "Latin", "Gospel", "Funk", "Soul", "Disco"];
 
   List <String> selectedGenres = [];
 
@@ -35,7 +35,10 @@ class genreSelectionPage extends StatelessWidget {
                     child: GenreContainer(
                       genre: genres[firstGenreIndex],
                       onTap: () {
-                        if (selectedGenres.length < 3 && !selectedGenres.contains(genres[firstGenreIndex])) {
+                        if (selectedGenres.contains(genres[firstGenreIndex])) {
+                          selectedGenres.remove(genres[firstGenreIndex]);
+                        }
+                        else if (selectedGenres.length < 3) {
                           selectedGenres.add(genres[firstGenreIndex]);
                         }
                         // navigateToGenrePage(context, genres[firstGenreIndex]);
@@ -49,7 +52,10 @@ class genreSelectionPage extends StatelessWidget {
                       ? GenreContainer(
                           genre: genres[secondGenreIndex],
                           onTap: () {
-                            if (selectedGenres.length < 3 && !selectedGenres.contains(genres[secondGenreIndex])) {
+                            if (selectedGenres.contains(genres[secondGenreIndex])) {
+                              selectedGenres.remove(genres[secondGenreIndex]);
+                            }
+                            else if (selectedGenres.length < 3) {
                               selectedGenres.add(genres[secondGenreIndex]);
                             }
                             print(selectedGenres);
@@ -68,9 +74,12 @@ class genreSelectionPage extends StatelessWidget {
           TextButton(
             child: Text("Next"), 
             onPressed: () { 
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => playlistPage()),
-              );
+              if (selectedGenres.isNotEmpty && selectedGenres.length <= 3) {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => tinderPage()),
+                );
+              }
+              print(selectedGenres);
             },
             style: ButtonStyle(
               foregroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 185, 165, 235)),

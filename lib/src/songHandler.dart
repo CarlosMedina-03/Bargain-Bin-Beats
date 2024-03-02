@@ -110,8 +110,8 @@ import 'dart:convert';
   return json.decode(response.body);
 }
   
-Future <List <dynamic>> getTrackPrevUrl(List<dynamic> allTracks) async {
-  List<dynamic> trackUrl = [];
+Future <List <dynamic>> getTrackInfo(List<dynamic> allTracks) async {
+  List<dynamic> tracks = [];
   try {
     for (dynamic trackName in allTracks) {
       Song song = new Song("", "", "");
@@ -122,14 +122,13 @@ Future <List <dynamic>> getTrackPrevUrl(List<dynamic> allTracks) async {
       song.setTitle(title);
       song.setArtist(artistNames);
       song.setUrl(previewUrl);
-      trackUrl.add(song.getSongUrl());
-      print('${song.getSongTitle()} : ${song.getSongArtist()}');
+      tracks.add(song.getSongTitle());
       
     }
   } catch (e) {
     print('Error fetching track previews: $e');
   }
-  return trackUrl;
+  return tracks;
 }
 	
 
@@ -153,7 +152,7 @@ void main() async {
   final List<dynamic> tracks = await handle.getSongQueue(genres, accessToken);
   // print(tracks);
   // print(tracks.length);
-  List<dynamic>  m =await handle.getTrackPrevUrl(tracks);
+  List<dynamic>  m =await handle.getTrackInfo(tracks);
 
 
 }

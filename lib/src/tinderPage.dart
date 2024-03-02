@@ -12,7 +12,7 @@ class tinderPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    
     List<String> songTitles = ["Song1", "Song2", "Song3", "Song4", "Song5"];
     Icon thumbsUp = Icon(Icons.thumb_up);
     Icon thumbsDown = Icon(Icons.thumb_down);

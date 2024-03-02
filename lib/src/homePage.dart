@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/src/playlistPage.dart';
+import 'package:flutter_application_1/src/PlaylistPage.dart';
 import 'package:flutter_application_1/src/tinderPage.dart';
 import 'package:flutter_application_1/src/genreSelectionPage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class homePage extends StatelessWidget {
+class HomePage extends StatelessWidget {
   bool startIsPressed = false;
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class homePage extends StatelessWidget {
                   ),
                   onPressed: () { 
                     Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => playlistPage()),
+                    MaterialPageRoute(builder: (context) => PlaylistPage()),
                     );
                   },
                   child: Text("Playlists"),

@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/main.dart';
-import 'package:flutter_application_1/src/playlistPage.dart';
+import 'package:flutter_application_1/src/PlaylistPage.dart';
 
 class tinderPage extends StatelessWidget {
 
@@ -64,7 +64,7 @@ class tinderPage extends StatelessWidget {
         TextButton.icon(
           onPressed: () { 
             Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => playlistPage()),
+              MaterialPageRoute(builder: (context) => PlaylistPage()),
             );
           },
           style: ButtonStyle(

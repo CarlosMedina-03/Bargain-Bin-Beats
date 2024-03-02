@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
  
- class songHandler{
+ class SongHandler{
  /**
    * Getter Method for refresh token 
    */
@@ -134,7 +134,7 @@ Future <List <dynamic>> getTrackPrevUrl(List<dynamic> allTracks) async {
 
 void main() async {
   // var song1 = new Song("title", "artist", "genre");
-  var handle = new songHandler();
+  var handle = new SongHandler();
   final String refreshToken = handle.getRefreshToken(); // Replace with your refresh token
   final String accessToken = await handle.getAccessToken(refreshToken);
 

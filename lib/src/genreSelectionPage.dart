@@ -3,7 +3,7 @@ import 'package:flutter_application_1/src/tinderPage.dart';
 import 'package:flutter_application_1/src/homePage.dart';
 import 'package:flutter_application_1/src/main.dart';
 import 'package:flutter_application_1/src/genreContainer.dart';
-import 'package:flutter_application_1/src/playlistPage.dart';
+import 'package:flutter_application_1/src/PlaylistPage.dart';
 
 class genreSelectionPage extends StatelessWidget {
   List<String> genres = [

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/homePage.dart';
 import 'package:flutter_application_1/src/tinderPage.dart';
 
-class playlistPage extends StatelessWidget {
+class PlaylistPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class playlistPage extends StatelessWidget {
         TextButton.icon(
           onPressed: () { 
             Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => homePage()),
+              MaterialPageRoute(builder: (context) => HomePage()),
             );
           },
           style: ButtonStyle(

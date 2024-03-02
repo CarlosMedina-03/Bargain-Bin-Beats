@@ -115,11 +115,16 @@ Future <List <dynamic>> getTrackPrevUrl(List<dynamic> allTracks) async {
   try {
     for (dynamic trackName in allTracks) {
       Song song = new Song("", "", "");
+      String title = trackName['name'];
+      List<dynamic> artists = trackName['artists'];
+      String artistNames = artists.map((artist) => artist['name']).join(', '); // Join multiple artist names with a comma
       String? previewUrl = trackName['preview_url'];
-      if (trackName['preview_url']!= null) {
-        song.setUrl(previewUrl);
-        trackUrl.add(song.getSongUrl());
-      }
+      song.setTitle(title);
+      song.setArtist(artistNames);
+      song.setUrl(previewUrl);
+      trackUrl.add(song.getSongUrl());
+      print('${song.getSongTitle()} : ${song.getSongArtist()}');
+      
     }
   } catch (e) {
     print('Error fetching track previews: $e');
@@ -149,6 +154,6 @@ void main() async {
   // print(tracks);
   // print(tracks.length);
   List<dynamic>  m =await handle.getTrackPrevUrl(tracks);
-  print(m);
+
 
 }

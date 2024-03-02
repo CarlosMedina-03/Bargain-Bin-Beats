@@ -25,6 +25,13 @@ class Song {
     return url;
   }
 
+  String? getSongArtist(){
+    return artist;
+  }
+  String? getSongTitle(){
+    return title;
+  }
+
  
 }
 

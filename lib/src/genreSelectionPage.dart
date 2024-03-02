@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/tinderPage.dart';
 import 'package:flutter_application_1/src/homePage.dart';
 import 'package:flutter_application_1/src/main.dart';
-import 'package:flutter_application_1/src/genreContainer.dart';
+import 'package:flutter_application_1/src/GenreContainer.dart';
 import 'package:flutter_application_1/src/PlaylistPage.dart';
 
-class genreSelectionPage extends StatelessWidget {
+class GenreSelectionPage extends StatelessWidget {
   List<String> genres = [
       "Pop", "Rock", "Jazz", "Hip Hop", "Classical",
       "Electronic", "Country", "R&B", "Reggae", "Blues",

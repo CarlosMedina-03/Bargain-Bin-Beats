@@ -76,7 +76,7 @@ class GenreSelectionPage extends StatelessWidget {
             onPressed: () { 
               if (selectedGenres.isNotEmpty && selectedGenres.length <= 3) {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => tinderPage(playlistSongs: [],)),
+                  MaterialPageRoute(builder: (context) => TinderPage(playlistSongs: [],)),
                 );
               }
               print(selectedGenres);
@@ -89,10 +89,4 @@ class GenreSelectionPage extends StatelessWidget {
         ],
       );
     }
-
-  // void navigateToGenrePage(BuildContext context, String genre) {
-  //   Navigator.of(context).push(
-  //     MaterialPageRoute(builder: (context) => tinderPage()),
-  //   );
-  // }
 }

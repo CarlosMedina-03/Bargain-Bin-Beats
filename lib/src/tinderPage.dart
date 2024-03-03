@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/SongHandler.dart';
 import 'package:flutter_application_1/src/PlaylistPage.dart';
 
+
 class TinderPage extends StatefulWidget {
   final List<String> playlistSongs;
 
@@ -16,6 +17,7 @@ class TinderPage extends StatefulWidget {
 class _TinderPageState extends State<TinderPage> {
   late Future<List<String>> _fetchDataFuture;
   late List<String> _songTitles = [];
+  String currentSong = "";
 
   @override
   void initState() {
@@ -55,6 +57,7 @@ class _TinderPageState extends State<TinderPage> {
             _songTitles = snapshot.data as List<String>;
             return Center(
               child: Text(
+                currentSong = 
                 _songTitles.isNotEmpty ? _songTitles[Random().nextInt(_songTitles.length)] : 'No songs available',
                 style: TextStyle(fontSize: 24, color: Color.fromARGB(255, 20, 5, 70)),
               ),
@@ -79,7 +82,9 @@ class _TinderPageState extends State<TinderPage> {
         ),
         TextButton.icon(
           onPressed: () {
-            widget.playlistSongs.add(_songTitles[Random().nextInt(_songTitles.length)]);
+            // widget.playlistSongs.add(_songTitles[Random().nextInt(_songTitles.length)]);
+            widget.playlistSongs.add(currentSong);
+
             print(widget.playlistSongs);
             setState(() {
               _songTitles.removeAt(Random().nextInt(_songTitles.length));

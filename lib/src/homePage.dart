@@ -46,7 +46,7 @@ class HomePage extends StatelessWidget {
                   ),
                   onPressed: () { 
                     Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => PlaylistPage()),
+                    MaterialPageRoute(builder: (context) => PlaylistPage(pickedSongs: [],)),
                     );
                   },
                   child: Text("Playlists"),

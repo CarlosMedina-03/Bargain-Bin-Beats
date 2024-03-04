@@ -14,6 +14,10 @@ class TinderPage extends StatefulWidget {
   List<String> getSelectedgenres(){
     return genres;
   }
+  List<String> getPlayListSongs(){
+    print(playlistSongs);
+    return playlistSongs;
+  }
 
   @override
   _TinderPageState createState() => _TinderPageState();
@@ -106,7 +110,7 @@ class _TinderPageState extends State<TinderPage> {
         TextButton.icon(
           onPressed: () {
             Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => PlaylistPage()),
+              MaterialPageRoute(builder: (context) => PlaylistPage(pickedSongs: widget.getPlayListSongs())),
             );
           },
           style: ButtonStyle(

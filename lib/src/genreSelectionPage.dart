@@ -24,7 +24,7 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
   bool selected = false;
   List<String> genres = [
     "Pop", "Rock", "Jazz", "Hip-Hop", "Classical",
-    "Country", "Country", "R-N-B", "Reggae", "Blues",
+    "Country", "Rap", "R-N-B", "Reggae", "Blues",
     "Folk", "Metal", "Punk", "Alternative", "Indie",
     "Latin", "Gospel", "Funk", "Soul", "Disco"
   ];
@@ -49,7 +49,7 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
       genreState.add(false);
     }
     return Scaffold(
-      backgroundColor: Colors.deepPurple[200],
+      backgroundColor: Color.fromARGB(255, 125, 91, 209),
       appBar: AppBar(
         title: Text("Select 1-3 genres:"),
         backgroundColor: Color.fromARGB(255, 20, 5, 70),
@@ -72,17 +72,17 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
                           foregroundColor: MaterialStateProperty.resolveWith<Color?>(
                             (Set<MaterialState> states) {
                               if (states.contains(MaterialState.selected)) {
-                                return Colors.white;
+                                return Color.fromARGB(255, 185, 165, 235);
                               }
-                              return null; // defer to the defaults
+                              return Color.fromARGB(255, 20, 5, 70); // defer to the defaults
                             },
                           ),
                           backgroundColor: MaterialStateProperty.resolveWith<Color?>(
                             (Set<MaterialState> states) {
                               if (states.contains(MaterialState.selected)) {
-                                return Colors.indigo;
+                                return Color.fromARGB(255, 20, 5, 70);
                               }
-                             return Color.fromARGB(255, 170, 110, 181);  // defer to the defaults
+                             return Color.fromARGB(255, 185, 165, 235);  // defer to the defaults
                             },
                           ),
                         ),
@@ -99,7 +99,10 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
                             });
                           }
                         },
-                        child: Text(genres[firstGenreIndex], style: TextStyle(fontWeight: FontWeight.bold)),
+                        child: Text(
+                          genres[firstGenreIndex], 
+                          style: TextStyle(fontWeight: FontWeight.bold)
+                        ),
                       ),
                     ),
                   ),
@@ -113,17 +116,17 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
                           foregroundColor: MaterialStateProperty.resolveWith<Color?>(
                             (Set<MaterialState> states) {
                               if (states.contains(MaterialState.selected)) {
-                                return Colors.white;
+                                return Color.fromARGB(255, 185, 165, 235);
                               }
-                              return null; // defer to the defaults
+                              return Color.fromARGB(255, 20, 5, 70); // defer to the defaults
                             },
                           ),
                           backgroundColor: MaterialStateProperty.resolveWith<Color?>(
                             (Set<MaterialState> states) {
                               if (states.contains(MaterialState.selected)) {
-                                return Colors.indigo;
+                                return Color.fromARGB(255, 20, 5, 70);
                               }
-                              return Color.fromARGB(255, 170, 110, 181); // defer to the defaults
+                              return Color.fromARGB(255, 185, 165, 235); // defer to the defaults
                             },
                           ),
                         ),
@@ -157,7 +160,6 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
           child: Text("Next"),
           onPressed: () {
             if (selectedGenres.isNotEmpty && selectedGenres.length <= 3) {
-              print(selectedGenres);
               Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => TinderPage(playlistSongs: [], genres: selectedGenres,)),
               );

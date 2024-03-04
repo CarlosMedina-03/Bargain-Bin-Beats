@@ -77,7 +77,7 @@ class _TinderPageState extends State<TinderPage> {
           onPressed: () {
             print(widget.playlistSongs);
             setState(() {
-              _songTitles.removeAt(Random().nextInt(_songTitles.length));
+              _songTitles.removeAt(_songTitles.indexOf(currentSong));
             });
           },
           style: ButtonStyle(
@@ -94,7 +94,7 @@ class _TinderPageState extends State<TinderPage> {
 
             print(widget.playlistSongs);
             setState(() {
-              _songTitles.removeAt(Random().nextInt(_songTitles.length));
+              _songTitles.removeAt(_songTitles.indexOf(currentSong));
             });
           },
           style: ButtonStyle(

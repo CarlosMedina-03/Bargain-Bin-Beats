@@ -15,18 +15,16 @@ class _PlaylistPageState extends State<PlaylistPage> {
 
   List<String> pickedSongs = [];
 
-  @override
-  Widget build(BuildContext context) {
-    
-    // pickedSongs = ["Song 1","Song 2","Song 3","Song 4","Song 5", "Song 6","Song 7","Song 8","Song 9","Song 10"];
-
-    void _fetchPlayList() async {
+   void _fetchPlayList(){
       final tinderPage = TinderPage(playlistSongs: pickedSongs, genres:[]);
       final List<String> playlist = tinderPage.getPlayListSongs();
       pickedSongs.addAll(playlist);
       print("helllo");
-
-  }
+   }
+  @override
+  Widget build(BuildContext context) {
+    
+    // pickedSongs = ["Song 1","Song 2","Song 3","Song 4","Song 5", "Song 6","Song 7","Song 8","Song 9","Song 10"];
 
 
 

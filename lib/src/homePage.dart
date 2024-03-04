@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/PlaylistPage.dart';
 import 'package:flutter_application_1/src/tinderPage.dart';
 //import 'package:flutter_application_1/src/genreSelectionPage.dart';
-import 'package:flutter_application_1/src/genreSelectionPage.dart';
+import 'package:flutter_application_1/src/GenreSelectionPage.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -20,7 +20,8 @@ class HomePage extends StatelessWidget {
             children: [
                 Text(
                   '''Welcome to 
-                  Song Tinder''',
+                  Song Tinder
+                  ''',
                   style: TextStyle(fontSize: 24, color: Color.fromARGB(255, 20, 5, 70)),
                 ),
                 TextButton( 

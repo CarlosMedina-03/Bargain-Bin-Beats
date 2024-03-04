@@ -4,8 +4,12 @@ import 'package:flutter_application_1/src/tinderPage.dart';
 
 class PlaylistPage extends StatelessWidget {
 
+  List<String> pickedSongs = [];
+
   @override
   Widget build(BuildContext context) {
+    pickedSongs = ["Song 1","Song 2","Song 3","Song 4","Song 5", "Song 1","Song 2","Song 3","Song 4","Song 5"];
+
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 185, 165, 235),
       appBar: AppBar(
@@ -14,11 +18,11 @@ class PlaylistPage extends StatelessWidget {
         foregroundColor: Color.fromARGB(255, 185, 165, 235),
       ),
       body: Center(
-        child: Text(
-          // tinderPage(playlistSongs: [getPlaylistSongsAsString()]))
-          // getPlaylistSongsAsString())
-          'This is the Playlist page.',
-          style: TextStyle(fontSize: 24, color: Color.fromARGB(255, 20, 5, 70)),
+        child: SingleChildScrollView(
+          child: Text(
+            displayListOfSongs(pickedSongs),
+            style: TextStyle(fontSize: 24, color: Color.fromARGB(255, 20, 5, 70)),
+          ),
         ),
       ),
       persistentFooterButtons: [
@@ -59,6 +63,14 @@ class PlaylistPage extends StatelessWidget {
         ),
       ]
     );
+  }
+
+  String displayListOfSongs(List<String> songList) {
+    String res = '';
+    for (String song in songList) {
+      res = res + song + '\n\n';
+    }
+    return(res);
   }
   
 }

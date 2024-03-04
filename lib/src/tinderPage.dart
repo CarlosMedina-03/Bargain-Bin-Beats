@@ -1,4 +1,3 @@
-//import 'dart:js_util';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -51,7 +50,7 @@ class _TinderPageState extends State<TinderPage> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 20, 5, 70),
         foregroundColor: Color.fromARGB(255, 185, 165, 235),
-        title: Text("Add some songs to your playlist!"),
+        title: Text("Add songs to your playlist!"),
       ),
       body: FutureBuilder(
         future: _fetchDataFuture,

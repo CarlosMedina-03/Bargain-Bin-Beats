@@ -2,13 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/homePage.dart';
 import 'package:flutter_application_1/src/tinderPage.dart';
 
-class PlaylistPage extends StatelessWidget {
+class PlaylistPage extends StatefulWidget {
+  final List<String> pickedSongs;
+
+  PlaylistPage({required this.pickedSongs,Key? key}) : super(key: key);
+
+  @override
+  _PlaylistPageState createState() => _PlaylistPageState();
+}
+
+class _PlaylistPageState extends State<PlaylistPage> {
 
   List<String> pickedSongs = [];
 
   @override
   Widget build(BuildContext context) {
-    pickedSongs = ["Song 1","Song 2","Song 3","Song 4","Song 5", "Song 1","Song 2","Song 3","Song 4","Song 5"];
+    
+    pickedSongs = ["Song 1","Song 2","Song 3","Song 4","Song 5", "Song 6","Song 7","Song 8","Song 9","Song 10"];
 
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 185, 165, 235),

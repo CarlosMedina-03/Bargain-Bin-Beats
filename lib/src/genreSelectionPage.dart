@@ -28,8 +28,8 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
   VoidCallback? onTap;
   bool selected = false;
   List<String> genres = [
-      "Pop", "Rock", "Jazz", "Hip Hop", "Classical",
-      "Electronic", "Country", "R&B", "Reggae", "Blues",
+      "Pop", "Rock", "Jazz", "Hip-Hop", "Classical",
+      "Country", "Country", "R-N-B", "Reggae", "Blues",
       "Folk", "Metal", "Punk", "Alternative", "Indie",
       "Latin", "Gospel", "Funk", "Soul", "Disco"];
   List<bool> genreState = [];
@@ -41,7 +41,10 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
     //super.key});
     //Key? key,
   }) ;
-
+   void handleButtonPress(String buttonText) {
+  // Do something with the button text, such as printing it
+    print("Button pressed: $buttonText");
+}
   @override
   Widget build(BuildContext context) {
     for(num i = 0; i < genres.length; i = i + 1) { 
@@ -123,6 +126,7 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
                       selectedGenres.remove(genres[secondGenreIndex]);
                       setState(() {
                         genreState[secondGenreIndex] = !genreState[secondGenreIndex];
+                        handleButtonPress(genres[secondGenreIndex]);
                       }); 
                     }
                     else if (selectedGenres.length < 3) {
@@ -147,8 +151,9 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
             child: Text("Next"), 
             onPressed: () { 
               if (selectedGenres.isNotEmpty && selectedGenres.length <= 3) {
+                  print(selectedGenres);
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => TinderPage(playlistSongs: [],)),
+                  MaterialPageRoute(builder: (context) => TinderPage(playlistSongs: [], genres: selectedGenres,)),
                 );
               }
               print(selectedGenres);

@@ -1,3 +1,4 @@
+import 'dart:js_util';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -7,11 +8,17 @@ import 'package:flutter_application_1/src/PlaylistPage.dart';
 
 class TinderPage extends StatefulWidget {
   final List<String> playlistSongs;
+  final List<String> genres;
 
-  TinderPage({required this.playlistSongs, Key? key}) : super(key: key);
+  TinderPage({required this.playlistSongs, required this.genres,Key? key}) : super(key: key);
+
+  List<String> getSelectedgenres(){
+    return genres;
+  }
 
   @override
   _TinderPageState createState() => _TinderPageState();
+
 }
 
 class _TinderPageState extends State<TinderPage> {
@@ -28,9 +35,9 @@ class _TinderPageState extends State<TinderPage> {
   Future<List<String>> _fetchData() async {
     final songHandler = SongHandler();
     final String accessToken = await songHandler.getAccessToken(songHandler.getRefreshToken());
-    final List<String> genres = ["Pop", "Rock", "Jazz"];
+    final List<String> selectedGenres = widget.getSelectedgenres();
     List<String> songTitles = [];
-    for (var genre in genres) {
+    for (var genre in selectedGenres) {
       final ourTracks = await songHandler.getSongQueue([genre.toLowerCase()], accessToken);
       songTitles.addAll(ourTracks.map((track) => track['name'] as String));
     }

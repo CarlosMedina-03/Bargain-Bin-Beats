@@ -173,35 +173,5 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
         )
       ],
     );
-    //Old Code, what used to be in this file, back when it was genreContainer
-      // return GestureDetector(
-      //   onTap: onTap,
-
-      //   child: Container(
-      //     margin: EdgeInsets.all(10),
-      //     height: 150,
-
-      //     decoration: BoxDecoration(
-      //       color: Color.fromARGB(255, 20, 5, 70),
-      //       borderRadius: BorderRadius.circular(20),
-      //     ),
-
-      //     padding: const EdgeInsets.all(20),
-      //     child: Column(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       children: [
-      //         SizedBox(height: 10),
-      //         Text(
-      //           genre,
-      //           style: TextStyle(
-      //             color: Color.fromARGB(255, 185, 165, 235),
-      //             fontSize: 28,
-      //             fontWeight: FontWeight.bold,
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      // );
   }
 }

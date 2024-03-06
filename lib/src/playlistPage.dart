@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/src/ColorOptions.dart';
 import 'package:flutter_application_1/src/homePage.dart';
 import 'package:flutter_application_1/src/tinderPage.dart';
 
@@ -21,17 +22,17 @@ class _PlaylistPageState extends State<PlaylistPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 185, 165, 235),
+      backgroundColor: MEDIUM_PURPLE,
       appBar: AppBar(
         title: Text("My Playlist"),
-        backgroundColor: Color.fromARGB(255, 20, 5, 70),
-        foregroundColor: Color.fromARGB(255, 185, 165, 235),
+        backgroundColor: DARK_PURPLE,
+        foregroundColor: WHITE,
       ),
       body: Center(
         child: SingleChildScrollView(
           child: Text(
             displayListOfSongs(widget.getPickedSongs()),
-            style: TextStyle(fontSize: 24, color: Color.fromARGB(255, 20, 5, 70)),
+            style: TextStyle(fontSize: 24, color: WHITE),
           ),
         ),
       ),
@@ -41,8 +42,8 @@ class _PlaylistPageState extends State<PlaylistPage> {
             print("hello export");
           },
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 20, 5, 70)),
-            foregroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 185, 165, 235)),
+            backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
+            foregroundColor: MaterialStateProperty.all<Color>(WHITE),
           ),
           icon: Icon(Icons.arrow_upward), 
           label: Text("Export")
@@ -52,8 +53,8 @@ class _PlaylistPageState extends State<PlaylistPage> {
             print("hello save");
           },
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 20, 5, 70)),
-            foregroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 185, 165, 235)),
+            backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
+            foregroundColor: MaterialStateProperty.all<Color>(WHITE),
           ),
           icon: Icon(Icons.save), 
           label: Text("Save"),
@@ -65,8 +66,8 @@ class _PlaylistPageState extends State<PlaylistPage> {
             );
           },
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 20, 5, 70)),
-            foregroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 185, 165, 235)),
+            backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
+            foregroundColor: MaterialStateProperty.all<Color>(WHITE),
           ),
           icon: Icon(Icons.home), 
           label: Text("Home"),
@@ -78,7 +79,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
   String displayListOfSongs(List<String> songList) {
     String res = '';
     for (String song in songList) {
-      res = res + song + '\n\n';
+      res = '$res$song\n\n';
     }
     return(res);
   }

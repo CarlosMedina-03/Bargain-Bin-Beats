@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/src/ColorOptions.dart';
 import 'package:flutter_application_1/src/SelectableButton.dart';
 import 'package:flutter_application_1/src/tinderPage.dart';
 
@@ -49,11 +50,11 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
       genreState.add(false);
     }
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 125, 91, 209),
+      backgroundColor: MEDIUM_PURPLE,
       appBar: AppBar(
         title: Text("Select 1-3 genres:"),
-        backgroundColor: Color.fromARGB(255, 20, 5, 70),
-        foregroundColor: Color.fromARGB(255, 185, 165, 235),
+        backgroundColor: DARK_PURPLE,
+        foregroundColor: WHITE,
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -72,17 +73,17 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
                           foregroundColor: MaterialStateProperty.resolveWith<Color?>(
                             (Set<MaterialState> states) {
                               if (states.contains(MaterialState.selected)) {
-                                return Color.fromARGB(255, 185, 165, 235);
+                                return DARK_PURPLE;
                               }
-                              return Color.fromARGB(255, 20, 5, 70); // defer to the defaults
+                              return WHITE; // defer to the defaults
                             },
                           ),
                           backgroundColor: MaterialStateProperty.resolveWith<Color?>(
                             (Set<MaterialState> states) {
                               if (states.contains(MaterialState.selected)) {
-                                return Color.fromARGB(255, 20, 5, 70);
+                                return WHITE;
                               }
-                             return Color.fromARGB(255, 185, 165, 235);  // defer to the defaults
+                             return DARK_PURPLE;  // defer to the defaults
                             },
                           ),
                         ),
@@ -116,17 +117,17 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
                           foregroundColor: MaterialStateProperty.resolveWith<Color?>(
                             (Set<MaterialState> states) {
                               if (states.contains(MaterialState.selected)) {
-                                return Color.fromARGB(255, 185, 165, 235);
+                                return DARK_PURPLE;
                               }
-                              return Color.fromARGB(255, 20, 5, 70); // defer to the defaults
+                              return WHITE; // defer to the defaults
                             },
                           ),
                           backgroundColor: MaterialStateProperty.resolveWith<Color?>(
                             (Set<MaterialState> states) {
                               if (states.contains(MaterialState.selected)) {
-                                return Color.fromARGB(255, 20, 5, 70);
+                                return WHITE;
                               }
-                              return Color.fromARGB(255, 185, 165, 235); // defer to the defaults
+                              return DARK_PURPLE; // defer to the defaults
                             },
                           ),
                         ),
@@ -167,8 +168,8 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
             print(selectedGenres);
           },
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 20, 5, 70)),
-            foregroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 185, 165, 235)),
+            backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
+            foregroundColor: MaterialStateProperty.all<Color>(WHITE),
           ),
         )
       ],

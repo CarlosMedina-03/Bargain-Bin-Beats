@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/src/ColorOptions.dart';
 import 'package:flutter_application_1/src/SongHandler.dart';
 import 'package:flutter_application_1/src/PlaylistPage.dart';
 
@@ -50,10 +51,10 @@ class _TinderPageState extends State<TinderPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 185, 165, 235),
+      backgroundColor: MEDIUM_PURPLE,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 20, 5, 70),
-        foregroundColor: Color.fromARGB(255, 185, 165, 235),
+        backgroundColor: DARK_PURPLE,
+        foregroundColor: WHITE,
         title: Text("Add songs to your playlist!"),
       ),
       body: FutureBuilder(
@@ -69,7 +70,7 @@ class _TinderPageState extends State<TinderPage> {
               child: Text(
                 currentSong = 
                 _songTitles.isNotEmpty ? _songTitles[Random().nextInt(_songTitles.length)] : 'No songs available',
-                style: TextStyle(fontSize: 24, color: Color.fromARGB(255, 20, 5, 70)),
+                style: TextStyle(fontSize: 24, color: WHITE),
               ),
             );
           }
@@ -84,8 +85,8 @@ class _TinderPageState extends State<TinderPage> {
             });
           },
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 20, 5, 70)),
-            foregroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 185, 165, 235)),
+            backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
+            foregroundColor: MaterialStateProperty.all<Color>(WHITE),
           ),
           icon: Icon(Icons.thumb_down),
           label: Text("Skip"),
@@ -101,8 +102,8 @@ class _TinderPageState extends State<TinderPage> {
             });
           },
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 20, 5, 70)),
-            foregroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 185, 165, 235)),
+            backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
+            foregroundColor: MaterialStateProperty.all<Color>(WHITE),
           ),
           icon: Icon(Icons.thumb_up),
           label: Text("Add"),
@@ -114,8 +115,8 @@ class _TinderPageState extends State<TinderPage> {
             );
           },
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 20, 5, 70)),
-            foregroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 185, 165, 235)),
+            backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
+            foregroundColor: MaterialStateProperty.all<Color>(WHITE),
           ),
           icon: Icon(Icons.check_circle),
           label: Text("Done"),

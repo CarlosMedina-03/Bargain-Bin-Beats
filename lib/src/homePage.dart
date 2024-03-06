@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/src/ColorOptions.dart';
 import 'package:flutter_application_1/src/PlaylistPage.dart';
 import 'package:flutter_application_1/src/tinderPage.dart';
 //import 'package:flutter_application_1/src/genreSelectionPage.dart';
@@ -13,7 +14,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Color.fromARGB(255, 185, 165, 235),
+        backgroundColor: MEDIUM_PURPLE,
         body: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -22,12 +23,12 @@ class HomePage extends StatelessWidget {
                   '''Welcome to 
                   Song Tinder
                   ''',
-                  style: TextStyle(fontSize: 24, color: Color.fromARGB(255, 20, 5, 70)),
+                  style: TextStyle(fontSize: 24, color: WHITE),
                 ),
                 TextButton( 
                   style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 185, 165, 235)),
-                    backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 20, 5, 70)),
+                    foregroundColor: MaterialStateProperty.all<Color>(WHITE),
+                    backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
                   ),
                   onPressed: () { 
                     Navigator.of(context).push(
@@ -40,8 +41,8 @@ class HomePage extends StatelessWidget {
                 SizedBox(height: 30),
                 TextButton( 
                   style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 185, 165, 235)),
-                    backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 20, 5, 70)),
+                    foregroundColor: MaterialStateProperty.all<Color>(WHITE),
+                    backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
 
                   ),
                   onPressed: () { 

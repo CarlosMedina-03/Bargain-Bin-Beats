@@ -63,18 +63,20 @@ import 'dart:convert';
   }
 
   Future<List<dynamic>> getSongQueue(List<String> genres, String accessToken) async {
-    List<dynamic> songQueue = [];
+    Set<dynamic> songQueue = <dynamic>{};
     for (String genre in genres) {
       songQueue.addAll(await fetchTracksByPopularity(genre, accessToken, (100/genres.length).floor()));
     }
 
-    songQueue.shuffle(); // randomize the order of the songs
+    List<dynamic> finalQueue = songQueue.toList();
 
-    return songQueue;
+    finalQueue.shuffle(); // randomize the order of the songs
+
+    return finalQueue;
   }
   
-  Future<List<dynamic>> fetchTracksByPopularity(String genre, String accessToken, int numTracksReturned) async {
-  List<dynamic> allTracks = [];
+  Future<Set<dynamic>> fetchTracksByPopularity(String genre, String accessToken, int numTracksReturned) async {
+  Set<dynamic> allTracks = <dynamic>{};
   int numTracks = 0;
   int offset = 0;
   

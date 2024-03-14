@@ -64,25 +64,32 @@ class _TinderPageState extends State<TinderPage> {
         foregroundColor: WHITE,
         title: Text("Add songs to your playlist!"),
       ),
-      body: FutureBuilder(
+       body: Center( // Center horizontally and vertically
+      child: FutureBuilder(
         future: _fetchDataFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator(color: WHITE));
+            return CircularProgressIndicator(color: WHITE);
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return Text('Error: ${snapshot.error}');
           } else {
             _songTitles = snapshot.data as List<String>;
-            return Center(
-              child: Text(
-                currentSong = 
-                _songTitles.isNotEmpty ? _songTitles[Random().nextInt(_songTitles.length)] : 'No songs available',
-                style: TextStyle(fontSize: 24, color: WHITE),
+            return Card(
+              color: DARK_PURPLE,
+              elevation: 5,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(
+                  currentSong = _songTitles.isNotEmpty ? _songTitles[Random().nextInt(_songTitles.length)] : 'No songs available',
+                  style: TextStyle(fontSize: 16, color: WHITE),
+                ),
+             
               ),
             );
           }
         },
       ),
+    ),
       persistentFooterButtons: [
         TextButton.icon(
           onPressed: () {

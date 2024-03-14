@@ -41,9 +41,17 @@ class _TinderPageState extends State<TinderPage> {
     final List<String> selectedGenres = widget.getSelectedgenres();
     List<String> songTitles = [];
     for (var genre in selectedGenres) {
-      final ourTracks = await songHandler.getSongQueue([genre.toLowerCase()], accessToken);
-      songTitles.addAll(ourTracks.map((track) => track['name'] as String));
-    }
+    final ourTracks = await songHandler.getSongQueue([genre.toLowerCase()], accessToken);
+    songTitles.addAll(ourTracks.map((track) {
+      final name = track['name'];
+      List<dynamic> artists = track['artists'];
+      String artistNames = artists.map((artist) => artist['name']).join(', ');
+      if (name != null && artistNames != null) {
+        return '$name by $artistNames';
+      }
+      return 'Null'; 
+    }).toList());
+  }
     return songTitles;
   }
 

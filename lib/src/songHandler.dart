@@ -86,7 +86,7 @@ import 'dart:convert';
 
     for (var track in items) {
       int popularityLevel = track['popularity'];
-      if (popularityLevel >0 && track['preview_url']!= null) {
+      if (popularityLevel >0 && track['preview_url']!= null && track['artists']!=null) {
         allTracks.add(track);
         numTracks++;
       }

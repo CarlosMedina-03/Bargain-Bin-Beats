@@ -18,6 +18,10 @@ class PlaylistPage extends StatefulWidget {
 
 class _PlaylistPageState extends State<PlaylistPage> {
 
+  List<playList> playListList = [];
+
+  void addplayList(playList n){ playListList.add(n);}
+
   @override
   Widget build(BuildContext context) {
 
@@ -83,5 +87,21 @@ class _PlaylistPageState extends State<PlaylistPage> {
     }
     return(res);
   }
-  
+
 }
+
+
+  class playList{
+    String name = "";
+    List<String> songs = [];
+
+    playList(String n, List<String> s){
+      String name = n;
+      List<String> songs = s;
+    }
+    String getPlayListName(){return name;}
+    List<String> getSongs(){return songs;}
+    void changePlayListName(String n){name = n;}
+  }
+
+  

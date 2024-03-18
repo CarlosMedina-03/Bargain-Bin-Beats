@@ -2,6 +2,7 @@ import 'package:flutter_application_1/src/song.dart';
 import 'package:spotify/spotify.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:math';
 
  
  class SongHandler{
@@ -70,7 +71,7 @@ import 'dart:convert';
 
     List<dynamic> finalQueue = songQueue.toList();
 
-    finalQueue.shuffle(); // randomize the order of the songs
+    // finalQueue.shuffle(); // randomize the order of the songs
 
     return finalQueue;
   }
@@ -78,15 +79,17 @@ import 'dart:convert';
   Future<Set<dynamic>> fetchTracksByPopularity(String genre, String accessToken, int numTracksReturned) async {
   Set<dynamic> allTracks = <dynamic>{};
   int numTracks = 0;
-  int offset = 0;
+  final random = Random();
+  int randomOffset = (0.5 * 1900).floor();
+  // int offset = 0;
   
   while (numTracks < numTracksReturned) {
-    final response = await fetchTracks(genre, accessToken, offset);
+    final response = await fetchTracks(genre, accessToken, randomOffset);
     final List<dynamic> items = response['tracks']['items'];
 
     for (var track in items) {
       int popularityLevel = track['popularity'];
-      if (popularityLevel >0 && track['preview_url']!= null && track['artists']!=null) {
+      if (popularityLevel >-1 && track['preview_url']!= null && track['artists']!=null) {
         allTracks.add(track);
         numTracks++;
       }
@@ -94,10 +97,10 @@ import 'dart:convert';
         break;
       }
     }
-    offset += 50;
+  //  randomOffset += 50;
 
-    // If offset exceeds the number of available tracks, break the loop
-    if (offset >= response['tracks']['total']) {
+  //   // If offset exceeds the number of available tracks, break the loop
+    if (randomOffset >= response['tracks']['total']) {
       break;
     }
   }
@@ -107,8 +110,8 @@ import 'dart:convert';
 
 
   Future<Map<String, dynamic>> fetchTracks(String genre, String accessToken, int offset) async {
-  final url = Uri.parse('https://api.spotify.com/v1/search?q=genre:$genre&type=track&market=US&limit=50&offset=$offset&sort=popularity');
-  final response = await http.get(url, headers: {'Authorization': 'Bearer $accessToken'});
+    final url = Uri.parse('https://api.spotify.com/v1/search?q=genre:$genre&type=track&market=US&limit=50&offset=$offset&sort=popularity');
+    final response = await http.get(url, headers: {'Authorization': 'Bearer $accessToken'});
   return json.decode(response.body);
 }
   
@@ -137,7 +140,6 @@ Future <List <dynamic>> getTrackInfo(List<dynamic> allTracks) async {
 }
 
 
-
 void main() async {
   // var song1 = new Song("title", "artist", "genre");
   var handle = new SongHandler();
@@ -148,13 +150,14 @@ void main() async {
   // print(arr);
 
 
-  // final Map<String, dynamic> myTracks = await song1.fetchTracks("pop", accessToken, 100);
-  // print(myTracks);
-  List<String> genres = ["pop", "rock", "jazz"];
+  final Set<dynamic> myTracks = await handle.fetchTracksByPopularity("metal", accessToken, 100);
+  print(myTracks);
+  List<String> genres = ["metal", "alternative", "latin"];
   final List<dynamic> tracks = await handle.getSongQueue(genres, accessToken);
   // print(tracks);
   // print(tracks.length);
   List<dynamic>  m =await handle.getTrackInfo(tracks);
+  // print(m);
 
 
 }

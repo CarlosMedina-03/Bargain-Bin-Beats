@@ -80,7 +80,7 @@ import 'dart:math';
   Set<dynamic> allTracks = <dynamic>{};
   int numTracks = 0;
   final random = Random();
-  int randomOffset = (0.5 * 1900).floor();
+  int randomOffset = (random.nextDouble() * 900).floor();
   // int offset = 0;
   
   while (numTracks < numTracksReturned) {

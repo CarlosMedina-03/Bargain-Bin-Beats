@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
                   '''Welcome to 
                   Song Tinder
                   ''',
-                  style: TextStyle(fontSize: 24, color: WHITE),
+                  style: TextStyle(fontSize: 26, color: WHITE),
                 ),
                 TextButton( 
                   style: ButtonStyle(
@@ -35,7 +35,7 @@ class HomePage extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => genreSelectionPage()),
                     );
                   },
-                  child: Text("Start"),
+                  child: Text("Start", style: TextStyle(fontSize: 18)),
                   
                 ), 
                 SizedBox(height: 30),
@@ -50,7 +50,7 @@ class HomePage extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => PlaylistPage(pickedSongs: [],)),
                     );
                   },
-                  child: Text("Playlists"),
+                  child: Text("Playlists", style: TextStyle(fontSize: 18)),
                 ), 
                 SizedBox(height: 30),
             ]

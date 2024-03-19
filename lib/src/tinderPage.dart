@@ -81,7 +81,7 @@ class _TinderPageState extends State<TinderPage> {
                 padding: const EdgeInsets.all(10.0),
                 child: Text(
                   currentSong = _songTitles.isNotEmpty ? _songTitles[Random().nextInt(_songTitles.length)] : 'No songs available',
-                  style: TextStyle(fontSize: 16, color: WHITE),
+                  style: TextStyle(fontSize: 26, color: WHITE)
                 ),
              
               ),
@@ -108,7 +108,10 @@ class _TinderPageState extends State<TinderPage> {
         TextButton.icon(
           onPressed: () {
             // widget.playlistSongs.add(_songTitles[Random().nextInt(_songTitles.length)]);
-            widget.playlistSongs.add(currentSong);
+            if (currentSong != "No songs available"){
+              widget.playlistSongs.add(currentSong);
+            }
+            
 
             print(widget.playlistSongs);
             setState(() {

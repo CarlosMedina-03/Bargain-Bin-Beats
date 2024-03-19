@@ -71,7 +71,7 @@ import 'dart:math';
 
     List<dynamic> finalQueue = songQueue.toList();
 
-    // finalQueue.shuffle(); // randomize the order of the songs
+    finalQueue.shuffle(); // randomize the order of the songs
 
     return finalQueue;
   }
@@ -85,7 +85,6 @@ import 'dart:math';
   
   while (numTracks < numTracksReturned) {
     final response = await fetchTracks(genre, accessToken, randomOffset);
-    final List<dynamic> items = response['tracks']['items'];
 
     for (var track in items) {
       int popularityLevel = track['popularity'];
@@ -139,6 +138,16 @@ Future <List <dynamic>> getTrackInfo(List<dynamic> allTracks) async {
 
 }
 
+//Debugger method, finds all duplicate items in a list
+List<dynamic> testDuplicates(List<dynamic> titles) {
+  Set temp = titles.toSet();
+  for (dynamic item in temp) {
+    titles.remove(item);
+  }
+
+  return titles;
+}
+
 
 void main() async {
   // var song1 = new Song("title", "artist", "genre");
@@ -151,13 +160,14 @@ void main() async {
 
 
   final Set<dynamic> myTracks = await handle.fetchTracksByPopularity("metal", accessToken, 100);
-  print(myTracks);
+  // print(myTracks);
   List<String> genres = ["metal", "alternative", "latin"];
   final List<dynamic> tracks = await handle.getSongQueue(genres, accessToken);
   // print(tracks);
   // print(tracks.length);
   List<dynamic>  m =await handle.getTrackInfo(tracks);
-  // print(m);
+  print(m.length);
+  print(testDuplicates(m.toList()));
 
 
 }

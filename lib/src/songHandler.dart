@@ -85,7 +85,7 @@ import 'dart:math';
   
   while (numTracks < numTracksReturned) {
     final response = await fetchTracks(genre, accessToken, randomOffset);
-
+    final List<dynamic> items = response['tracks']['items'];
     for (var track in items) {
       int popularityLevel = track['popularity'];
       if (popularityLevel >-1 && track['preview_url']!= null && track['artists']!=null) {

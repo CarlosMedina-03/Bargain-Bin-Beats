@@ -82,6 +82,7 @@ import 'dart:math';
   final random = Random();
   int randomOffset = (random.nextDouble() * 800).floor();
   // int offset = 0;
+  // int randomOffset = 800;
   
   while (numTracks < numTracksReturned) {
     final response = await fetchTracks(genre, accessToken, randomOffset);
@@ -111,7 +112,15 @@ import 'dart:math';
   Future<Map<String, dynamic>> fetchTracks(String genre, String accessToken, int offset) async {
     final url = Uri.parse('https://api.spotify.com/v1/search?q=genre:$genre&type=track&market=US&limit=50&offset=$offset&sort=popularity');
     final response = await http.get(url, headers: {'Authorization': 'Bearer $accessToken'});
-  return json.decode(response.body);
+    if (json.decode(response.body) != null) {
+      print("success");
+      return json.decode(response.body);
+    }
+    else {
+      print("fetch failed, trying again...");
+      fetchTracks(genre, accessToken, offset);
+      return json.decode(response.body);
+    }
 }
   
 Future <List <dynamic>> getTrackInfo(List<dynamic> allTracks) async {
@@ -161,13 +170,16 @@ void main() async {
 
   final Set<dynamic> myTracks = await handle.fetchTracksByPopularity("metal", accessToken, 100);
   // print(myTracks);
-  List<String> genres = ["metal", "alternative", "latin"];
+  
+  while(true) {
+  List<String> genres = ["pop"];
   final List<dynamic> tracks = await handle.getSongQueue(genres, accessToken);
   // print(tracks);
   // print(tracks.length);
   List<dynamic>  m =await handle.getTrackInfo(tracks);
-  print(m.length);
-  print(testDuplicates(m.toList()));
+  // print(m.length);
+  // print(testDuplicates(m.toList()));
+  }
 
 
 }

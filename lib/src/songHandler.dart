@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'package:flutter_application_1/src/song.dart';
 import 'package:spotify/spotify.dart';
 import 'package:http/http.dart' as http;
@@ -89,8 +91,14 @@ import 'dart:math';
     final List<dynamic> items = response['tracks']['items'];
     for (var track in items) {
       int popularityLevel = track['popularity'];
+      Song song = new Song("", "", "");
       if (popularityLevel >-1 && track['preview_url']!= null && track['artists']!=null) {
-        allTracks.add(track);
+        song.setTitle(track['name']);
+        List<dynamic> artists = track['artists'];
+        String artistName = artists.map((artist) => artist['name']).join(', ');
+        song.setArtist(artistName);
+        song.setUrl(track['preview_url']);
+        allTracks.add(song);
         numTracks++;
       }
       if (numTracks >= numTracksReturned) {
@@ -103,6 +111,9 @@ import 'dart:math';
     if (randomOffset >= response['tracks']['total']) {
       break;
     }
+  }
+  for(var a in allTracks){
+    print(a.getSongTitle());
   }
   return allTracks;
 }
@@ -172,9 +183,9 @@ void main() async {
   while(true) {
   List<String> genres = ["pop"];
   final List<dynamic> tracks = await handle.getSongQueue(genres, accessToken);
-  // print(tracks);
-  // print(tracks.length);
-  List<dynamic>  m =await handle.getTrackInfo(tracks);
+  print(tracks);
+  print(tracks.length);
+  // List<dynamic>  m =await handle.getTrackInfo(tracks);
   // print(m.length);
   // print(testDuplicates(m.toList()));
   }

@@ -112,9 +112,6 @@ import 'dart:math';
       break;
     }
   }
-  for(var a in allTracks){
-    print(a.getSongTitle());
-  }
   return allTracks;
 }
 
@@ -183,8 +180,8 @@ void main() async {
   while(true) {
   List<String> genres = ["pop"];
   final List<dynamic> tracks = await handle.getSongQueue(genres, accessToken);
-  print(tracks);
-  print(tracks.length);
+  // print(tracks);
+  // print(tracks.length);
   // List<dynamic>  m =await handle.getTrackInfo(tracks);
   // print(m.length);
   // print(testDuplicates(m.toList()));

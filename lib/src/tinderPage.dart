@@ -45,10 +45,7 @@ class _TinderPageState extends State<TinderPage> {
     songTitles.addAll(ourTracks.map((song) {
       String title = song.getSongTitle();
       String artist = song.getSongArtist();
-      if (title != null && artist != null) {
         return '$title by $artist';
-      }
-      return null; // Return null if either title or artist is null
     }).whereType<String>()); // Filter out null values and cast to String
   }
     return songTitles;

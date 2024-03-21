@@ -112,15 +112,13 @@ import 'dart:math';
   Future<Map<String, dynamic>> fetchTracks(String genre, String accessToken, int offset) async {
     final url = Uri.parse('https://api.spotify.com/v1/search?q=genre:$genre&type=track&market=US&limit=50&offset=$offset&sort=popularity');
     final response = await http.get(url, headers: {'Authorization': 'Bearer $accessToken'});
-    if (json.decode(response.body) != null) {
-      print("success");
-      return json.decode(response.body);
-    }
-    else {
+    if (json.decode(response.body) == null) {
       print("fetch failed, trying again...");
       fetchTracks(genre, accessToken, offset);
-      return json.decode(response.body);
     }
+    print("success");
+    return json.decode(response.body);
+ 
 }
   
 Future <List <dynamic>> getTrackInfo(List<dynamic> allTracks) async {

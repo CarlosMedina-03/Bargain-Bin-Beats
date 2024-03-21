@@ -15,6 +15,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   spotify: ^0.13.0
+  swipeable_page_route: ^0.4.2
 
 dev_dependencies:
   flutter_test:

@@ -8,6 +8,8 @@ import 'package:flutter_application_1/src/GenreSelectionPage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:swipeable_page_route/swipeable_page_route.dart';
+
 class HomePage extends StatelessWidget {
   bool startIsPressed = false;
   @override
@@ -47,8 +49,9 @@ class HomePage extends StatelessWidget {
                   ),
                   onPressed: () { 
                     Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => PlaylistPage(pickedSongs: [],)),
+                    SwipeablePageRoute(builder: (context) => PlaylistPage(pickedSongs: [],)),
                     );
+                    
                   },
                   child: Text("Playlists", style: TextStyle(fontSize: 18)),
                 ), 

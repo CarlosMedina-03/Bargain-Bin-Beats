@@ -97,7 +97,7 @@ import 'dart:math';
         List<dynamic> artists = track['artists'];
         String artistName = artists.map((artist) => artist['name']).join(', ');
         song.setArtist(artistName);
-        song.setUrl(track['preview_url']);
+        song.setPreviewUrl(track['preview_url']);
         allTracks.add(song);
         numTracks++;
       }
@@ -140,7 +140,7 @@ Future <List <dynamic>> getTrackInfo(List<dynamic> allTracks) async {
       String? previewUrl = trackName['preview_url'];
       song.setTitle(title);
       song.setArtist(artistNames);
-      song.setUrl(previewUrl);
+      song.setPreviewUrl(previewUrl);
       tracks.add(song.getSongTitle());
       
     }

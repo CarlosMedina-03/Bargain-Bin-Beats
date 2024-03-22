@@ -22,9 +22,7 @@ class HomePage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
                 Text(
-                  '''Welcome to 
-                  Song Tinder
-                  ''',
+                  '''Welcome to\nSong Tinder\n''',
                   style: TextStyle(fontSize: 26, color: WHITE),
                 ),
                 TextButton( 

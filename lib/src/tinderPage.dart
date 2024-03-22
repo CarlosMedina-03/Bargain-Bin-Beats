@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/ColorOptions.dart';
 import 'package:flutter_application_1/src/SongHandler.dart';
 import 'package:flutter_application_1/src/PlaylistPage.dart';
+import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 
 class TinderPage extends StatefulWidget {
@@ -53,88 +54,108 @@ class _TinderPageState extends State<TinderPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: MEDIUM_PURPLE,
-      appBar: AppBar(
-        backgroundColor: DARK_PURPLE,
-        foregroundColor: WHITE,
-        title: Text("Add songs to your playlist!"),
-      ),
-       body: Center( // Center horizontally and vertically
-      child: FutureBuilder(
-        future: _fetchDataFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator(color: WHITE);
-          } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          } else {
-            _songTitles = snapshot.data as List<String>;
-            return Card(
-              color: DARK_PURPLE,
-              elevation: 5,
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(
-                  currentSong = _songTitles.isNotEmpty ? _songTitles[Random().nextInt(_songTitles.length)] : 'No songs available',
-                  style: TextStyle(fontSize: 26, color: WHITE)
-                ),
-             
-              ),
-            );
-          }
-        },
-      ),
-    ),
-      persistentFooterButtons: [
-        TextButton.icon(
-          onPressed: () {
-            print(widget.playlistSongs);
-            setState(() {
-              _songTitles.removeAt(_songTitles.indexOf(currentSong));
-            });
-          },
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
-            foregroundColor: MaterialStateProperty.all<Color>(WHITE),
-          ),
-          icon: Icon(Icons.thumb_down),
-          label: Text("Skip"),
-        ),
-        TextButton.icon(
-          onPressed: () {
-            // widget.playlistSongs.add(_songTitles[Random().nextInt(_songTitles.length)]);
-            if (currentSong != "No songs available"){
-              widget.playlistSongs.add(currentSong);
-            }
-            
+    return Stack(
+      children: [
+        Scaffold(
+          backgroundColor: MEDIUM_PURPLE,
 
-            print(widget.playlistSongs);
-            setState(() {
-              _songTitles.removeAt(_songTitles.indexOf(currentSong));
-            });
-          },
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
-            foregroundColor: MaterialStateProperty.all<Color>(WHITE),
+          appBar: AppBar(
+            backgroundColor: DARK_PURPLE,
+            foregroundColor: WHITE,
+            title: Text("Add songs to your playlist!"),
           ),
-          icon: Icon(Icons.thumb_up),
-          label: Text("Add"),
-        ),
-        TextButton.icon(
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => PlaylistPage(pickedSongs: widget.getPlayListSongs())),
-            );
-          },
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
-            foregroundColor: MaterialStateProperty.all<Color>(WHITE),
+
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding (
+                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  child: Image.asset("assets/images/The_Weeknd_-_Starboy.png",
+                    fit: BoxFit.cover,
+                  )   
+                ),
+              ),
+              Expanded(
+                child: Center(
+                  child: FutureBuilder(
+                    future: _fetchDataFuture,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator(color: WHITE);
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        _songTitles = snapshot.data as List<String>;
+                        return Card(
+                          color: DARK_PURPLE,
+                          elevation: 5,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(
+                              currentSong = _songTitles.isNotEmpty ? _songTitles[Random().nextInt(_songTitles.length)] : 'No songs available',
+                              style: TextStyle(fontSize: 26, color: WHITE)
+                            ),
+                            ),
+                        );
+                      }
+                    },
+                  )
+                )
+              ),
+            ],
           ),
-          icon: Icon(Icons.check_circle),
-          label: Text("Done"),
+
+          persistentFooterButtons: [
+            TextButton.icon(
+              onPressed: () {
+                print(widget.playlistSongs);
+                setState(() {
+                  _songTitles.removeAt(_songTitles.indexOf(currentSong));
+                });
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
+                foregroundColor: MaterialStateProperty.all<Color>(WHITE),
+              ),
+              icon: Icon(Icons.thumb_down),
+              label: Text("Skip"),
+            ),
+            TextButton.icon(
+              onPressed: () {
+                if (currentSong != "No songs available"){
+                  widget.playlistSongs.add(currentSong);
+                }
+                
+                print(widget.playlistSongs);
+                setState(() {
+                  _songTitles.removeAt(_songTitles.indexOf(currentSong));
+                });
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
+                foregroundColor: MaterialStateProperty.all<Color>(WHITE),
+              ),
+              icon: Icon(Icons.thumb_up),
+              label: Text("Add"),
+            ),
+            TextButton.icon(
+              onPressed: () {
+                Navigator.of(context).push(
+                  SwipeablePageRoute(builder: (context) => PlaylistPage(pickedSongs: widget.getPlayListSongs())),
+                );
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
+                foregroundColor: MaterialStateProperty.all<Color>(WHITE),
+              ),
+              icon: Icon(Icons.check_circle),
+              label: Text("Done"),
+            ),
+          ],
         ),
-      ],
+      ]
     );
   }
 }

@@ -91,13 +91,14 @@ import 'dart:math';
     final List<dynamic> items = response['tracks']['items'];
     for (var track in items) {
       int popularityLevel = track['popularity'];
-      Song song = new Song("", "", "");
-      if (popularityLevel >-1 && track['preview_url']!= null && track['artists']!=null) {
+      Song song = new Song("", "", "", "");
+      if (popularityLevel >-1 && track['preview_url']!= null && track['artists']!=null ) {
         song.setTitle(track['name']);
         List<dynamic> artists = track['artists'];
         String artistName = artists.map((artist) => artist['name']).join(', ');
         song.setArtist(artistName);
         song.setPreviewUrl(track['preview_url']);
+        // song.setImageUrl(track['album']['images'][0]['url']);
         allTracks.add(song);
         numTracks++;
       }
@@ -133,7 +134,7 @@ Future <List <dynamic>> getTrackInfo(List<dynamic> allTracks) async {
   List<dynamic> tracks = [];
   try {
     for (dynamic trackName in allTracks) {
-      Song song = new Song("", "", "");
+      Song song = new Song("", "", "", "");
       String title = trackName['name'];
       List<dynamic> artists = trackName['artists'];
       String artistNames = artists.map((artist) => artist['name']).join(', '); // Join multiple artist names with a comma
@@ -174,18 +175,18 @@ void main() async {
   // print(arr);
 
 
-  final Set<dynamic> myTracks = await handle.fetchTracksByPopularity("metal", accessToken, 100);
+  // final Set<dynamic> myTracks = await handle.fetchTracksByPopularity("metal", accessToken, 100);
   // print(myTracks);
   
-  while(true) {
-  List<String> genres = ["pop"];
-  final List<dynamic> tracks = await handle.getSongQueue(genres, accessToken);
-  // print(tracks);
-  // print(tracks.length);
-  // List<dynamic>  m =await handle.getTrackInfo(tracks);
-  // print(m.length);
-  // print(testDuplicates(m.toList()));
-  }
+  // while(true) {
+  // List<String> genres = ["pop"];
+  // final List<dynamic> tracks = await handle.getSongQueue(genres, accessToken);
+  // // print(tracks);
+  // // print(tracks.length);
+  // // List<dynamic>  m =await handle.getTrackInfo(tracks);
+  // // print(m.length);
+  // // print(testDuplicates(m.toList()));
+  // }
 
 
 }

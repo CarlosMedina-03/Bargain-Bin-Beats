@@ -3,16 +3,18 @@
 class Song {
   String? title;
   String? artist;
-  String? previewUrl; //please do not fetch the url of a song not intialized through Song.fetch
+  String? prevUrl; //please do not fetch the url of a song not intialized through Song.fetch
+  String? imageUrl;
 
-  Song(String title, String artist, String url) {
+  Song(String title, String artist, String prevUrl, String imageUrl) {
     this.title = title;
     this.artist = artist;
-    this.previewUrl = url;
+    this.prevUrl = prevUrl;
+    this.imageUrl= imageUrl;
 
   }
      void setPreviewUrl(String? url) {
-        this.previewUrl = url;
+        this.prevUrl= url;
   }
     void setTitle(String? title) {
         this.title = title;
@@ -21,8 +23,12 @@ class Song {
         this.artist = artist;
   }
 
+    void setImageUrl(String? imgUrl){
+        this.imageUrl = imgUrl;
+    }
+
    String? getSongPreviewUrl(){
-    return previewUrl;
+    return prevUrl;
   }
 
   String? getSongArtist(){
@@ -30,6 +36,9 @@ class Song {
   }
   String? getSongTitle(){
     return title;
+  }
+  String? getImageUrl(){
+    return imageUrl;
   }
 
  

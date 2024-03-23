@@ -14,7 +14,7 @@ class Song {
 
   }
      void setPreviewUrl(String? url) {
-        this.prevUrl= url;
+        prevUrl= url;
   }
     void setTitle(String? title) {
         this.title = title;
@@ -24,7 +24,7 @@ class Song {
   }
 
     void setImageUrl(String? imgUrl){
-        this.imageUrl = imgUrl;
+        imageUrl = imgUrl;
     }
 
    String? getSongPreviewUrl(){

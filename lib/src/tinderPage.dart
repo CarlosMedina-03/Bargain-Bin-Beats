@@ -72,7 +72,7 @@ class _TinderPageState extends State<TinderPage> {
                 padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
                 child: SizedBox(
                   height: MediaQuery.of(context).size.height * 0.5,
-                  child: Image.asset("assets/images/The_Weeknd_-_Starboy.png",
+                  child: Image.network("https://i.scdn.co/image/ab67616d0000b273452d0653317bc2e3fc163d7e",
                     fit: BoxFit.cover,
                   )   
                 ),

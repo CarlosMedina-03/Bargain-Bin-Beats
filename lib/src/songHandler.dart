@@ -176,6 +176,9 @@ void main() async {
 
 
   final Set<dynamic> myTracks = await handle.fetchTracksByPopularity("metal", accessToken, 100);
+  for(Song song in myTracks){
+    print(song.getImageUrl());
+  }
   // print(myTracks);
   
   // while(true) {

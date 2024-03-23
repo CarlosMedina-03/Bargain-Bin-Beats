@@ -5,27 +5,26 @@ import 'package:flutter_application_1/src/SongHandler.dart';
 import 'package:flutter_application_1/src/PlaylistPage.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
-
 class TinderPage extends StatefulWidget {
   final List<String> playlistSongs;
   final List<String> genres;
 
-  TinderPage({required this.playlistSongs, required this.genres,Key? key}) : super(key: key);
+  TinderPage({required this.playlistSongs, required this.genres, Key? key})
+      : super(key: key);
 
-  List<String> getSelectedgenres(){
+  List<String> getSelectedGenres() {
     return genres;
   }
-  List<String> getPlayListSongs(){
-    print(playlistSongs);
+
+  List<String> getPlaylistSongs() {
     return playlistSongs;
   }
 
   @override
-  _TinderPageState createState() => _TinderPageState();
-
+  TinderPageState createState() => TinderPageState();
 }
 
-class _TinderPageState extends State<TinderPage> {
+class TinderPageState extends State<TinderPage> {
   late Future<List<String>> _fetchDataFuture;
   late List<String> _songTitles = [];
   String currentSong = "";
@@ -38,124 +37,121 @@ class _TinderPageState extends State<TinderPage> {
 
   Future<List<String>> _fetchData() async {
     final songHandler = SongHandler();
-    final String accessToken = await songHandler.getAccessToken(songHandler.getRefreshToken());
-    final List<String> selectedGenres = widget.getSelectedgenres();
+    final String accessToken =
+        await songHandler.getAccessToken(songHandler.getRefreshToken());
+    final List<String> selectedGenres = widget.getSelectedGenres();
     List<String> songTitles = [];
-   for (var genre in selectedGenres) {
-    final ourTracks = await songHandler.getSongQueue([genre.toLowerCase()], accessToken);
-    songTitles.addAll(ourTracks.map((song) {
-      String title = song.getSongTitle();
-      String artist = song.getSongArtist();
+
+    for (var genre in selectedGenres) {
+      final ourTracks =
+          await songHandler.getSongQueue([genre.toLowerCase()], accessToken);
+      songTitles.addAll(ourTracks.map((song) {
+        String title = song.getSongTitle();
+        String artist = song.getSongArtist();
         return '$title by $artist';
-    }).whereType<String>()); // Filter out null values and cast to String
-  }
+      }).whereType<String>()); // Filter out null values and cast to String
+    }
     return songTitles;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Scaffold(
-          backgroundColor: MEDIUM_PURPLE,
-
-          appBar: AppBar(
-            backgroundColor: DARK_PURPLE,
-            foregroundColor: WHITE,
-            title: Text("Add songs to your playlist!"),
-          ),
-
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding (
-                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.5,
-                  child: Image.network("https://i.scdn.co/image/ab67616d0000b273452d0653317bc2e3fc163d7e",
-                    fit: BoxFit.cover,
-                  )   
-                ),
+    return Scaffold(
+      backgroundColor: MEDIUM_PURPLE,
+      appBar: AppBar(
+        backgroundColor: DARK_PURPLE,
+        foregroundColor: WHITE,
+        title: const Text("Add songs to your playlist!"),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          buildImageSection(),
+          buildSongCard(),
+        ],
+      ),
+      persistentFooterButtons: [
+        buildFooterButton(Icons.thumb_down, "Skip", () {
+          setState(() {
+            _songTitles.removeAt(_songTitles.indexOf(currentSong));
+          });
+        }),
+        buildFooterButton(Icons.thumb_up, "Add", () {
+          if (currentSong != "No songs available") {
+            widget.playlistSongs.add(currentSong);
+          }
+          print(widget.playlistSongs);
+          setState(() {
+            _songTitles.removeAt(_songTitles.indexOf(currentSong));
+          });
+        }),
+        buildFooterButton(Icons.check_circle, "Done", () {
+          Navigator.of(context).push(
+            SwipeablePageRoute(
+              builder: (context) => PlaylistPage(
+                pickedSongs: widget.getPlaylistSongs(),
               ),
-              Expanded(
-                child: Center(
-                  child: FutureBuilder(
-                    future: _fetchDataFuture,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator(color: WHITE);
-                      } else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      } else {
-                        _songTitles = snapshot.data as List<String>;
-                        return Card(
-                          color: DARK_PURPLE,
-                          elevation: 5,
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              currentSong = _songTitles.isNotEmpty ? _songTitles[Random().nextInt(_songTitles.length)] : 'No songs available',
-                              style: TextStyle(fontSize: 26, color: WHITE)
-                            ),
-                            ),
-                        );
-                      }
-                    },
-                  )
-                )
-              ),
-            ],
-          ),
-
-          persistentFooterButtons: [
-            TextButton.icon(
-              onPressed: () {
-                print(widget.playlistSongs);
-                setState(() {
-                  _songTitles.removeAt(_songTitles.indexOf(currentSong));
-                });
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
-                foregroundColor: MaterialStateProperty.all<Color>(WHITE),
-              ),
-              icon: Icon(Icons.thumb_down),
-              label: Text("Skip"),
             ),
-            TextButton.icon(
-              onPressed: () {
-                if (currentSong != "No songs available"){
-                  widget.playlistSongs.add(currentSong);
-                }
-                
-                print(widget.playlistSongs);
-                setState(() {
-                  _songTitles.removeAt(_songTitles.indexOf(currentSong));
-                });
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
-                foregroundColor: MaterialStateProperty.all<Color>(WHITE),
-              ),
-              icon: Icon(Icons.thumb_up),
-              label: Text("Add"),
-            ),
-            TextButton.icon(
-              onPressed: () {
-                Navigator.of(context).push(
-                  SwipeablePageRoute(builder: (context) => PlaylistPage(pickedSongs: widget.getPlayListSongs())),
-                );
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
-                foregroundColor: MaterialStateProperty.all<Color>(WHITE),
-              ),
-              icon: Icon(Icons.check_circle),
-              label: Text("Done"),
-            ),
-          ],
+          );
+        }),
+      ],
+    );
+  }
+
+  Widget buildImageSection() {
+    return Padding(
+      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.5,
+        child: Image.network(
+          "https://i.scdn.co/image/ab67616d0000b273452d0653317bc2e3fc163d7e",
+          fit: BoxFit.cover,
         ),
-      ]
+      ),
+    );
+  }
+
+  Widget buildSongCard() {
+    return Expanded(
+      child: Center(
+        child: FutureBuilder(
+          future: _fetchDataFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator(color: WHITE);
+            } else if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else {
+              _songTitles = snapshot.data as List<String>;
+              return Card(
+                color: DARK_PURPLE,
+                elevation: 5,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    currentSong = _songTitles.isNotEmpty
+                        ? _songTitles[Random().nextInt(_songTitles.length)]
+                        : 'No songs available',
+                    style: TextStyle(fontSize: 26, color: WHITE),
+                  ),
+                ),
+              );
+            }
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget buildFooterButton(IconData icon, String label, VoidCallback onPressed) {
+    return TextButton.icon(
+      onPressed: onPressed,
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
+        foregroundColor: MaterialStateProperty.all<Color>(WHITE),
+      ),
+      icon: Icon(icon),
+      label: Text(label),
     );
   }
 }

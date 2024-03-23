@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/ColorOptions.dart';
 import 'package:flutter_application_1/src/PlaylistPage.dart';
-import 'package:flutter_application_1/src/tinderPage.dart';
+// import 'package:flutter_application_1/src/tinderPage.dart';
 import 'package:flutter_application_1/src/GenreSelectionPage.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+// import 'package:http/http.dart' as http;
+// import 'dart:convert';
 
 class HomePage extends StatelessWidget {
   bool startIsPressed = false;
@@ -27,11 +27,11 @@ class HomePage extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         buildWelcomeText(),
-        SizedBox(height: 30),
+        const SizedBox(height: 30),
         buildStartButton(context),
-        SizedBox(height: 30),
+        const SizedBox(height: 30),
         buildPlaylistsButton(context),
-        SizedBox(height: 30),
+        const SizedBox(height: 30),
       ],
     );
   }

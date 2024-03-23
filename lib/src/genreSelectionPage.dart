@@ -3,11 +3,6 @@ import 'package:flutter_application_1/src/ColorOptions.dart';
 import 'package:flutter_application_1/src/SelectableButton.dart';
 import 'package:flutter_application_1/src/tinderPage.dart';
 
-// import 'package:flutter_application_1/genrePage.dart';
-// import 'package:flutter_application_1/homePage.dart';
-// import 'package:http/http.dart' as http;
-// import 'dart:convert';
-
 class genreSelectionPage extends StatefulWidget {
   final VoidCallback? onTap;
 
@@ -18,9 +13,6 @@ class genreSelectionPage extends StatefulWidget {
 
   @override
   State<genreSelectionPage> createState() => _genreSelectionPageState();
-
-
-
 }
 
 class _genreSelectionPageState extends State<genreSelectionPage> {
@@ -33,25 +25,26 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
     "Latin", "Gospel", "Funk", "Soul", "Disco"
   ];
   List<bool> genreState = [];
-
   List <String> selectedGenres = [];
 
   _genreSelectionPageState({
     this.onTap,
-    //super.key});
-    //Key? key,
   });
 
   void handleButtonPress(String buttonText) {
-    // Do something with the button text, such as printing it
     print("Button pressed: $buttonText");
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     for(num i = 0; i < genres.length; i = i + 1) {
       genreState.add(false);
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MEDIUM_PURPLE,
       appBar: AppBar(
@@ -88,98 +81,73 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
 
   List<Widget> leftBgenerate() {
     return List.generate((genres.length / 2).ceil(), (index) {
-            final int firstGenreIndex = index * 2;
-            final int secondGenreIndex = firstGenreIndex + 1;
-            return Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SelectableButton(
-                      selected: genreState[firstGenreIndex],
-                      style: ButtonStyle(
-                        foregroundColor: MaterialStateProperty.resolveWith<Color?>(
-                          (Set<MaterialState> states) {
-                            if (states.contains(MaterialState.selected)) {
-                              return DARK_PURPLE;
-                            }
-                            return WHITE; // defer to the defaults
-                          },
-                        ),
-                        backgroundColor: MaterialStateProperty.resolveWith<Color?>(
-                          (Set<MaterialState> states) {
-                            if (states.contains(MaterialState.selected)) {
-                              return WHITE;
-                            }
-                           return DARK_PURPLE;  // defer to the defaults
-                          },
-                        ),
-                      ),
-                      onPressed: () {
-                        if (selectedGenres.contains(genres[firstGenreIndex])) {
-                          selectedGenres.remove(genres[firstGenreIndex]);
-                          setState(() {
-                            genreState[firstGenreIndex] = !genreState[firstGenreIndex];
-                          });
-                        } else if (selectedGenres.length < 3) {
-                          selectedGenres.add(genres[firstGenreIndex]);
-                          setState(() {
-                            genreState[firstGenreIndex] = !genreState[firstGenreIndex];
-                          });
-                        }
-                      },
-                      child: Text(
-                        genres[firstGenreIndex], 
-                        style: TextStyle(fontWeight: FontWeight.bold)
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SelectableButton(
-                      selected: genreState[secondGenreIndex],
-                      style: ButtonStyle(
-                        foregroundColor: MaterialStateProperty.resolveWith<Color?>(
-                          (Set<MaterialState> states) {
-                            if (states.contains(MaterialState.selected)) {
-                              return DARK_PURPLE;
-                            }
-                            return WHITE; // defer to the defaults
-                          },
-                        ),
-                        backgroundColor: MaterialStateProperty.resolveWith<Color?>(
-                          (Set<MaterialState> states) {
-                            if (states.contains(MaterialState.selected)) {
-                              return WHITE;
-                            }
-                            return DARK_PURPLE; // defer to the defaults
-                          },
-                        ),
-                      ),
-                      onPressed: () {
-                        if (selectedGenres.contains(genres[secondGenreIndex])) {
-                          selectedGenres.remove(genres[secondGenreIndex]);
-                          setState(() {
-                            genreState[secondGenreIndex] = !genreState[secondGenreIndex];
-                            handleButtonPress(genres[secondGenreIndex]);
-                          });
-                        } else if (selectedGenres.length < 3) {
-                          selectedGenres.add(genres[secondGenreIndex]);
-                          setState(() {
-                            genreState[secondGenreIndex] = !genreState[secondGenreIndex];
-                          });
-                        }
-                      },
-                      child: Text(genres[secondGenreIndex],style: TextStyle(fontWeight: FontWeight.bold)),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 10),
-              ],
-            );
-          });
+      final int firstGenreIndex = index * 2;
+      final int secondGenreIndex = firstGenreIndex + 1;
+      return buildGenreRow(firstGenreIndex, secondGenreIndex);
+    });
+  }
+
+  Widget buildGenreRow(int firstIndex, int secondIndex) {
+    return Row(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: buildGenreButton(firstIndex),
+          ),
+        ),
+        SizedBox(width: 10),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: buildGenreButton(secondIndex),
+          ),
+        ),
+        SizedBox(width: 10),
+      ],
+    );
+  }
+
+  Widget buildGenreButton(int index) {
+    return SelectableButton(
+      selected: genreState[index],
+      style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.resolveWith<Color?>(
+          (Set<MaterialState> states) {
+            if (states.contains(MaterialState.selected)) {
+              return DARK_PURPLE;
+            }
+            return WHITE;
+          },
+        ),
+        backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+          (Set<MaterialState> states) {
+            if (states.contains(MaterialState.selected)) {
+              return WHITE;
+            }
+            return DARK_PURPLE;
+          },
+        ),
+      ),
+      onPressed: () {
+        handleGenreButtonPress(index);
+      },
+      child: Text(
+        genres[index], 
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  void handleGenreButtonPress(int index) {
+    final String genre = genres[index];
+    if (selectedGenres.contains(genre)) {
+      selectedGenres.remove(genre);
+    } else if (selectedGenres.length < 3) {
+      selectedGenres.add(genre);
+    }
+    setState(() {
+      genreState[index] = !genreState[index];
+    });
   }
 }

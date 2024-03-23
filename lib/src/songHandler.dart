@@ -92,13 +92,13 @@ import 'dart:math';
     for (var track in items) {
       int popularityLevel = track['popularity'];
       Song song = new Song("", "", "", "");
-      if (popularityLevel >-1 && track['preview_url']!= null && track['artists']!=null ) {
+      if (popularityLevel >-1 && track['preview_url']!= null && track['artists']!=null && track['album']['images'][0]['url']!=null) {
         song.setTitle(track['name']);
         List<dynamic> artists = track['artists'];
         String artistName = artists.map((artist) => artist['name']).join(', ');
         song.setArtist(artistName);
         song.setPreviewUrl(track['preview_url']);
-        // song.setImageUrl(track['album']['images'][0]['url']);
+        song.setImageUrl(track['album']['images'][0]['url']);
         allTracks.add(song);
         numTracks++;
       }
@@ -130,26 +130,26 @@ import 'dart:math';
  
 }
   
-Future <List <dynamic>> getTrackInfo(List<dynamic> allTracks) async {
-  List<dynamic> tracks = [];
-  try {
-    for (dynamic trackName in allTracks) {
-      Song song = new Song("", "", "", "");
-      String title = trackName['name'];
-      List<dynamic> artists = trackName['artists'];
-      String artistNames = artists.map((artist) => artist['name']).join(', '); // Join multiple artist names with a comma
-      String? previewUrl = trackName['preview_url'];
-      song.setTitle(title);
-      song.setArtist(artistNames);
-      song.setPreviewUrl(previewUrl);
-      tracks.add(song.getSongTitle());
+// Future <List <dynamic>> getTrackInfo(List<dynamic> allTracks) async {
+//   List<dynamic> tracks = [];
+//   try {
+//     for (dynamic trackName in allTracks) {
+//       Song song = new Song("", "", "", "");
+//       String title = trackName['name'];
+//       List<dynamic> artists = trackName['artists'];
+//       String artistNames = artists.map((artist) => artist['name']).join(', '); // Join multiple artist names with a comma
+//       String? previewUrl = trackName['preview_url'];
+//       song.setTitle(title);
+//       song.setArtist(artistNames);
+//       song.setPreviewUrl(previewUrl);
+//       tracks.add(song.getSongTitle());
       
-    }
-  } catch (e) {
-    print('Error fetching track previews: $e');
-  }
-  return tracks;
-}
+//     }
+//   } catch (e) {
+//     print('Error fetching track previews: $e');
+//   }
+//   return tracks;
+// }
 	
 
 }
@@ -175,7 +175,10 @@ void main() async {
   // print(arr);
 
 
-  // final Set<dynamic> myTracks = await handle.fetchTracksByPopularity("metal", accessToken, 100);
+  final Set<dynamic> myTracks = await handle.fetchTracksByPopularity("metal", accessToken, 100);
+  for(Song song in myTracks){
+    print(song.getImageUrl());
+  }
   // print(myTracks);
   
   // while(true) {

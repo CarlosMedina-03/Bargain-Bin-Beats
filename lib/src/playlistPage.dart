@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/ColorOptions.dart';
 import 'package:flutter_application_1/src/homePage.dart';
-import 'package:flutter_application_1/src/tinderPage.dart';
 
 class PlaylistPage extends StatefulWidget {
   final List<String> pickedSongs;
@@ -18,17 +17,15 @@ class PlaylistPage extends StatefulWidget {
 
 class _PlaylistPageState extends State<PlaylistPage> {
 
-  List<playList> playListList = [];
-
-  void addplayList(playList n){ playListList.add(n);}
+  // List<playList> playListList = [];
+  // void addplayList(playList n){ playListList.add(n);}
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: MEDIUM_PURPLE,
       appBar: AppBar(
-        title: Text("My Playlist"),
+        title: const Text("My Playlist"),
         backgroundColor: DARK_PURPLE,
         foregroundColor: WHITE,
       ),
@@ -36,7 +33,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
         child: SingleChildScrollView(
           child: Text(
             displayListOfSongs(widget.getPickedSongs()),
-            style: TextStyle(fontSize: 24, color: WHITE),
+            style: const TextStyle(fontSize: 24, color: WHITE),
           ),
         ),
       ),
@@ -49,8 +46,8 @@ class _PlaylistPageState extends State<PlaylistPage> {
             backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
             foregroundColor: MaterialStateProperty.all<Color>(WHITE),
           ),
-          icon: Icon(Icons.arrow_upward), 
-          label: Text("Export")
+          icon: const Icon(Icons.arrow_upward), 
+          label: const Text("Export")
         ),
         TextButton.icon(
           onPressed: () {
@@ -60,8 +57,8 @@ class _PlaylistPageState extends State<PlaylistPage> {
             backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
             foregroundColor: MaterialStateProperty.all<Color>(WHITE),
           ),
-          icon: Icon(Icons.save), 
-          label: Text("Save"),
+          icon: const Icon(Icons.save), 
+          label: const Text("Save"),
         ),
         TextButton.icon(
           onPressed: () { 
@@ -73,8 +70,8 @@ class _PlaylistPageState extends State<PlaylistPage> {
             backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
             foregroundColor: MaterialStateProperty.all<Color>(WHITE),
           ),
-          icon: Icon(Icons.home), 
-          label: Text("Home"),
+          icon: const Icon(Icons.home), 
+          label: const Text("Home"),
         ),
       ]
     );
@@ -90,18 +87,17 @@ class _PlaylistPageState extends State<PlaylistPage> {
 
 }
 
+  // class playList{
+  //   String name = "";
+  //   List<String> songs = [];
 
-  class playList{
-    String name = "";
-    List<String> songs = [];
-
-    playList(String n, List<String> s){
-      String name = n;
-      List<String> songs = s;
-    }
-    String getPlayListName(){return name;}
-    List<String> getSongs(){return songs;}
-    void changePlayListName(String n){name = n;}
-  }
+  //   playList(String n, List<String> s){
+  //     String name = n;
+  //     List<String> songs = s;
+  //   }
+  //   String getPlayListName(){return name;}
+  //   List<String> getSongs(){return songs;}
+  //   void changePlayListName(String n){name = n;}
+  // }
 
   

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/src/tinderPage.dart';
-
 
 class SelectableButton extends StatefulWidget {
   const SelectableButton({
@@ -27,7 +25,7 @@ class _SelectableButtonState extends State<SelectableButton> {
   void initState() {
     super.initState();
     statesController = MaterialStatesController(
-        <MaterialState>{if (widget.selected) MaterialState.selected});
+      <MaterialState>{if (widget.selected) MaterialState.selected});
   }
 
   @override
@@ -45,6 +43,7 @@ class _SelectableButtonState extends State<SelectableButton> {
       style: widget.style,
       onPressed: widget.onPressed,
       child: widget.child,
+      
     );
   }
 }

@@ -55,7 +55,7 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
       body: Center(
         child: SingleChildScrollView(
           child: Column(
-            children: leftBgenerate(),
+            children: generateButtons(),
           ),
         ),
       ),
@@ -79,7 +79,7 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
     );
   }
 
-  List<Widget> leftBgenerate() {
+  List<Widget> generateButtons() {
     return List.generate((genres.length / 2).ceil(), (index) {
       final int firstGenreIndex = index * 2;
       final int secondGenreIndex = firstGenreIndex + 1;
@@ -143,11 +143,15 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
     final String genre = genres[index];
     if (selectedGenres.contains(genre)) {
       selectedGenres.remove(genre);
+      setState(() {
+        genreState[index] = !genreState[index];
+      });
     } else if (selectedGenres.length < 3) {
       selectedGenres.add(genre);
+      setState(() {
+        genreState[index] = !genreState[index];
+      });
     }
-    setState(() {
-      genreState[index] = !genreState[index];
-    });
+    
   }
 }

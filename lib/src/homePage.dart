@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/ColorOptions.dart';
 import 'package:flutter_application_1/src/PlaylistPage.dart';
-// import 'package:flutter_application_1/src/tinderPage.dart';
 import 'package:flutter_application_1/src/GenreSelectionPage.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
-// import 'package:http/http.dart' as http;
-// import 'dart:convert';
 
 class HomePage extends StatelessWidget {
   bool startIsPressed = false;
@@ -38,7 +35,7 @@ class HomePage extends StatelessWidget {
 
   Widget buildWelcomeText() {
     return const Text(
-      'Welcome to\nSong Tinder\n',
+      'Welcome to\nSong Tinder',
       style: TextStyle(fontSize: 26, color: WHITE),
       textAlign: TextAlign.center,
     );

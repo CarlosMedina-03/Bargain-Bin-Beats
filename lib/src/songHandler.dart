@@ -1,14 +1,10 @@
-import 'dart:js_util';
-
 import 'package:flutter_application_1/src/song.dart';
-import 'package:spotify/spotify.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:math';
 
- 
- class SongHandler{
- /**
+class SongHandler{
+  /**
    * Getter Method for refresh token 
    */
   String getRefreshToken(){
@@ -16,107 +12,92 @@ import 'dart:math';
   }
 
   Future<String> getAccessToken(String refreshToken) async {
-  final String clientId = 'da3531944d1f4a7fa2c20b63a46d1d60';
-  final String clientSecret = '01c615f0104e4ce585ed871ae37f4490';
-  final String tokenUrl = 'https://accounts.spotify.com/api/token';
-  final String basicAuth =
-      'Basic ${base64Encode(utf8.encode('$clientId:$clientSecret'))}';
-  final Map<String, String> body = {
-    'grant_type': 'refresh_token',
-    'refresh_token': refreshToken,
-  };
-  try {
-    final response = await http.post(
-      Uri.parse(tokenUrl),
-      headers: {'Authorization': basicAuth},
-      body: body,
-    );
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> responseData = json.decode(response.body);
-      final String accessToken = responseData['access_token'];
-      return accessToken;
-    } else {
-      throw Exception('Failed to refresh token: ${response.statusCode}');
+    final String clientId = 'da3531944d1f4a7fa2c20b63a46d1d60';
+    final String clientSecret = '01c615f0104e4ce585ed871ae37f4490';
+    final String tokenUrl = 'https://accounts.spotify.com/api/token';
+    final String basicAuth =
+        'Basic ${base64Encode(utf8.encode('$clientId:$clientSecret'))}';
+    final Map<String, String> body = {
+      'grant_type': 'refresh_token',
+      'refresh_token': refreshToken,
+    };
+    try {
+      final response = await http.post(
+        Uri.parse(tokenUrl),
+        headers: {'Authorization': basicAuth},
+        body: body,
+      );
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData = json.decode(response.body);
+        final String accessToken = responseData['access_token'];
+        return accessToken;
+      } else {
+        throw Exception('Failed to refresh token: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Failed to refresh token: $e');
     }
-  } catch (e) {
-    throw Exception('Failed to refresh token: $e');
   }
-}
-  Future<List<String>> getAvailableGenres(String theRefreshToken) async {
-     try {
-    final String accessToken = await getAccessToken(theRefreshToken);
-    final String url = 'https://api.spotify.com/v1/recommendations/available-genre-seeds';
-    print("is this thing working?");
-    final response = await http.get(
-      Uri.parse(url),
-      headers: {'Authorization': 'Bearer $accessToken'},
-    );
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body)['genres'];
-      final List<String> genres = List<String>.from(data);
-      return genres;
-    } else {
-      print('Failed to fetch data: ${response.statusCode}');
-      return []; // Return empty list if request fails
-    }
-  } catch (e) {
-    print('Error: $e');
-    return []; // Return empty list if an error occurs
-  }
-  }
-
+  
   Future<List<dynamic>> getSongQueue(List<String> genres, String accessToken) async {
-    Set<dynamic> songQueue = <dynamic>{};
+    Set<dynamic> songSet = <dynamic>{};
+    List<String> checkPrevUrl = [];
     for (String genre in genres) {
-      songQueue.addAll(await fetchTracksByPopularity(genre, accessToken, (100/genres.length).floor()));
+      final fetchedSongs = await fetchTracksByPopularity(genre, accessToken, (100/genres.length).floor());
+      for(dynamic song in fetchedSongs){
+        if(!checkPrevUrl.contains(song.getSongPreviewUrl())){
+          checkPrevUrl.add(song.getSongPreviewUrl());
+          songSet.add(song);
+        }
+      }
     }
-
-    List<dynamic> finalQueue = songQueue.toList();
-
-    finalQueue.shuffle(); // randomize the order of the songs
-
-    return finalQueue;
+    List<dynamic> finalFetchedSongs = songSet.toList();
+    print(finalFetchedSongs.length);
+    finalFetchedSongs.shuffle(); // randomize the order of the songs
+    return finalFetchedSongs;
   }
   
   Future<Set<dynamic>> fetchTracksByPopularity(String genre, String accessToken, int numTracksReturned) async {
-  Set<dynamic> allTracks = <dynamic>{};
-  int numTracks = 0;
-  final random = Random();
-  int randomOffset = (random.nextDouble() * 800).floor();
-  // int offset = 0;
-  // int randomOffset = 800;
-  
-  while (numTracks < numTracksReturned) {
-    final response = await fetchTracks(genre, accessToken, randomOffset);
-    final List<dynamic> items = response['tracks']['items'];
-    for (var track in items) {
-      int popularityLevel = track['popularity'];
-      Song song = new Song("", "", "", "");
-      if (popularityLevel >-1 && track['preview_url']!= null && track['artists']!=null && track['album']['images'][0]['url']!=null) {
-        song.setTitle(track['name']);
-        List<dynamic> artists = track['artists'];
-        String artistName = artists.map((artist) => artist['name']).join(', ');
-        song.setArtist(artistName);
-        song.setPreviewUrl(track['preview_url']);
-        song.setImageUrl(track['album']['images'][0]['url']);
-        allTracks.add(song);
-        numTracks++;
+    Set<dynamic> allTracks = <dynamic>{};
+    int numTracks = 0;
+    final random = Random();
+    int randomOffset = (random.nextDouble() * 550).floor();
+    print(randomOffset);
+    
+    while (numTracks < numTracksReturned) {
+      final response = await fetchTracks(genre, accessToken, randomOffset);
+      final List<dynamic> items = response['tracks']['items'];
+      for (var track in items) {
+        int popularityLevel = track['popularity'];
+        Song song = new Song("", "", "", "");
+        if (popularityLevel >-1 && track['preview_url']!= null && track['artists']!=null && track['album']['images'][0]['url']!=null) {
+          List<String> checkPrevUrl = [];
+          if(!checkPrevUrl.contains(track['preview_url'])){
+            checkPrevUrl.add(track['preview_url']);
+            song.setTitle(track['name']);
+            List<dynamic> artists = track['artists'];
+            String artistName = artists.map((artist) => artist['name']).join(', ');
+            song.setArtist(artistName);
+            song.setPreviewUrl(track['preview_url']);
+            song.setImageUrl(track['album']['images'][0]['url']);
+            allTracks.add(song);
+            numTracks++;
+            if (numTracks >= numTracksReturned) {
+              break;
+            }
+          }
+        }
       }
-      if (numTracks >= numTracksReturned) {
+      if (allTracks.length < 100) {
+        randomOffset += 100-allTracks.length;
+      }
+      // If offset exceeds the number of available tracks, break the loop
+      if (randomOffset >= response['tracks']['total']) {
         break;
       }
     }
-  //  randomOffset += 50;
-
-  //   // If offset exceeds the number of available tracks, break the loop
-    if (randomOffset >= response['tracks']['total']) {
-      break;
-    }
+    return allTracks;
   }
-  return allTracks;
-}
-
-
 
   Future<Map<String, dynamic>> fetchTracks(String genre, String accessToken, int offset) async {
     final url = Uri.parse('https://api.spotify.com/v1/search?q=genre:$genre&type=track&market=US&limit=50&offset=$offset&sort=popularity');
@@ -127,41 +108,7 @@ import 'dart:math';
     }
     print("success");
     return json.decode(response.body);
- 
-}
-  
-// Future <List <dynamic>> getTrackInfo(List<dynamic> allTracks) async {
-//   List<dynamic> tracks = [];
-//   try {
-//     for (dynamic trackName in allTracks) {
-//       Song song = new Song("", "", "", "");
-//       String title = trackName['name'];
-//       List<dynamic> artists = trackName['artists'];
-//       String artistNames = artists.map((artist) => artist['name']).join(', '); // Join multiple artist names with a comma
-//       String? previewUrl = trackName['preview_url'];
-//       song.setTitle(title);
-//       song.setArtist(artistNames);
-//       song.setPreviewUrl(previewUrl);
-//       tracks.add(song.getSongTitle());
-      
-//     }
-//   } catch (e) {
-//     print('Error fetching track previews: $e');
-//   }
-//   return tracks;
-// }
-	
-
-}
-
-//Debugger method, finds all duplicate items in a list
-List<dynamic> testDuplicates(List<dynamic> titles) {
-  Set temp = titles.toSet();
-  for (dynamic item in temp) {
-    titles.remove(item);
   }
-
-  return titles;
 }
 
 
@@ -175,20 +122,28 @@ void main() async {
   // print(arr);
 
 
-  final Set<dynamic> myTracks = await handle.fetchTracksByPopularity("metal", accessToken, 100);
-  for(Song song in myTracks){
-    print(song.getImageUrl());
-  }
+  // final Set<dynamic> myTracks = await handle.fetchTracksByPopularity("metal", accessToken, 100);
+  // for(Song song in myTracks){
+  //   print(song.getImageUrl());
+  // }
   // print(myTracks);
   
   // while(true) {
-  // List<String> genres = ["pop"];
-  // final List<dynamic> tracks = await handle.getSongQueue(genres, accessToken);
-  // // print(tracks);
-  // // print(tracks.length);
+  List<String> genres = ["indie", "folk"];
+  final List<dynamic> m = await handle.getSongQueue(genres, accessToken);
+  List<String>checkList = [];
+  m.forEach((element) { 
+    if(checkList.contains(element.getSongPreviewUrl())){
+      print("True");
+    }
+    checkList.add(element.getSongPreviewUrl());
+  });
+  print(checkList);
+  // print(tracks);
+  // print(tracks.length);
   // // List<dynamic>  m =await handle.getTrackInfo(tracks);
   // // print(m.length);
-  // // print(testDuplicates(m.toList()));
+  // assert(testDuplicates(m.toList()).isEmpty);
   // }
 
 

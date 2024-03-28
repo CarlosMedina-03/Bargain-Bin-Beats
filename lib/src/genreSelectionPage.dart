@@ -6,10 +6,8 @@ import 'package:flutter_application_1/src/tinderPage.dart';
 class genreSelectionPage extends StatefulWidget {
   final VoidCallback? onTap;
 
-  const genreSelectionPage({
-    this.onTap,
-    Key? key,
-  }) : super(key: key);
+  const genreSelectionPage({this.onTap, Key? key}) 
+    : super(key: key);
 
   @override
   State<genreSelectionPage> createState() => _genreSelectionPageState();
@@ -48,7 +46,7 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
     return Scaffold(
       backgroundColor: MEDIUM_PURPLE,
       appBar: AppBar(
-        title: Text("Select 1-3 genres:"),
+        title: const Text("Select 1-3 genres:"),
         backgroundColor: DARK_PURPLE,
         foregroundColor: WHITE,
       ),
@@ -61,7 +59,11 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
       ),
       persistentFooterButtons: [
         TextButton(
-          child: Text("Next"),
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
+            foregroundColor: MaterialStateProperty.all<Color>(WHITE),
+          ),
+          child: const Text("Next"),
           onPressed: () {
             if (selectedGenres.isNotEmpty && selectedGenres.length <= 3) {
               Navigator.of(context).push(
@@ -70,10 +72,7 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
             }
             print(selectedGenres);
           },
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
-            foregroundColor: MaterialStateProperty.all<Color>(WHITE),
-          ),
+          
         )
       ],
     );
@@ -96,14 +95,14 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
             child: buildGenreButton(firstIndex),
           ),
         ),
-        SizedBox(width: 10),
+        const SizedBox(width: 10),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: buildGenreButton(secondIndex),
           ),
         ),
-        SizedBox(width: 10),
+        const SizedBox(width: 10),
       ],
     );
   }
@@ -134,7 +133,7 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
       },
       child: Text(
         genres[index], 
-        style: TextStyle(fontWeight: FontWeight.bold),
+        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
       ),
     );
   }

@@ -4,13 +4,14 @@ import 'package:flutter_application_1/src/SongHandler.dart';
 import 'package:flutter_application_1/src/PlaylistPage.dart';
 import 'package:flutter_application_1/src/song.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class TinderPage extends StatefulWidget {
   final List<String> playlistSongs;
   final List<String> genres;
 
   TinderPage({required this.playlistSongs, required this.genres, Key? key})
-      : super(key: key);
+    : super(key: key);
 
   @override
   _TinderPageState createState() => _TinderPageState();
@@ -21,6 +22,9 @@ class _TinderPageState extends State<TinderPage> {
   Song? currentSong;
   List<Song> songs = [];
   int count = 0;
+  late String songText;
+  final player = AudioPlayer();
+  
 
   @override
   void initState() {
@@ -51,8 +55,8 @@ class _TinderPageState extends State<TinderPage> {
   }
 
   void nextSong(bool addToPlaylist) {
-    if (addToPlaylist && currentSong != null && !widget.playlistSongs.contains('${currentSong!.title} by ${currentSong!.artist}')) {
-      widget.playlistSongs.add('${currentSong!.title} by ${currentSong!.artist}');
+    if (addToPlaylist && currentSong != null && !widget.playlistSongs.contains(songText)) {
+      widget.playlistSongs.add(songText);
       count++;
       setState(() {
         if (count <= songs.length) {
@@ -118,7 +122,6 @@ class _TinderPageState extends State<TinderPage> {
       );
     }
     return const SizedBox.shrink();
-
   }
 
   Widget formatBody() {
@@ -164,14 +167,15 @@ class _TinderPageState extends State<TinderPage> {
   }
 
   Widget buildCard() {
+    songText = '${currentSong!.title} by ${currentSong!.artist}';
     return Card(
       color: DARK_PURPLE,
       elevation: 5,
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Text(
-          currentSong != null ? '${currentSong!.title} by ${currentSong!.artist}' : 'No songs available',
-          style: TextStyle(fontSize: 20, color: WHITE),
+          currentSong != null ? songText : 'No songs available',
+          style: const TextStyle(fontSize: 20, color: WHITE),
           textAlign: TextAlign.center,
         ),
       ),

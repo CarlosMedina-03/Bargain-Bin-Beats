@@ -12,9 +12,9 @@ class SongHandler{
   }
 
   Future<String> getAccessToken(String refreshToken) async {
-    final String clientId = 'da3531944d1f4a7fa2c20b63a46d1d60';
-    final String clientSecret = '01c615f0104e4ce585ed871ae37f4490';
-    final String tokenUrl = 'https://accounts.spotify.com/api/token';
+    const String clientId = 'da3531944d1f4a7fa2c20b63a46d1d60';
+    const String clientSecret = '01c615f0104e4ce585ed871ae37f4490';
+    const String tokenUrl = 'https://accounts.spotify.com/api/token';
     final String basicAuth =
         'Basic ${base64Encode(utf8.encode('$clientId:$clientSecret'))}';
     final Map<String, String> body = {
@@ -69,7 +69,7 @@ class SongHandler{
       final List<dynamic> items = response['tracks']['items'];
       for (var track in items) {
         int popularityLevel = track['popularity'];
-        Song song = new Song("", "", "", "");
+        Song song = Song("", "", "", "");
         if (popularityLevel >-1 && track['preview_url']!= null && track['artists']!=null && track['album']['images'][0]['url']!=null) {
           List<String> checkPrevUrl = [];
           if(!checkPrevUrl.contains(track['preview_url'])){
@@ -114,7 +114,7 @@ class SongHandler{
 
 void main() async {
   // var song1 = new Song("title", "artist", "genre");
-  var handle = new SongHandler();
+  var handle = SongHandler();
   final String refreshToken = handle.getRefreshToken(); // Replace with your refresh token
   final String accessToken = await handle.getAccessToken(refreshToken);
 

@@ -45,7 +45,7 @@ class HomePage extends StatelessWidget {
     return buildButton(
       onPressed: () {
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => const genreSelectionPage()),
+          MaterialPageRoute(builder: (context) =>  const genreSelectionPage()),
         );
       },
       label: "Start",
@@ -70,7 +70,7 @@ class HomePage extends StatelessWidget {
         backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
       ),
       onPressed: onPressed,
-      child: Text(label, style: TextStyle(fontSize: 18)),
+      child: Text(label, style: const TextStyle(fontSize: 18)),
     );
   }
 }

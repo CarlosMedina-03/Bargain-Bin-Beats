@@ -167,14 +167,17 @@ class _TinderPageState extends State<TinderPage> {
   }
 
   Widget buildCard() {
-    songText = '${currentSong!.title} by ${currentSong!.artist}';
+    // currentSong != null ? songText = '${currentSong!.title} by ${currentSong!.artist}' : songText= 'No songs available';
+    songText = currentSong != null ?  '${currentSong!.title} by ${currentSong!.artist}': 'No songs available';
+    // songText = '${currentSong!.title} by ${currentSong!.artist}';
     return Card(
       color: DARK_PURPLE,
       elevation: 5,
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Text(
-          currentSong != null ? songText : 'No songs available',
+          // currentSong != null ? songText : 'No songs available'
+          songText,
           style: const TextStyle(fontSize: 20, color: WHITE),
           textAlign: TextAlign.center,
         ),

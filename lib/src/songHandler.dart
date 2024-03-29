@@ -52,7 +52,7 @@ class SongHandler{
       }
     }
     List<dynamic> finalFetchedSongs = songSet.toList();
-    print(finalFetchedSongs.length);
+    print("songs fetched: ${finalFetchedSongs.length}");
     finalFetchedSongs.shuffle(); // randomize the order of the songs
     return finalFetchedSongs;
   }
@@ -62,7 +62,7 @@ class SongHandler{
     int numTracks = 0;
     final random = Random();
     int randomOffset = (random.nextDouble() * 550).floor();
-    print(randomOffset);
+    print("randomoffset: ${randomOffset}");
     
     while (numTracks < numTracksReturned) {
       final response = await fetchTracks(genre, accessToken, randomOffset);
@@ -89,7 +89,7 @@ class SongHandler{
         }
       }
       if (allTracks.length < 100) {
-        randomOffset += 100-allTracks.length;
+        randomOffset += 50;
       }
       // If offset exceeds the number of available tracks, break the loop
       if (randomOffset >= response['tracks']['total']) {
@@ -106,7 +106,7 @@ class SongHandler{
       print("fetch failed, trying again...");
       fetchTracks(genre, accessToken, offset);
     }
-    print("success");
+    print("tracks fetched successfully");
     return json.decode(response.body);
   }
 }

@@ -73,16 +73,20 @@ class SongHandler{
         int popularityLevel = track['popularity'];
         Song song = Song("", "", "", "");
         if (popularityLevel >-1 && track['preview_url']!= null && track['artists']!=null && track['album']['images'][0]['url']!=null) {
-          song.setTitle(track['name']);
-          List<dynamic> artists = track['artists'];
-          String artistName = artists.map((artist) => artist['name']).join(', ');
-          song.setArtist(artistName);
-          song.setPreviewUrl(track['preview_url']);
-          song.setImageUrl(track['album']['images'][0]['url']);
-          allTracks.add(song);
-          // numTracks++;
-          if (allTracks.length >= numTracksReturned) {
-            break;
+          List<String> checkPrevUrl = [];
+          if(!checkPrevUrl.contains(track['preview_url'])){
+            checkPrevUrl.add(track['preview_url']);
+            song.setTitle(track['name']);
+            List<dynamic> artists = track['artists'];
+            String artistName = artists.map((artist) => artist['name']).join(', ');
+            song.setArtist(artistName);
+            song.setPreviewUrl(track['preview_url']);
+            song.setImageUrl(track['album']['images'][0]['url']);
+            allTracks.add(song);
+            // numTracks++;
+            if (allTracks.length >= numTracksReturned) {
+              break;
+            }
           }
         }
       }

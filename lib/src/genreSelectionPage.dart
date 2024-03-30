@@ -133,7 +133,7 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
       },
       child: Text(
         genres[index], 
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
       ),
     );
   }

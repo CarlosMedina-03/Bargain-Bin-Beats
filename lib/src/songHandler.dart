@@ -59,12 +59,14 @@ class SongHandler{
   
   Future<Set<dynamic>> fetchTracksByPopularity(String genre, String accessToken, int numTracksReturned) async {
     Set<dynamic> allTracks = <dynamic>{};
+    List<int> previousOffsets = [];
     int numTracks = 0;
     final random = Random();
     int randomOffset = (random.nextDouble() * 550).floor();
+    previousOffsets.add(randomOffset);
     print("randomoffset: ${randomOffset}");
     
-    while (numTracks < numTracksReturned) {
+    while (allTracks.length < numTracksReturned) {
       final response = await fetchTracks(genre, accessToken, randomOffset);
       final List<dynamic> items = response['tracks']['items'];
       for (var track in items) {
@@ -81,15 +83,21 @@ class SongHandler{
             song.setPreviewUrl(track['preview_url']);
             song.setImageUrl(track['album']['images'][0]['url']);
             allTracks.add(song);
-            numTracks++;
-            if (numTracks >= numTracksReturned) {
+            // numTracks++;
+            if (allTracks.length >= numTracksReturned) {
               break;
             }
           }
         }
       }
-      if (allTracks.length < 100) {
-        randomOffset += 50;
+      if (allTracks.length < numTracksReturned) {
+        randomOffset = (random.nextDouble() * 550).floor();
+        while (previousOffsets.contains(randomOffset)) {
+          randomOffset = (random.nextDouble() * 550).floor();
+        }
+        previousOffsets.add(randomOffset);
+        // fetchTracksByPopularity(genre, accessToken, numTracksReturned);
+        
       }
       // If offset exceeds the number of available tracks, break the loop
       if (randomOffset >= response['tracks']['total']) {

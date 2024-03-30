@@ -42,5 +42,20 @@ class Song {
   String? getImageUrl(){
     return imageUrl;
   }
+
+  @override
+  bool operator ==(Object other) {
+   if (other is Song) {
+   return other.getSongPreviewUrl() == prevUrl &&
+    other.getSongTitle() == title &&
+    other.getSongArtist() == artist;
+   }
+   else {
+    return false;
+   }
+  }
+
+   @override
+  int get hashCode => this.hashCode;
 }
 

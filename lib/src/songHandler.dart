@@ -60,7 +60,6 @@ class SongHandler{
   Future<Set<dynamic>> fetchTracksByPopularity(String genre, String accessToken, int numTracksReturned) async {
     Set<dynamic> allTracks = <dynamic>{};
     List<int> previousOffsets = [];
-    int numTracks = 0;
     final random = Random();
     int randomOffset = (random.nextDouble() * 550).floor();
     previousOffsets.add(randomOffset);
@@ -71,7 +70,7 @@ class SongHandler{
       final List<dynamic> items = response['tracks']['items'];
       for (var track in items) {
         int popularityLevel = track['popularity'];
-        Song song = Song("", "", "", "");
+        Song song = Song("", "", "", "", "");
         if (popularityLevel >-1 && track['preview_url']!= null && track['artists']!=null && track['album']['images'][0]['url']!=null) {
           List<String> checkPrevUrl = [];
           if(!checkPrevUrl.contains(track['preview_url'])){
@@ -82,6 +81,8 @@ class SongHandler{
             song.setArtist(artistName);
             song.setPreviewUrl(track['preview_url']);
             song.setImageUrl(track['album']['images'][0]['url']);
+            song.setTrackID(track['id']);
+            print(song.trackID);
             allTracks.add(song);
             // numTracks++;
             if (allTracks.length >= numTracksReturned) {

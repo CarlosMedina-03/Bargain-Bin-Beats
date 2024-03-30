@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/ColorOptions.dart';
 import 'package:flutter_application_1/src/homePage.dart';
+import 'package:flutter_application_1/src/song.dart';
 
 class PlaylistPage extends StatefulWidget {
-  final List<String> pickedSongs;
+  final List<Song> pickedSongs;
 
-  PlaylistPage( {required this.pickedSongs,Key? key}) : super(key: key);
+  PlaylistPage( {required this.pickedSongs, Key? key}) : super(key: key);
 
-  List<String> getPickedSongs (){
+  List<Song> getPickedSongs (){
     return pickedSongs;
   }
 
@@ -16,7 +17,7 @@ class PlaylistPage extends StatefulWidget {
 }
 
 class _PlaylistPageState extends State<PlaylistPage> {
-
+  late double paddingValue;
   // List<playList> playListList = [];
   // void addplayList(playList n){ playListList.add(n);}
 
@@ -29,60 +30,62 @@ class _PlaylistPageState extends State<PlaylistPage> {
         backgroundColor: DARK_PURPLE,
         foregroundColor: WHITE,
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Text(
-            displayListOfSongs(widget.getPickedSongs()),
-            style: const TextStyle(fontSize: 24, color: WHITE),
-          ),
-        ),
-      ),
+      body: displaySongs(),
       persistentFooterButtons: [
-        TextButton.icon(
-          onPressed: () { 
-            print("hello export");
-          },
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
-            foregroundColor: MaterialStateProperty.all<Color>(WHITE),
-          ),
-          icon: const Icon(Icons.arrow_upward), 
-          label: const Text("Export")
-        ),
-        TextButton.icon(
-          onPressed: () {
-            print("hello save");
-          },
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
-            foregroundColor: MaterialStateProperty.all<Color>(WHITE),
-          ),
-          icon: const Icon(Icons.save), 
-          label: const Text("Save"),
-        ),
-        TextButton.icon(
-          onPressed: () { 
-            Navigator.of(context).push(
+        buildFooterButton(Icons.arrow_upward, "Export", () {
+          print("Export button pressed");
+        }),
+        buildFooterButton(Icons.save, "Save", () {
+          print("Save button pressed");
+        }),
+        buildFooterButton(Icons.home, "Home", () {
+          Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => HomePage()),
             );
-          },
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
-            foregroundColor: MaterialStateProperty.all<Color>(WHITE),
-          ),
-          icon: const Icon(Icons.home), 
-          label: const Text("Home"),
-        ),
+        }),
       ]
     );
   }
 
-  String displayListOfSongs(List<String> songList) {
+  String buildListOfSongs(List<Song> songList) {
     String res = '';
-    for (String song in songList) {
-      res = '$res$song\n\n';
+    for (Song song in songList) {
+      String? title = song.getSongTitle();
+      String? artist = song.getSongArtist();
+      // res = '$res$title by $artist\n\n';
+      // res = '$res$title \nby $artist\n\n';
+      // res = '$res$title \nby \n$artist\n\n';
+      res = '$res$title \n\nby $artist\n\n\n';
+
     }
     return(res);
+  }
+
+  Widget displaySongs(){
+    paddingValue = MediaQuery.of(context).size.height * 0.02;
+    return Center(
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(left: paddingValue, right: paddingValue),
+          child: Text(
+            buildListOfSongs(widget.getPickedSongs()),
+            style: const TextStyle(fontSize: 24, color: WHITE),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildFooterButton(IconData icon, String label, VoidCallback onPressed) {
+    return TextButton.icon(
+      onPressed: onPressed,
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
+        foregroundColor: MaterialStateProperty.all<Color>(WHITE),
+      ),
+      icon: Icon(icon),
+      label: Text(label),
+    );
   }
 
 }

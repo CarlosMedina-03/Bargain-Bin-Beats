@@ -7,7 +7,7 @@ import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 class TinderPage extends StatefulWidget {
-  final List<String> playlistSongs;
+  final List<Song> playlistSongs;
   final List<String> genres;
 
   TinderPage({required this.playlistSongs, required this.genres, Key? key})
@@ -33,10 +33,10 @@ class _TinderPageState extends State<TinderPage> {
     player = AudioPlayer();
   }
   @override
-void dispose() {
-  player.dispose();
-  super.dispose();
-}
+  void dispose() {
+    player.dispose();
+    super.dispose();
+  }
 
   Future<List<Song>> fetchData() async {
     final songHandler = SongHandler();
@@ -53,6 +53,7 @@ void dispose() {
           track.getSongArtist(),
           track.getSongPreviewUrl(),
           track.getImageUrl(),
+          track.getTrackID()
         ),
       );
     }
@@ -61,8 +62,8 @@ void dispose() {
   }
 
   void nextSong(bool addToPlaylist) {
-    if (addToPlaylist && currentSong != null && !widget.playlistSongs.contains(songText)) {
-      widget.playlistSongs.add(songText);
+    if (addToPlaylist && currentSong != null && !widget.playlistSongs.contains(currentSong)) {
+      widget.playlistSongs.add(currentSong!);
       count++;
       setState((){
         if (count <= songs.length) {
@@ -88,10 +89,9 @@ void dispose() {
     }
   }
 
- void playAudio(String url) async {
-  await player.play(UrlSource(url));
-}
- 
+  void playAudio(String url) async {
+    await player.play(UrlSource(url));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -167,7 +167,7 @@ void dispose() {
                 final songs = snapshot.data!;
                 if (count <= songs.length && currentSong == null){
                   currentSong = songs[count];
-                   playAudio(currentSong!.getSongPreviewUrl()!);
+                  playAudio(currentSong!.getSongPreviewUrl()!);
                   print(count);
                 }
                 return formatBody();

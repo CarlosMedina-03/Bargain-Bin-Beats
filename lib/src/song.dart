@@ -3,28 +3,34 @@ class Song {
   String? artist;
   String? prevUrl; //please do not fetch the url of a song not intialized through Song.fetch
   String? imageUrl;
+  String? trackID;
 
   Song(
     String this.title, 
     String this.artist, 
     String this.prevUrl, 
-    String this.imageUrl
+    String this.imageUrl,
+    String this.trackID
   );
 
-  void setPreviewUrl(String? url) {
-    prevUrl= url;
+  void setPreviewUrl(String? previewUrl) {
+    prevUrl= previewUrl;
   }
 
-  void setTitle(String? title) {
-    this.title = title;
+  void setTitle(String? songTitle) {
+    title = songTitle;
   }
 
-  void setArtist(String? artist) {
-    this.artist = artist;
+  void setArtist(String? artistName) {
+    artist = artistName;
   }
 
   void setImageUrl(String? imgUrl){
     imageUrl = imgUrl;
+  }
+
+  void setTrackID(String? trackId){
+    trackID = trackId;
   }
 
   String? getSongPreviewUrl(){
@@ -42,5 +48,9 @@ class Song {
   String? getImageUrl(){
     return imageUrl;
   }
+
+  String? getTrackID(){
+    return trackID;
+  } 
 }
 

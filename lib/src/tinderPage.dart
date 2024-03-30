@@ -18,21 +18,27 @@ class TinderPage extends StatefulWidget {
 }
 
 class _TinderPageState extends State<TinderPage> {
-  late Future<List<Song>> _fetchDataFuture;
+  late Future<List<Song>> fetchDataFuture;
   Song? currentSong;
   List<Song> songs = [];
   int count = 0;
   late String songText;
-  final player = AudioPlayer();
+  late AudioPlayer player;
   
 
   @override
   void initState() {
     super.initState();
-    _fetchDataFuture = _fetchData();
+    fetchDataFuture = fetchData();
+    player = AudioPlayer();
   }
+  @override
+void dispose() {
+  player.dispose();
+  super.dispose();
+}
 
-  Future<List<Song>> _fetchData() async {
+  Future<List<Song>> fetchData() async {
     final songHandler = SongHandler();
     final String accessToken = await songHandler.getAccessToken(songHandler.getRefreshToken());
     List<String> lowerCaseGenres = [];
@@ -58,9 +64,10 @@ class _TinderPageState extends State<TinderPage> {
     if (addToPlaylist && currentSong != null && !widget.playlistSongs.contains(songText)) {
       widget.playlistSongs.add(songText);
       count++;
-      setState(() {
+      setState((){
         if (count <= songs.length) {
           currentSong = songs[count];
+          playAudio(currentSong!.getSongPreviewUrl()!);
           print(count);
         } else {
           currentSong = null;
@@ -72,6 +79,7 @@ class _TinderPageState extends State<TinderPage> {
       setState(() {
         if (count <= songs.length) {
           currentSong = songs[count];
+          playAudio(currentSong!.getSongPreviewUrl()!);
           print(count);
         } else {
           currentSong = null;
@@ -79,6 +87,11 @@ class _TinderPageState extends State<TinderPage> {
       });
     }
   }
+
+ void playAudio(String url) async {
+  await player.play(UrlSource(url));
+}
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +109,7 @@ class _TinderPageState extends State<TinderPage> {
         buildFooterButton(Icons.thumb_down, "Skip", () => nextSong(false)),
         buildFooterButton(Icons.thumb_up, "Add", () => nextSong(true)),
         buildFooterButton(Icons.check_circle, "Done", () {
+          player.stop();
           Navigator.of(context).push(
             SwipeablePageRoute(
               builder: (context) => PlaylistPage(pickedSongs: widget.playlistSongs),
@@ -143,7 +157,7 @@ class _TinderPageState extends State<TinderPage> {
       return Expanded(
         child: Center(
           child: FutureBuilder<List<Song>>(
-            future: _fetchDataFuture,
+            future: fetchDataFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator(color: WHITE);
@@ -153,6 +167,7 @@ class _TinderPageState extends State<TinderPage> {
                 final songs = snapshot.data!;
                 if (count <= songs.length && currentSong == null){
                   currentSong = songs[count];
+                   playAudio(currentSong!.getSongPreviewUrl()!);
                   print(count);
                 }
                 return formatBody();

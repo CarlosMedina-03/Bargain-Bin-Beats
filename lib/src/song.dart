@@ -55,17 +55,17 @@ class Song {
 
   @override
   bool operator ==(Object other) {
-    if (other is Song) {
-    return other.getSongPreviewUrl() == prevUrl &&
+   if (other is Song) {
+   return other.getSongPreviewUrl() == prevUrl &&
     other.getSongTitle() == title &&
     other.getSongArtist() == artist;
-    }
-    else {
-      return false;
-    }
+   }
+   else {
+    return false;
+   }
   }
 
-  @override
+   @override
   int get hashCode => this.hashCode;
 }
 

@@ -53,10 +53,8 @@ class _PlaylistPageState extends State<PlaylistPage> {
       String? title = song.getSongTitle();
       String? artist = song.getSongArtist();
       // res = '$res$title by $artist\n\n';
-      // res = '$res$title \nby $artist\n\n';
+      res = '$res$title \nby $artist\n\n';
       // res = '$res$title \nby \n$artist\n\n';
-      res = '$res$title \n\nby $artist\n\n\n';
-
     }
     return(res);
   }

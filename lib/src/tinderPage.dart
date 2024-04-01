@@ -154,8 +154,8 @@ class _TinderPageState extends State<TinderPage> {
   Widget buildBody() {
     if (currentSong == null) {
       // This handles the initial state where _fetchDataFuture is still fetching data
-      return Expanded(
-        child: Center(
+      return Center(
+        child: Expanded(
           child: FutureBuilder<List<Song>>(
             future: fetchDataFuture,
             builder: (context, snapshot) {

@@ -72,9 +72,6 @@ class SongHandler{
         int popularityLevel = track['popularity'];
         Song song = Song("", "", "", "", "");
         if (popularityLevel >-1 && track['preview_url']!= null && track['artists']!=null && track['album']['images'][0]['url']!=null) {
-          List<String> checkPrevUrl = [];
-          if(!checkPrevUrl.contains(track['preview_url'])){
-            checkPrevUrl.add(track['preview_url']);
             song.setTitle(track['name']);
             List<dynamic> artists = track['artists'];
             String artistName = artists.map((artist) => artist['name']).join(', ');
@@ -84,11 +81,9 @@ class SongHandler{
             song.setTrackID(track['id']);
             print(song.trackID);
             allTracks.add(song);
-            // numTracks++;
             if (allTracks.length >= numTracksReturned) {
               break;
             }
-          }
         }
       }
       if (allTracks.length < numTracksReturned) {
@@ -97,7 +92,6 @@ class SongHandler{
           randomOffset = (random.nextDouble() * 550).floor();
         }
         previousOffsets.add(randomOffset);
-        // fetchTracksByPopularity(genre, accessToken, numTracksReturned);
         
       }
       // If offset exceeds the number of available tracks, break the loop
@@ -147,6 +141,7 @@ void main() async {
     }
     checkList.add(element.getSongPreviewUrl());
   });
+  print('no duplicate');
   print(checkList);
   // print(tracks);
   // print(tracks.length);

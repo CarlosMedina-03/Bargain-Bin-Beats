@@ -112,3 +112,5 @@ ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json
 ios/RunnerTests/RunnerTests.swift
 macos/RunnerTests/RunnerTests.swift
 web/manifest.json
+pubspec.lock
+pubspec.yaml

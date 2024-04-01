@@ -103,7 +103,7 @@ class _TinderPageState extends State<TinderPage> {
         title: const Text("Add songs to your playlist!"),
       ),
       body: Center(
-        child: buildBody(),
+            child: buildBody(),
       ),
       persistentFooterButtons: [
         buildFooterButton(Icons.thumb_down, "Skip", () => nextSong(false)),
@@ -140,14 +140,14 @@ class _TinderPageState extends State<TinderPage> {
 
   Widget formatBody() {
     return SingleChildScrollView(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        buildImageSection(),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.03), // Add some space between image and card
-        buildCard()
-      ]
-    )
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          buildImageSection(),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.03), // Add some space between image and card
+          buildCard()
+        ]
+      )
     );
   }
 

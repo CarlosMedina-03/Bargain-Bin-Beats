@@ -40,8 +40,8 @@ class _PlaylistPageState extends State<PlaylistPage> {
         }),
         buildFooterButton(Icons.home, "Home", () {
           Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => HomePage()),
-            );
+            MaterialPageRoute(builder: (context) => HomePage()),
+          );
         }),
       ]
     );
@@ -100,5 +100,3 @@ class _PlaylistPageState extends State<PlaylistPage> {
   //   List<String> getSongs(){return songs;}
   //   void changePlayListName(String n){name = n;}
   // }
-
-  

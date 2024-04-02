@@ -1,10 +1,14 @@
+import 'dart:html' as prefix;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/ColorOptions.dart';
 import 'package:flutter_application_1/src/SongHandler.dart';
 import 'package:flutter_application_1/src/PlaylistPage.dart';
 import 'package:flutter_application_1/src/song.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'dart:async';
 
 class TinderPage extends StatefulWidget {
   final List<Song> playlistSongs;
@@ -17,14 +21,15 @@ class TinderPage extends StatefulWidget {
   _TinderPageState createState() => _TinderPageState();
 }
 
-class _TinderPageState extends State<TinderPage> {
+class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateMixin {
   late Future<List<Song>> fetchDataFuture;
   Song? currentSong;
   List<Song> songs = [];
   int count = 0;
   late String songText;
   late AudioPlayer player;
-  
+
+  late final controller = SlidableController(this);
 
   @override
   void initState() {
@@ -92,33 +97,33 @@ class _TinderPageState extends State<TinderPage> {
   void playAudio(String url) async {
     await player.play(UrlSource(url));
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: MEDIUM_PURPLE,
-      appBar: AppBar(
-        backgroundColor: DARK_PURPLE,
-        foregroundColor: WHITE,
-        title: const Text("Add songs to your playlist!"),
-      ),
-      body: Center(
-        child: buildBody(),
-      ),
-      persistentFooterButtons: [
-        buildFooterButton(Icons.thumb_down, "Skip", () => nextSong(false)),
-        buildFooterButton(Icons.thumb_up, "Add", () => nextSong(true)),
-        buildFooterButton(Icons.check_circle, "Done", () {
-          player.stop();
-          Navigator.of(context).push(
-            SwipeablePageRoute(
-              builder: (context) => PlaylistPage(pickedSongs: widget.playlistSongs),
-            ),
-          );
-        }),
-      ],
-    );
-  }
+  // Original build method
+  //  @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     backgroundColor: MEDIUM_PURPLE,
+  //     appBar: AppBar(
+  //       backgroundColor: DARK_PURPLE,
+  //       foregroundColor: WHITE,
+  //       title: const Text("Add songs to your playlist!"),
+  //     ),
+  //     body: Center(
+  //       child: buildBody(),
+  //     ),
+  //     persistentFooterButtons: [
+  //       buildFooterButton(Icons.thumb_down, "Skip", () => nextSong(false)),
+  //       buildFooterButton(Icons.thumb_up, "Add", () => nextSong(true)),
+  //       buildFooterButton(Icons.check_circle, "Done", () {
+  //         player.stop();
+  //         Navigator.of(context).push(
+  //           SwipeablePageRoute(
+  //             builder: (context) => PlaylistPage(pickedSongs: widget.playlistSongs),
+  //           ),
+  //         );
+  //       }),
+  //     ],
+  //   );
+  // }
 
   Widget buildImageSection() {
     if (currentSong?.imageUrl != null) {
@@ -145,11 +150,43 @@ class _TinderPageState extends State<TinderPage> {
       children: [
         buildImageSection(),
         SizedBox(height: MediaQuery.of(context).size.height * 0.03), // Add some space between image and card
-        buildCard()
+        buildCard(),
       ]
     )
     );
   }
+
+
+  //Original widget
+  //   Widget buildBody() {
+  //   if (currentSong == null) {
+  //     // This handles the initial state where _fetchDataFuture is still fetching data
+  //     return Center(
+  //       child: Expanded(
+  //         child: FutureBuilder<List<Song>>(
+  //           future: fetchDataFuture,
+  //           builder: (context, snapshot) {
+  //             if (snapshot.connectionState == ConnectionState.waiting) {
+  //               return const CircularProgressIndicator(color: WHITE);
+  //             } else if (snapshot.hasError) {
+  //               return Text('Error: ${snapshot.error}');
+  //             } else {
+  //               final songs = snapshot.data!;
+  //               if (count <= songs.length && currentSong == null){
+  //                 currentSong = songs[count];
+  //                 playAudio(currentSong!.getSongPreviewUrl()!);
+  //                 print(count);
+  //               }
+  //               return formatBody();
+  //             }
+  //           },
+  //         ),
+  //       ),
+  //     );
+  //   } else {
+  //     return formatBody();
+  //   }
+  // }
 
   Widget buildBody() {
     if (currentSong == null) {
@@ -210,5 +247,83 @@ class _TinderPageState extends State<TinderPage> {
       icon: Icon(icon),
       label: Text(label),
     );
+  }
+
+  void doNothing(BuildContext context) {}
+
+  Widget buildSlidable(BuildContext context){
+    return Slidable(
+            // Specify a key if the Slidable is dismissible.
+            key: UniqueKey(),
+
+              // The start action pane is the one at the left or the top side.
+              startActionPane: ActionPane( 
+                // A motion is a widget used to control how the pane animates.
+                motion: const ScrollMotion(),
+
+                // A pane can dismiss the Slidable.
+                dismissible: DismissiblePane(onDismissed: () {nextSong(false);}),
+
+                // All actions are defined in the children parameter.
+                children: [
+                  // A SlidableAction can have an icon and/or a label.
+                  SlidableAction(
+                    onPressed: doNothing,
+                    backgroundColor: Color.fromARGB(255, 83, 61, 61),
+                    foregroundColor: Colors.white,
+                    icon: Icons.delete,
+                    label: 'Skip',
+                  ),
+                ],
+              ),
+
+              // The end action pane is the one at the right or the bottom side.
+              endActionPane:  ActionPane(
+                motion: const ScrollMotion(),
+                dismissible: DismissiblePane(onDismissed: () {nextSong(true);}),
+                children: [
+                  SlidableAction(
+                    // An action can be bigger than the others.
+                    flex: 2,
+                    onPressed: doNothing,
+                    backgroundColor: const Color(0xFF7BC043),
+                    foregroundColor: Colors.white,
+                    icon: Icons.archive,
+                    label: 'Add',
+                  ),
+                ],
+              ),
+
+              // The child of the Slidable is what the user sees when the
+              // component is not dragged.
+              child: buildBody(),
+            );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: MEDIUM_PURPLE,
+      appBar: AppBar(
+        backgroundColor: DARK_PURPLE,
+        foregroundColor: WHITE,
+        title: const Text("Add songs to your playlist!"),
+      ),
+      body: Center(
+        child: buildSlidable(context)
+      ),
+      persistentFooterButtons: [
+        buildFooterButton(Icons.thumb_down, "Skip", () => nextSong(false)),
+        buildFooterButton(Icons.thumb_up, "Add", () => nextSong(true)),
+        buildFooterButton(Icons.check_circle, "Done", () {
+          player.stop();
+          Navigator.of(context).push(
+            SwipeablePageRoute(
+              builder: (context) => PlaylistPage(pickedSongs: widget.playlistSongs),
+            ),
+          );
+        }),
+      ],
+      );
   }
 }

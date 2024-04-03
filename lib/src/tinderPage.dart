@@ -204,17 +204,17 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
         motion: const ScrollMotion(),
 
         // A pane can dismiss the Slidable.
-        dismissible: DismissiblePane(onDismissed: () {nextSong(false);}),
+        dismissible: DismissiblePane(onDismissed: () {nextSong(true);}),
 
         // All actions are defined in the children parameter.
         children: [
           // A SlidableAction can have an icon and/or a label.
           SlidableAction(
             onPressed: doNothing,
-            backgroundColor: RED,
+            backgroundColor: GREEN,
             foregroundColor: WHITE,
-            icon: Icons.delete,
-            label: 'Skip',
+            icon: Icons.archive,
+            label: 'Add',
           ),
         ],
       ),
@@ -222,14 +222,14 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
       // The end action pane is the one at the right or the bottom side.
       endActionPane:  ActionPane(
         motion: const ScrollMotion(),
-        dismissible: DismissiblePane(onDismissed: () {nextSong(true);}),
+        dismissible: DismissiblePane(onDismissed: () {nextSong(false);}),
         children: [
           SlidableAction(
             onPressed: doNothing,
-            backgroundColor: GREEN,
+            backgroundColor: RED,
             foregroundColor: WHITE,
-            icon: Icons.archive,
-            label: 'Add',
+            icon: Icons.delete,
+            label: 'Skip',
           ),
         ],
       ),

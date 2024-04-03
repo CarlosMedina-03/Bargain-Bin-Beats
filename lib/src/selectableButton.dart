@@ -43,7 +43,6 @@ class _SelectableButtonState extends State<SelectableButton> {
       style: widget.style,
       onPressed: widget.onPressed,
       child: widget.child,
-      
     );
   }
 }

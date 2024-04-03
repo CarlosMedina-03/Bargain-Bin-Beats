@@ -21,31 +21,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
   // List<playList> playListList = [];
   // void addplayList(playList n){ playListList.add(n);}
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: MEDIUM_PURPLE,
-      appBar: AppBar(
-        title: const Text("My Playlist"),
-        backgroundColor: DARK_PURPLE,
-        foregroundColor: WHITE,
-      ),
-      body: displaySongs(),
-      persistentFooterButtons: [
-        buildFooterButton(Icons.arrow_upward, "Export", () {
-          print("Export button pressed");
-        }),
-        buildFooterButton(Icons.save, "Save", () {
-          print("Save button pressed");
-        }),
-        buildFooterButton(Icons.home, "Home", () {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => HomePage()),
-            );
-        }),
-      ]
-    );
-  }
+  
 
   String buildListOfSongs(List<Song> songList) {
     String res = '';
@@ -83,6 +59,32 @@ class _PlaylistPageState extends State<PlaylistPage> {
       ),
       icon: Icon(icon),
       label: Text(label),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: MEDIUM_PURPLE,
+      appBar: AppBar(
+        title: const Text("My Playlist"),
+        backgroundColor: DARK_PURPLE,
+        foregroundColor: WHITE,
+      ),
+      body: displaySongs(),
+      persistentFooterButtons: [
+        buildFooterButton(Icons.arrow_upward, "Export", () {
+          print("Export button pressed");
+        }),
+        buildFooterButton(Icons.save, "Save", () {
+          print("Save button pressed");
+        }),
+        buildFooterButton(Icons.home, "Home", () {
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => HomePage()),
+            );
+        }),
+      ]
     );
   }
 

@@ -123,7 +123,8 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [buildImageSection(),
+          children: [
+            buildImageSection(),
             SizedBox(height: MediaQuery.of(context).size.height * 0.03), // Add some space between image and card
             buildCard(),
           ]
@@ -261,6 +262,6 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
           );
         }),
       ],
-      );
+    );
   }  
 }

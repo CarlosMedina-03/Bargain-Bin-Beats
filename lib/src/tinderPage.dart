@@ -1,4 +1,4 @@
-import 'dart:html' as prefix;
+// import 'dart:html' as prefix;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/ColorOptions.dart';
@@ -124,8 +124,8 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [buildImageSection(),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.03), // Add some space between image and card
-          buildCard(),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.03), // Add some space between image and card
+            buildCard(),
           ]
         )
       )
@@ -136,26 +136,24 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     if (currentSong == null) {
       // This handles the initial state where _fetchDataFuture is still fetching data
       return Center(
-        child: Expanded(
-          child: FutureBuilder<List<Song>>(
-            future: fetchDataFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator(color: WHITE);
-              } else if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else {
-                final songs = snapshot.data!;
-                if (count <= songs.length && currentSong == null){
-                  currentSong = songs[count];
-                  playAudio(currentSong!.getSongPreviewUrl()!);
-                  print(count);
-                }
-                return formatBody();
+        child: FutureBuilder<List<Song>>(
+          future: fetchDataFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator(color: WHITE);
+            } else if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else {
+              final songs = snapshot.data!;
+              if (count <= songs.length && currentSong == null){
+                currentSong = songs[count];
+                playAudio(currentSong!.getSongPreviewUrl()!);
+                print(count);
               }
-            },
-          ),
-        )
+              return formatBody();
+            }
+          },
+        ),
       );
     } else {
       return formatBody();
@@ -197,49 +195,48 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
 
   Widget buildSlidable(BuildContext context){
     return Slidable(
-            // Specify a key if the Slidable is dismissible.
-            key: UniqueKey(),
+      // Specify a key if the Slidable is dismissible.
+      key: UniqueKey(),
 
-              // The start action pane is the one at the left or the top side.
-              startActionPane: ActionPane( 
-                // A motion is a widget used to control how the pane animates.
-                motion: const ScrollMotion(),
+      // The start action pane is the one at the left or the top side.
+      startActionPane: ActionPane( 
+        // A motion is a widget used to control how the pane animates.
+        motion: const ScrollMotion(),
 
-                // A pane can dismiss the Slidable.
-                dismissible: DismissiblePane(onDismissed: () {nextSong(false);}),
+        // A pane can dismiss the Slidable.
+        dismissible: DismissiblePane(onDismissed: () {nextSong(false);}),
 
-                // All actions are defined in the children parameter.
-                children: [
-                  // A SlidableAction can have an icon and/or a label.
-                  SlidableAction(
-                    onPressed: doNothing,
-                    backgroundColor: Color.fromARGB(255, 83, 61, 61),
-                    foregroundColor: Colors.white,
-                    icon: Icons.delete,
-                    label: 'Skip',
-                  ),
-                ],
-              ),
+        // All actions are defined in the children parameter.
+        children: [
+          // A SlidableAction can have an icon and/or a label.
+          SlidableAction(
+            onPressed: doNothing,
+            backgroundColor: RED,
+            foregroundColor: WHITE,
+            icon: Icons.delete,
+            label: 'Skip',
+          ),
+        ],
+      ),
 
-              // The end action pane is the one at the right or the bottom side.
-              endActionPane:  ActionPane(
-                motion: const ScrollMotion(),
-                dismissible: DismissiblePane(onDismissed: () {nextSong(true);}),
-                children: [
-                  SlidableAction(
-                    onPressed: doNothing,
-                    backgroundColor: const Color(0xFF7BC043),
-                    foregroundColor: Colors.white,
-                    icon: Icons.archive,
-                    label: 'Add',
-                  ),
-                ],
-              ),
+      // The end action pane is the one at the right or the bottom side.
+      endActionPane:  ActionPane(
+        motion: const ScrollMotion(),
+        dismissible: DismissiblePane(onDismissed: () {nextSong(true);}),
+        children: [
+          SlidableAction(
+            onPressed: doNothing,
+            backgroundColor: GREEN,
+            foregroundColor: WHITE,
+            icon: Icons.archive,
+            label: 'Add',
+          ),
+        ],
+      ),
 
-              // The child of the Slidable is what the user sees when the
-              // component is not dragged.
-              child: buildBody(),
-            );
+      // The child of the Slidable is what the user sees when the component is not dragged.
+      child: buildBody(),
+    );
   }
 
   @override

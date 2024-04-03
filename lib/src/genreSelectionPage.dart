@@ -41,43 +41,6 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: MEDIUM_PURPLE,
-      appBar: AppBar(
-        title: const Text("Select 1-3 genres:"),
-        backgroundColor: DARK_PURPLE,
-        foregroundColor: WHITE,
-      ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            children: generateButtons(),
-          ),
-        ),
-      ),
-      persistentFooterButtons: [
-        TextButton(
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
-            foregroundColor: MaterialStateProperty.all<Color>(WHITE),
-          ),
-          child: const Text("Next"),
-          onPressed: () {
-            if (selectedGenres.isNotEmpty && selectedGenres.length <= 3) {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => TinderPage(playlistSongs: [], genres: selectedGenres,)),
-              );
-            }
-            print(selectedGenres);
-          },
-          
-        )
-      ],
-    );
-  }
-
   List<Widget> generateButtons() {
     return List.generate((genres.length / 2).ceil(), (index) {
       final int firstGenreIndex = index * 2;
@@ -151,6 +114,42 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
         genreState[index] = !genreState[index];
       });
     }
-    
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: MEDIUM_PURPLE,
+      appBar: AppBar(
+        title: const Text("Select 1-3 genres:"),
+        backgroundColor: DARK_PURPLE,
+        foregroundColor: WHITE,
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            children: generateButtons(),
+          ),
+        ),
+      ),
+      persistentFooterButtons: [
+        TextButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
+            foregroundColor: MaterialStateProperty.all<Color>(WHITE),
+          ),
+          child: const Text("Next"),
+          onPressed: () {
+            if (selectedGenres.isNotEmpty && selectedGenres.length <= 3) {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => TinderPage(playlistSongs: [], genres: selectedGenres,)),
+              );
+            }
+            print(selectedGenres);
+          },
+          
+        )
+      ],
+    );
   }
 }

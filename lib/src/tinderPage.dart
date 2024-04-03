@@ -98,32 +98,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     await player.play(UrlSource(url));
   }
   // Original build method
-  //  @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     backgroundColor: MEDIUM_PURPLE,
-  //     appBar: AppBar(
-  //       backgroundColor: DARK_PURPLE,
-  //       foregroundColor: WHITE,
-  //       title: const Text("Add songs to your playlist!"),
-  //     ),
-  //     body: Center(
-  //       child: buildBody(),
-  //     ),
-  //     persistentFooterButtons: [
-  //       buildFooterButton(Icons.thumb_down, "Skip", () => nextSong(false)),
-  //       buildFooterButton(Icons.thumb_up, "Add", () => nextSong(true)),
-  //       buildFooterButton(Icons.check_circle, "Done", () {
-  //         player.stop();
-  //         Navigator.of(context).push(
-  //           SwipeablePageRoute(
-  //             builder: (context) => PlaylistPage(pickedSongs: widget.playlistSongs),
-  //           ),
-  //         );
-  //       }),
-  //     ],
-  //   );
-  // }
+
 
   Widget buildImageSection() {
     if (currentSong?.imageUrl != null) {
@@ -144,49 +119,18 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   }
 
   Widget formatBody() {
-    return SingleChildScrollView(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        buildImageSection(),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.03), // Add some space between image and card
-        buildCard(),
-      ]
-    )
+    return Center(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [buildImageSection(),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.03), // Add some space between image and card
+          buildCard(),
+          ]
+        )
+      )
     );
   }
-
-
-  //Original widget
-  //   Widget buildBody() {
-  //   if (currentSong == null) {
-  //     // This handles the initial state where _fetchDataFuture is still fetching data
-  //     return Center(
-  //       child: Expanded(
-  //         child: FutureBuilder<List<Song>>(
-  //           future: fetchDataFuture,
-  //           builder: (context, snapshot) {
-  //             if (snapshot.connectionState == ConnectionState.waiting) {
-  //               return const CircularProgressIndicator(color: WHITE);
-  //             } else if (snapshot.hasError) {
-  //               return Text('Error: ${snapshot.error}');
-  //             } else {
-  //               final songs = snapshot.data!;
-  //               if (count <= songs.length && currentSong == null){
-  //                 currentSong = songs[count];
-  //                 playAudio(currentSong!.getSongPreviewUrl()!);
-  //                 print(count);
-  //               }
-  //               return formatBody();
-  //             }
-  //           },
-  //         ),
-  //       ),
-  //     );
-  //   } else {
-  //     return formatBody();
-  //   }
-  // }
 
   Widget buildBody() {
     if (currentSong == null) {
@@ -211,7 +155,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
               }
             },
           ),
-        ),
+        )
       );
     } else {
       return formatBody();
@@ -283,8 +227,6 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
                 dismissible: DismissiblePane(onDismissed: () {nextSong(true);}),
                 children: [
                   SlidableAction(
-                    // An action can be bigger than the others.
-                    flex: 2,
                     onPressed: doNothing,
                     backgroundColor: const Color(0xFF7BC043),
                     foregroundColor: Colors.white,
@@ -309,9 +251,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
         foregroundColor: WHITE,
         title: const Text("Add songs to your playlist!"),
       ),
-      body: Center(
-        child: buildSlidable(context)
-      ),
+      body: buildSlidable(context),
       persistentFooterButtons: [
         buildFooterButton(Icons.thumb_down, "Skip", () => nextSong(false)),
         buildFooterButton(Icons.thumb_up, "Add", () => nextSong(true)),
@@ -325,5 +265,5 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
         }),
       ],
       );
-  }
+  }  
 }

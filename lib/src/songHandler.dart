@@ -72,9 +72,6 @@ class SongHandler{
         int popularityLevel = track['popularity'];
         Song song = Song("", "", "", "", "");
         if (popularityLevel >-1 && track['preview_url']!= null && track['artists']!=null && track['album']['images'][0]['url']!=null) {
-          List<String> checkPrevUrl = [];
-          if(!checkPrevUrl.contains(track['preview_url'])){
-            checkPrevUrl.add(track['preview_url']);
             song.setTitle(track['name']);
             List<dynamic> artists = track['artists'];
             String artistName = artists.map((artist) => artist['name']).join(', ');
@@ -88,7 +85,6 @@ class SongHandler{
             if (allTracks.length >= numTracksReturned) {
               break;
             }
-          }
         }
       }
       if (allTracks.length < numTracksReturned) {
@@ -138,7 +134,7 @@ void main() async {
   // print(myTracks);
   
   // while(true) {
-  List<String> genres = ["indie", "folk"];
+  List<String> genres = ["indie"];
   final List<dynamic> m = await handle.getSongQueue(genres, accessToken);
   List<String>checkList = [];
   m.forEach((element) { 
@@ -147,7 +143,8 @@ void main() async {
     }
     checkList.add(element.getSongPreviewUrl());
   });
-  print(checkList);
+  print("no duplicate");
+  // print(checkList);
   // print(tracks);
   // print(tracks.length);
   // // List<dynamic>  m =await handle.getTrackInfo(tracks);

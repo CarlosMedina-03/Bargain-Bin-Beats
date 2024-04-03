@@ -29,10 +29,6 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
     this.onTap,
   });
 
-  void handleButtonPress(String buttonText) {
-    print("Button pressed: $buttonText");
-  }
-
   @override
   void initState() {
     super.initState();
@@ -116,6 +112,24 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
     }
   }
 
+  Widget createFooterButton(){
+    return TextButton(
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
+        foregroundColor: MaterialStateProperty.all<Color>(WHITE),
+      ),
+      child: const Text("Next"),
+      onPressed: () {
+        if (selectedGenres.isNotEmpty && selectedGenres.length <= 3) {
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => TinderPage(playlistSongs: [], genres: selectedGenres,)),
+          );
+        }
+        print(selectedGenres);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,24 +146,7 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
           ),
         ),
       ),
-      persistentFooterButtons: [
-        TextButton(
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
-            foregroundColor: MaterialStateProperty.all<Color>(WHITE),
-          ),
-          child: const Text("Next"),
-          onPressed: () {
-            if (selectedGenres.isNotEmpty && selectedGenres.length <= 3) {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => TinderPage(playlistSongs: [], genres: selectedGenres,)),
-              );
-            }
-            print(selectedGenres);
-          },
-          
-        )
-      ],
+      persistentFooterButtons: [createFooterButton()],
     );
   }
 }

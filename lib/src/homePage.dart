@@ -7,18 +7,6 @@ import 'package:swipeable_page_route/swipeable_page_route.dart';
 class HomePage extends StatelessWidget {
   bool startIsPressed = false;
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        backgroundColor: MEDIUM_PURPLE,
-        body: Center(
-          child: buildContent(context),
-        ),
-      ),
-    );
-  }
-
   Widget buildContent(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -71,6 +59,18 @@ class HomePage extends StatelessWidget {
       ),
       onPressed: onPressed,
       child: Text(label, style: const TextStyle(fontSize: 18)),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        backgroundColor: MEDIUM_PURPLE,
+        body: Center(
+          child: buildContent(context),
+        ),
+      ),
     );
   }
 }

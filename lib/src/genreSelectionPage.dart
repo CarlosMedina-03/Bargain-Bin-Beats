@@ -3,6 +3,7 @@ import 'package:flutter_application_1/src/ColorOptions.dart';
 import 'package:flutter_application_1/src/SelectableButton.dart';
 import 'package:flutter_application_1/src/tinderPage.dart';
 
+// This class creates the page as a concept, and gives it a state.
 class genreSelectionPage extends StatefulWidget {
   final VoidCallback? onTap;
 
@@ -13,22 +14,27 @@ class genreSelectionPage extends StatefulWidget {
   State<genreSelectionPage> createState() => _genreSelectionPageState();
 }
 
+// This is the actual creation of the genre selection page. All of the functions are in here, 
+// including initState(), generateButtons(), buildGenreRow(), buildGenreButton(), 
+// handleGenreButtonPress(), createFooterButton(), and build(). Pressing Starts on the home page
+// takes you to this page and the Next button on this page takes the user to the tinder page.
 class _genreSelectionPageState extends State<genreSelectionPage> {
   VoidCallback? onTap;
   bool selected = false;
-  List<String> genres = [
+  List<String> genres = [ // This is the genre list! Genres here must be in a format accepted by Spotify.
     "Pop", "Rock", "Jazz", "Hip-Hop", "Classical",
     "Country", "Rap", "R-N-B", "Reggae", "Blues",
     "Folk", "Metal", "Punk", "Alternative", "Indie",
     "Latin", "Gospel", "Funk", "Soul", "Disco"
   ];
-  List<bool> genreState = [];
+  List <bool> genreState = [];
   List <String> selectedGenres = [];
 
   _genreSelectionPageState({
     this.onTap,
   });
 
+  // This creates the state. This is necessary for making the buttons pressable and have a visible toggle. 
   @override
   void initState() {
     super.initState();
@@ -37,6 +43,8 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
     }
   }
 
+  // This method takes in the list of genres and creates the appropriate number of 
+  // buttons using the buildGenreRow method and seperates them out into the two columns.
   List<Widget> generateButtons() {
     return List.generate((genres.length / 2).ceil(), (index) {
       final int firstGenreIndex = index * 2;
@@ -45,6 +53,7 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
     });
   }
 
+  // 
   Widget buildGenreRow(int firstIndex, int secondIndex) {
     return Row(
       children: [
@@ -86,6 +95,12 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
             return DARK_PURPLE;
           },
         ),
+        side: MaterialStateProperty.resolveWith<BorderSide>(
+        (Set<MaterialState> states) {
+          // Customize the border here
+          return BorderSide(color: DARK_PURPLE, width: 2.0); // Dark purple border
+        },
+      ),
       ),
       onPressed: () {
         handleGenreButtonPress(index);
@@ -133,7 +148,7 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MEDIUM_PURPLE,
+      backgroundColor: PALE_PURPLE,
       appBar: AppBar(
         title: const Text("Select 1-3 genres:"),
         backgroundColor: DARK_PURPLE,

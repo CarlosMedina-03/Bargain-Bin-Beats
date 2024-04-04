@@ -141,7 +141,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
           future: fetchDataFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator(color: WHITE);
+              return const CircularProgressIndicator(color: DARK_PURPLE);
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else {
@@ -243,7 +243,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MEDIUM_PURPLE,
+      backgroundColor: PALE_PURPLE,
       appBar: AppBar(
         backgroundColor: DARK_PURPLE,
         foregroundColor: WHITE,
@@ -251,8 +251,8 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
       ),
       body: buildSlidable(context),
       persistentFooterButtons: [
-        buildFooterButton(Icons.thumb_down, "Skip", () => nextSong(false)),
         buildFooterButton(Icons.thumb_up, "Add", () => nextSong(true)),
+        buildFooterButton(Icons.thumb_down, "Skip", () => nextSong(false)),
         buildFooterButton(Icons.check_circle, "Done", () {
           player.stop();
           Navigator.of(context).push(

@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
   Widget buildWelcomeText() {
     return const Text(
       'Welcome to\nSong Tinder',
-      style: TextStyle(fontSize: 26, color: WHITE),
+      style: TextStyle(fontSize: 26, color: DARK_PURPLE),
       textAlign: TextAlign.center,
     );
   }
@@ -66,7 +66,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: MEDIUM_PURPLE,
+        backgroundColor: PALE_PURPLE,
         body: Center(
           child: buildContent(context),
         ),

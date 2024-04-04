@@ -43,7 +43,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
           padding: EdgeInsets.only(left: paddingValue, right: paddingValue),
           child: Text(
             buildListOfSongs(widget.getPickedSongs()),
-            style: const TextStyle(fontSize: 24, color: WHITE),
+            style: const TextStyle(fontSize: 24, color: DARK_PURPLE),
           ),
         ),
       ),
@@ -65,7 +65,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MEDIUM_PURPLE,
+      backgroundColor: PALE_PURPLE,
       appBar: AppBar(
         title: const Text("My Playlist"),
         backgroundColor: DARK_PURPLE,

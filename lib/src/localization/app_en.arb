@@ -1,6 +1,6 @@
 {
-  "appTitle": "flutter_application_1",
+  "appTitle": "Spotify-Tinder",
   "@appTitle": {
-    "description": "The title of the application"
+    "description": "An app that uses the Spotify to allow users to discover new music in genres of their choice"
   }
 }

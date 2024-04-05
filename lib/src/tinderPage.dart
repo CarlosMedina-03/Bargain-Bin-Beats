@@ -201,29 +201,38 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
 
       // The start action pane is the one at the left or the top side.
       startActionPane: ActionPane( 
+        extentRatio: 0.01,
         // A motion is a widget used to control how the pane animates.
         motion: const ScrollMotion(),
 
         // A pane can dismiss the Slidable.
-        dismissible: DismissiblePane(onDismissed: () {nextSong(true);}),
+        dismissible: DismissiblePane(
+          onDismissed: () {nextSong(true);},
+          dismissThreshold: .01),
+          //dismissThreshold: .01),
 
         // All actions are defined in the children parameter.
+        openThreshold: .1,
+        //closeThreshold: .9,
         children: [
           // A SlidableAction can have an icon and/or a label.
-          SlidableAction(
-            onPressed: doNothing,
-            backgroundColor: GREEN,
-            foregroundColor: WHITE,
-            icon: Icons.archive,
-            label: 'Add',
-          ),
+          // SlidableAction(
+          //   onPressed: doNothing,
+          //   backgroundColor: GREEN,
+          //   foregroundColor: WHITE,
+          //   icon: Icons.archive,
+          //   label: 'Add',
+          // ),
         ],
       ),
 
       // The end action pane is the one at the right or the bottom side.
       endActionPane:  ActionPane(
+        extentRatio: .25,
+
         motion: const ScrollMotion(),
-        dismissible: DismissiblePane(onDismissed: () {nextSong(false);}),
+        dismissible: DismissiblePane(onDismissed: () {nextSong(false);},
+          dismissThreshold: .01),
         children: [
           SlidableAction(
             onPressed: doNothing,

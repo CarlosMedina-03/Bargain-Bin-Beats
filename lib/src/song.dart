@@ -53,6 +53,16 @@ class Song {
     return trackID;
   } 
 
+  Map<String, dynamic> toJson(){
+  return {
+    "title": this.title,
+    "artist": this.artist,
+    "prevUrl": this.prevUrl,
+    "imageUrl": this.imageUrl,
+    "trackID": this.trackID
+  };
+}
+
     @override
   bool operator ==(Object other) {
    if (other is Song) {

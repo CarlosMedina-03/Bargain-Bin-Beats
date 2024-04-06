@@ -41,7 +41,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   void dispose() {
     player.dispose();
     super.dispose();
-  }
+  }     
 
   Future<List<Song>> fetchData() async {
     final songHandler = SongHandler();

@@ -1,14 +1,19 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/ColorOptions.dart';
 import 'package:flutter_application_1/src/homePage.dart';
 import 'package:flutter_application_1/src/song.dart';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+
 
 class PlaylistPage extends StatefulWidget {
   final List<Song> pickedSongs;
 
   PlaylistPage( {required this.pickedSongs, Key? key}) : super(key: key);
 
-  List<Song> getPickedSongs (){
+ List<Song> getPickedSongs (){
     return pickedSongs;
   }
 
@@ -62,6 +67,34 @@ class _PlaylistPageState extends State<PlaylistPage> {
     );
   }
 
+//gets the localPath for file storage
+Future<String> get _localPath async {
+      final directory = await getApplicationDocumentsDirectory();
+      return directory.path;
+    }
+
+//gets the file path
+Future<File> get _localFile async {
+      final path = await _localPath;
+      return File('$path/counter.txt');
+    }
+
+//writes the playlist to a file
+Future<File> writePlaylist(List<Song> playlist) async {
+      final file = await _localFile;
+    
+      // Write the file
+      return file.writeAsString(jsonEncode(playlist));
+    }
+
+//reads the playlist back from a file
+Future<List<dynamic>> readPlaylist() async {
+        final file = await _localFile;
+        // Read the file
+        final contents = await file.readAsString();
+        return json.decode(contents);
+    }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,10 +107,14 @@ class _PlaylistPageState extends State<PlaylistPage> {
       body: displaySongs(),
       persistentFooterButtons: [
         buildFooterButton(Icons.arrow_upward, "Export", () {
-          print("Export button pressed");
+          List<dynamic> temp =  readPlaylist() as List;
+          for (var object in temp) {
+            print(object);
+          }
         }),
         buildFooterButton(Icons.save, "Save", () {
-          print("Save button pressed");
+          writePlaylist(widget.getPickedSongs());
+          print("Playlist saved!");
         }),
         buildFooterButton(Icons.home, "Home", () {
           Navigator.of(context).push(

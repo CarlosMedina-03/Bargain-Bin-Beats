@@ -4,17 +4,23 @@ class Song {
   String? prevUrl; //please do not fetch the url of a song not intialized through Song.fetch
   String? imageUrl;
   String? trackID;
+  String? spotifyUrl;
 
   Song(
     String this.title, 
     String this.artist, 
     String this.prevUrl, 
     String this.imageUrl,
-    String this.trackID
+    String this.trackID,
+    String this.spotifyUrl
   );
 
   void setPreviewUrl(String? previewUrl) {
     prevUrl= previewUrl;
+  }
+
+  void setSpotifyUrl(String? spotifyURL) {
+    spotifyUrl= spotifyURL;
   }
 
   void setTitle(String? songTitle) {
@@ -35,6 +41,10 @@ class Song {
 
   String? getSongPreviewUrl(){
     return prevUrl;
+  }
+
+  String? getSpotifyUrl(){
+    return spotifyUrl;
   }
 
   String? getSongArtist(){
@@ -59,20 +69,21 @@ class Song {
     "artist": this.artist,
     "prevUrl": this.prevUrl,
     "imageUrl": this.imageUrl,
-    "trackID": this.trackID
+    "trackID": this.trackID,
+    "spotify": this.spotifyUrl
   };
 }
 
     @override
   bool operator ==(Object other) {
-   if (other is Song) {
-   return other.getSongPreviewUrl() == prevUrl &&
-    other.getSongTitle() == title &&
-    other.getSongArtist() == artist;
-   }
-   else {
-    return false;
-   }
+    if (other is Song) {
+      return other.getSongPreviewUrl() == prevUrl &&
+      other.getSongTitle() == title &&
+      other.getSongArtist() == artist;
+    }
+    else {
+      return false;
+    }
   }
 }
 

@@ -91,7 +91,7 @@ Future<File> writePlaylist(List<Song> playlist, String playlistName) async {
       return file.writeAsString(jsonEncode(playlist));
     }
 
-//reads the playlist back from a file
+//reads the playlist back from a file as a List<Dynamic>
 Future<List<dynamic>> readPlaylist(String name) async {
         final path = await _localPath;
         final file = File('$path/$name.txt');
@@ -100,6 +100,7 @@ Future<List<dynamic>> readPlaylist(String name) async {
         return json.decode(contents);
     }
   
+  //saves a list of all the playlists the user has made so far
   Future<File> writePlaylistList() async {
     final path = await _localPath;
     final file = File('$path/My_Playlists.txt');
@@ -107,6 +108,7 @@ Future<List<dynamic>> readPlaylist(String name) async {
     return file.writeAsString(json.encode(playlistNames));
   }
 
+  //returns a list of strings containing the names of all the playlists the user has made so far
   Future<List<String>> readPlaylistList() async {
     final path = await _localPath;
     final file = File('$path/My_Playlists.txt');

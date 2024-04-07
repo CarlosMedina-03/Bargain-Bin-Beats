@@ -70,18 +70,21 @@ class _PlaylistPageState extends State<PlaylistPage> {
 //gets the localPath for file storage
 Future<String> get _localPath async {
       final directory = await getApplicationDocumentsDirectory();
+      print(directory);
       return directory.path;
     }
 
 //gets the file path
 Future<File> get _localFile async {
       final path = await _localPath;
-      return File('$path/counter.txt');
+      return File('$path/playlist.txt');
     }
 
 //writes the playlist to a file
-Future<File> writePlaylist(List<Song> playlist) async {
-      final file = await _localFile;
+Future<File> writePlaylist(List<Song> playlist, String playlistName) async {
+      // final file = await _localFile;
+      final path = await _localPath;
+      final file = File('$path/$playlistName');
     
       // Write the file
       return file.writeAsString(jsonEncode(playlist));
@@ -113,7 +116,8 @@ Future<List<dynamic>> readPlaylist() async {
           }
         }),
         buildFooterButton(Icons.save, "Save", () {
-          writePlaylist(widget.getPickedSongs());
+          String playlistName = "temporaryPlaylistName";
+          writePlaylist(widget.getPickedSongs(), playlistName);
           print("Playlist saved!");
         }),
         buildFooterButton(Icons.home, "Home", () {

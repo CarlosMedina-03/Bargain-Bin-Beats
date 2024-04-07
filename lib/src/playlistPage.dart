@@ -25,6 +25,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
   late double paddingValue;
   // List<playList> playListList = [];
   // void addplayList(playList n){ playListList.add(n);}
+  List<String> playlistNames = [];
 
   
 
@@ -84,7 +85,7 @@ Future<File> get _localFile async {
 Future<File> writePlaylist(List<Song> playlist, String playlistName) async {
       // final file = await _localFile;
       final path = await _localPath;
-      final file = File('$path/$playlistName');
+      final file = File('$path/$playlistName.txt');
     
       // Write the file
       return file.writeAsString(jsonEncode(playlist));
@@ -97,6 +98,13 @@ Future<List<dynamic>> readPlaylist() async {
         final contents = await file.readAsString();
         return json.decode(contents);
     }
+  
+  Future<File> writePlaylistList() async {
+    final path = await _localPath;
+    final file = File('$path/My_Playlists.txt');
+
+    return file.writeAsString(json.encode(playlistNames));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,6 +125,8 @@ Future<List<dynamic>> readPlaylist() async {
         }),
         buildFooterButton(Icons.save, "Save", () {
           String playlistName = "temporaryPlaylistName";
+          playlistNames.add(playlistName);
+          writePlaylistList();
           writePlaylist(widget.getPickedSongs(), playlistName);
           print("Playlist saved!");
         }),

@@ -92,8 +92,9 @@ Future<File> writePlaylist(List<Song> playlist, String playlistName) async {
     }
 
 //reads the playlist back from a file
-Future<List<dynamic>> readPlaylist() async {
-        final file = await _localFile;
+Future<List<dynamic>> readPlaylist(String name) async {
+        final path = await _localPath;
+        final file = File('$path/$name.txt');
         // Read the file
         final contents = await file.readAsString();
         return json.decode(contents);
@@ -105,6 +106,16 @@ Future<List<dynamic>> readPlaylist() async {
 
     return file.writeAsString(json.encode(playlistNames));
   }
+
+  Future<List<String>> readPlaylistList() async {
+    final path = await _localPath;
+    final file = File('$path/My_Playlists.txt');
+
+    final contents = await file.readAsString();
+    return json.decode(contents); 
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -118,10 +129,10 @@ Future<List<dynamic>> readPlaylist() async {
       body: displaySongs(),
       persistentFooterButtons: [
         buildFooterButton(Icons.arrow_upward, "Export", () {
-          List<dynamic> temp =  readPlaylist() as List;
-          for (var object in temp) {
-            print(object);
-          }
+          // List<dynamic> temp =  readPlaylist() as List;
+          // for (var object in temp) {
+          //   print(object);
+          // }
         }),
         buildFooterButton(Icons.save, "Save", () {
           String playlistName = "temporaryPlaylistName";

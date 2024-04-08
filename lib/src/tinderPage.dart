@@ -58,7 +58,8 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
           track.getSongArtist(),
           track.getSongPreviewUrl(),
           track.getImageUrl(),
-          track.getTrackID()
+          track.getTrackID(),
+          track.getSpotifyUrl()
         ),
       );
     }
@@ -216,13 +217,13 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
         //closeThreshold: .9,
         children: [
           // A SlidableAction can have an icon and/or a label.
-          // SlidableAction(
-          //   onPressed: doNothing,
-          //   backgroundColor: GREEN,
-          //   foregroundColor: WHITE,
-          //   icon: Icons.archive,
-          //   label: 'Add',
-          // ),
+          SlidableAction(
+            onPressed: doNothing,
+            backgroundColor: GREEN,
+            foregroundColor: WHITE,
+            icon: Icons.archive,
+            label: 'Add',
+          ),
         ],
       ),
 

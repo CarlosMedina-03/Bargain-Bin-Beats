@@ -130,7 +130,7 @@ Future<List<dynamic>> readPlaylist(String name) async {
       ),
       body: displaySongs(),
       persistentFooterButtons: [
-        buildFooterButton(Icons.arrow_upward, "Export", () {
+        buildFooterButton(Icons.cloud_upload, "Export", () {
           // List<dynamic> temp =  readPlaylist() as List;
           // for (var object in temp) {
           //   print(object);
@@ -143,6 +143,10 @@ Future<List<dynamic>> readPlaylist(String name) async {
           writePlaylist(widget.getPickedSongs(), playlistName);
           print("Playlist saved!");
         }),
+        buildFooterButton(Icons.arrow_upward, "Load", () {
+          print("hello load");
+        }),
+
         buildFooterButton(Icons.home, "Home", () {
           Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => HomePage()),

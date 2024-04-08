@@ -143,7 +143,7 @@ Future<List<dynamic>> readPlaylist(String name) async {
           writePlaylist(widget.getPickedSongs(), playlistName);
           print("Playlist saved!");
         }),
-        buildFooterButton(Icons.arrow_upward, "Load", () {
+        buildFooterButton(Icons.drive_folder_upload_rounded, "Load", () {
           print("hello load");
         }),
 

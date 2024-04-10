@@ -4,7 +4,7 @@ class Song {
   String? prevUrl; //please do not fetch the url of a song not intialized through Song.fetch
   String? imageUrl;
   String? trackID;
-  String? spotifyUrl;
+  String? spotifyUri;
 
   Song(
     String this.title, 
@@ -12,15 +12,15 @@ class Song {
     String this.prevUrl, 
     String this.imageUrl,
     String this.trackID,
-    String this.spotifyUrl
+    String this.spotifyUri
   );
 
   void setPreviewUrl(String? previewUrl) {
     prevUrl= previewUrl;
   }
 
-  void setSpotifyUrl(String? spotifyURL) {
-    spotifyUrl= spotifyURL;
+  void setSongUri(String? spotifyUri) {
+    spotifyUri= spotifyUri;
   }
 
   void setTitle(String? songTitle) {
@@ -43,8 +43,12 @@ class Song {
     return prevUrl;
   }
 
-  String? getSpotifyUrl(){
-    return spotifyUrl;
+  String? getSongUri(){
+    String? trackId = getTrackID();
+    if (trackId != null) {
+      return "spotify:track:$trackId";
+  }
+    return null;
   }
 
   String? getSongArtist(){
@@ -70,7 +74,7 @@ class Song {
     "prevUrl": this.prevUrl,
     "imageUrl": this.imageUrl,
     "trackID": this.trackID,
-    "spotify": this.spotifyUrl
+    "spotify": this.spotifyUri
   };
 }
 

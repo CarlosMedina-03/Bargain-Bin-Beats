@@ -2,32 +2,40 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/ColorOptions.dart';
+import 'package:flutter_application_1/src/ExportPage.dart';
 import 'package:flutter_application_1/src/homePage.dart';
 import 'package:flutter_application_1/src/song.dart';
+import 'package:flutter_application_1/src/songHandler.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'package:http/http.dart' as http;
 
 
+/// This class represents the Playlist page where users can view, export, save, and load their playlists.
 class PlaylistPage extends StatefulWidget {
   final List<Song> pickedSongs;
 
   PlaylistPage( {required this.pickedSongs, Key? key}) : super(key: key);
 
- List<Song> getPickedSongs (){
+  List<Song> getPickedSongs (){
     return pickedSongs;
   }
 
   @override
-  _PlaylistPageState createState() => _PlaylistPageState();
-}
+  PlaylistPageState createState() => PlaylistPageState();
+  }
 
-class _PlaylistPageState extends State<PlaylistPage> {
+/// The state of the PlaylistPage widget.
+class PlaylistPageState extends State<PlaylistPage> {
   late double paddingValue;
+  String? playlistUrl;
+  final songHandler = SongHandler();
   // List<playList> playListList = [];
   // void addplayList(playList n){ playListList.add(n);}
   List<String> playlistNames = [];
 
-  
+
+
 
   String buildListOfSongs(List<Song> songList) {
     String res = '';
@@ -135,6 +143,9 @@ Future<List<dynamic>> readPlaylist(String name) async {
           // for (var object in temp) {
           //   print(object);
           // }
+           Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => ExportPage( songsExport: widget.pickedSongs)),
+            );
         }),
         buildFooterButton(Icons.save, "Save", () {
           String playlistName = "temporaryPlaylistName";

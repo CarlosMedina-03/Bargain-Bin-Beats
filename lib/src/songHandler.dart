@@ -1,14 +1,21 @@
+import 'dart:async';
+
 import 'package:flutter_application_1/src/song.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:math';
+import 'package:url_launcher/url_launcher.dart';
+
 
 class SongHandler{
+  static const String CLIENT_ID = 'da3531944d1f4a7fa2c20b63a46d1d60';
+  static const String CLIENT_SECRET = '01c615f0104e4ce585ed871ae37f4490';
+  
   /**
    * Getter Method for refresh token 
    */
   String getRefreshToken(){
-    return 'AQCml-ILsuS9NXX0oa0u03tVOAP7Jwx5dxDoZKhJEX6aLSoF6NkHzBcvjhtDhmiQ5MUw7iMppEH1eNdAum6ugjW89sz7k0Zdl66Q7s_LkB91fIc5q7P_77AVFqRAiGgw0eU';
+    return 'AQA7cG_FjXyApdq1aYiMpnDfovnxzpogKg4S44xSkWioVS-AsKtGdj4IsjAwk4nVIeA0vesSlhmQJ1QSRNyrf1pNlbdA8lvDfxeTWgcQ1CsCjGJ_ZQhrnDV10C3yRTC3AIw';
   }
 
   Future<String> getAccessToken(String refreshToken) async {
@@ -38,8 +45,11 @@ class SongHandler{
       throw Exception('Failed to refresh token: $e');
     }
   }
-  
-  Future<List<dynamic>> getSongQueue(List<String> genres, String accessToken) async {
+
+
+
+
+  Future<List<dynamic>> getFinalSongs(List<String> genres, String accessToken) async {
     Set<dynamic> songSet = <dynamic>{};
     List<String> checkPrevUrl = [];
     for (String genre in genres) {
@@ -56,7 +66,7 @@ class SongHandler{
     finalFetchedSongs.shuffle(); // randomize the order of the songs
     return finalFetchedSongs;
   }
-  
+
   Future<Set<dynamic>> fetchTracksByPopularity(String genre, String accessToken, int numTracksReturned) async {
     Set<dynamic> allTracks = <dynamic>{};
     List<int> previousOffsets = [];
@@ -79,8 +89,8 @@ class SongHandler{
             song.setPreviewUrl(track['preview_url']);
             song.setImageUrl(track['album']['images'][0]['url']);
             song.setTrackID(track['id']);
-            song.setSpotifyUrl(track['external_urls']['spotify']);
-            print(song.spotifyUrl);
+            song.setSongUri(track['uri']);
+            print(song.getSongUri());
             allTracks.add(song);
             // numTracks++;
             if (allTracks.length >= numTracksReturned) {
@@ -136,7 +146,7 @@ void main() async {
   
   // while(true) {
   List<String> genres = ["indie"];
-  final List<dynamic> m = await handle.getSongQueue(genres, accessToken);
+  final List<dynamic> m = await handle.getFinalSongs(genres, accessToken);
   List<String>checkList = [];
   m.forEach((element) { 
     if(checkList.contains(element.getSongPreviewUrl())){

@@ -50,7 +50,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     for (var genre in widget.genres) {
       lowerCaseGenres.add(genre.toLowerCase());
     }
-    final tracks = await songHandler.getSongQueue(lowerCaseGenres, accessToken);
+    final tracks = await songHandler.getFinalSongs(lowerCaseGenres, accessToken);
     for (var track in tracks) {
       songs.add(
         Song(
@@ -59,7 +59,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
           track.getSongPreviewUrl(),
           track.getImageUrl(),
           track.getTrackID(),
-          track.getSpotifyUrl()
+          track.getSongUri()
         ),
       );
     }

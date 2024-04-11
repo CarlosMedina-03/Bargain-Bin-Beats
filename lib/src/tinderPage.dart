@@ -140,45 +140,71 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     );
   }
   
-@override
 Widget buildAnimation(BuildContext context) {
   Widget myWidget = Container(
     child: const Icon(
-      Icons.double_arrow,
-      color: Colors.pink,
+      Icons.touch_app,
+      color: Color.fromARGB(255, 223, 30, 233),
       size: 30.0),
   );
-
   return myWidget.animate(onPlay:(controller) => controller.repeat(),)
-  .then(delay: 1500.ms)
-  .fadeIn(duration: 1000.ms)
+  .then(delay: 500.ms)
+  .fadeIn(duration: 500.ms)
   .then(delay: 500.ms)
   .shake(hz: 50)
-  .then(delay:1000.ms)
-  .slideX(end: 5, duration: 1000.ms)
-  .then(delay: 1500.ms)
+  .then(delay:500.ms)
+  .slideX(end: 5, duration: 500.ms)
+  .then(delay: 500.ms)
   .slideX(end:-5)
-  .then(delay: 1000.ms)
-  .fadeOut(duration: 1000.ms);
+  .then(delay: 500.ms)
+  .fadeOut(duration: 500.ms);
 }
-
-  Widget formatAnimatedBody() {
-    return Center(
-      child: SingleChildScrollView(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [ 
+Widget buildLeftColumn(BuildContext context){
+  return Center(
+        child: Column(
+          children: [
             buildAnimation(context),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * .85,
-              child: formatBody(),
-            ),
-            Transform.rotate(
-              angle: 180 * math.pi / 180,
-              child: buildAnimation(context)
-            )  
+            const Text('Swipe right to save!',
+              textAlign: TextAlign.center),
           ]
         )
+    );
+}
+
+Widget buildRightColumn(BuildContext context){
+  return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Transform.flip(child: buildAnimation(context),
+              flipX: true),
+            const Text('Swipe left to skip!',
+              textAlign: TextAlign.center),
+          ]
+        )
+    );
+}
+  Widget formatAnimatedBody() {
+    return Center(
+      child: Stack(
+      alignment:  AlignmentDirectional.center,
+        children:[ 
+            formatBody(),
+            Positioned(
+              left: 5,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * .1,
+                child: buildLeftColumn(context)
+              )
+            ),
+            Positioned(
+              right: 0,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * .1,
+                child: buildRightColumn(context),
+              )
+            )
+          ]
       )
     );
   }
@@ -253,14 +279,14 @@ Widget buildAnimation(BuildContext context) {
 
       // The start action pane is the one at the left or the top side.
       startActionPane: ActionPane( 
-        extentRatio: 0.01,
+        extentRatio: 0.0001,
         // A motion is a widget used to control how the pane animates.
         motion: const ScrollMotion(),
 
         // A pane can dismiss the Slidable.
         dismissible: DismissiblePane(
           onDismissed: () {nextSong(true);},
-          dismissThreshold: .01),
+          dismissThreshold: .1),
           //dismissThreshold: .01),
 
         // All actions are defined in the children parameter.
@@ -280,11 +306,11 @@ Widget buildAnimation(BuildContext context) {
 
       // The end action pane is the one at the right or the bottom side.
       endActionPane:  ActionPane(
-        extentRatio: .01,
+        extentRatio: .0001,
 
         motion: const ScrollMotion(),
         dismissible: DismissiblePane(onDismissed: () {nextSong(false);},
-          dismissThreshold: .01),
+          dismissThreshold: .1),
         children: [
           SlidableAction(
             onPressed: doNothing,

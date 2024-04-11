@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/ColorOptions.dart';
 import 'package:flutter_application_1/src/PlaylistPage.dart';
 import 'package:flutter_application_1/src/GenreSelectionPage.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class HomePage extends StatelessWidget {
@@ -11,34 +13,73 @@ class HomePage extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
+        Lottie.asset('assets/images/homepageanimation.json', animate: true),
         buildWelcomeText(),
         const SizedBox(height: 30),
         buildStartButton(context),
         const SizedBox(height: 30),
-        buildPlaylistsButton(context),
-        const SizedBox(height: 30),
+        // buildPlaylistsButton(context),
+        // const SizedBox(height: 30),
       ],
     );
   }
 
+
   Widget buildWelcomeText() {
-    return const Text(
-      'Welcome to\nSong Tinder',
-      style: TextStyle(fontSize: 26, color: DARK_PURPLE),
+    return Text(
+      'Hot Jams In Your Area',
+      style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.bold,),
       textAlign: TextAlign.center,
     );
   }
 
+
+
+
   Widget buildStartButton(BuildContext context) {
-    return buildButton(
-      onPressed: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) =>  const genreSelectionPage()),
-        );
-      },
-      label: "Start",
+    return 
+   Container(
+      width: 200,
+      height: 40,
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.blue, Colors.green],
+        ),
+        borderRadius: BorderRadius.circular(30),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const genreSelectionPage()),
+        );},
+          borderRadius: BorderRadius.circular(30),
+          child: const Center(
+            child: Text(
+              "start",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
+
+
+
 
   Widget buildPlaylistsButton(BuildContext context) {
     return buildButton(
@@ -66,9 +107,18 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: PALE_PURPLE,
-        body: Center(
-          child: buildContent(context),
+        backgroundColor: PALE_PURPLE,// Set background color to transparent
+        body: Stack(
+          children: [
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 60, // Adjust this value as needed
+              child: Center(
+                child: buildContent(context),
+              ),
+            ),
+          ],
         ),
       ),
     );

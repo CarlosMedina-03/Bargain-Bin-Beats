@@ -22,10 +22,11 @@ dependencies:
   swipeable_page_route: ^0.4.2
   url_launcher: ^6.2.5
   google_fonts: ^4.0.1
+  lottie: ^3.1.0 
 
 dev_dependencies:
   flutter_test:
-    sdk: flutter
+    sdk: flutter 
 
   flutter_lints: ^3.0.2
 
@@ -38,3 +39,5 @@ flutter:
   assets:
     # Add assets from the images directory to the application.
     - assets/images/
+    - assets/images/homepageanimation.json
+

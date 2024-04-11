@@ -9,6 +9,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'dart:async';
+import 'dart:math' as math;
+import 'package:flutter_animate/flutter_animate.dart';
 
 class TinderPage extends StatefulWidget {
   final List<Song> playlistSongs;
@@ -119,7 +121,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     return const SizedBox.shrink();
   }
 
-  Widget formatBody() {
+  Widget RealBuilder() {
     return Center(
       child: SingleChildScrollView(
         child: Column(
@@ -128,6 +130,47 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
             buildImageSection(),
             SizedBox(height: MediaQuery.of(context).size.height * 0.03), // Add some space between image and card
             buildCard(),
+          ]
+        )
+      )
+    );
+  }
+@override
+Widget buildAnimation(BuildContext context) {
+  Widget myWidget = Container(
+    child: const Icon(
+      Icons.double_arrow,
+      color: Colors.pink,
+      size: 30.0),
+  );
+
+  return myWidget.animate(onPlay:(controller) => controller.repeat(),)
+  .then(delay:3000.ms)
+  .shake(hz: 50)
+  .slideX(end: 5, duration: 1000.ms)
+  .then(delay: 2000.ms)
+  .slideX(end:-5);
+}
+
+  Widget formatBody() {
+    return Center(
+      child: SingleChildScrollView(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [ buildAnimation(context),
+            // const Icon(
+            //     Icons.double_arrow,
+            //     color: Colors.pink,
+            //     size: 24.0),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * .85,
+              child: RealBuilder(),
+            ),
+            Transform.rotate(
+              angle: 180 * math.pi / 180,
+              child: buildAnimation(context)
+            )
+            
           ]
         )
       )
@@ -229,7 +272,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
 
       // The end action pane is the one at the right or the bottom side.
       endActionPane:  ActionPane(
-        extentRatio: .25,
+        extentRatio: .01,
 
         motion: const ScrollMotion(),
         dismissible: DismissiblePane(onDismissed: () {nextSong(false);},

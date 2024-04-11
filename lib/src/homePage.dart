@@ -13,7 +13,9 @@ class HomePage extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Lottie.asset('assets/images/homepageanimation.json', animate: true),
+        Lottie.asset('assets/images/homepageanimation.json', 
+          animate: true, height: MediaQuery.of(context).size.height * 0.5, 
+          fit: BoxFit.cover),
         buildWelcomeText(),
         const SizedBox(height: 30),
         buildStartButton(context),

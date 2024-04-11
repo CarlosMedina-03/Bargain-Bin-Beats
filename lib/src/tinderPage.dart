@@ -121,7 +121,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     return const SizedBox.shrink();
   }
 
-  Widget RealBuilder() {
+  Widget formatBody() {
     return Center(
       child: SingleChildScrollView(
         child: Column(
@@ -135,6 +135,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
       )
     );
   }
+  
 @override
 Widget buildAnimation(BuildContext context) {
   Widget myWidget = Container(
@@ -145,32 +146,33 @@ Widget buildAnimation(BuildContext context) {
   );
 
   return myWidget.animate(onPlay:(controller) => controller.repeat(),)
-  .then(delay:3000.ms)
+  .then(delay: 1500.ms)
+  .fadeIn(duration: 1000.ms)
+  .then(delay: 500.ms)
   .shake(hz: 50)
+  .then(delay:1000.ms)
   .slideX(end: 5, duration: 1000.ms)
-  .then(delay: 2000.ms)
-  .slideX(end:-5);
+  .then(delay: 1500.ms)
+  .slideX(end:-5)
+  .then(delay: 1000.ms)
+  .fadeOut(duration: 1000.ms);
 }
 
-  Widget formatBody() {
+  Widget formatAnimatedBody() {
     return Center(
       child: SingleChildScrollView(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [ buildAnimation(context),
-            // const Icon(
-            //     Icons.double_arrow,
-            //     color: Colors.pink,
-            //     size: 24.0),
+          children: [ 
+            buildAnimation(context),
             SizedBox(
               width: MediaQuery.of(context).size.width * .85,
-              child: RealBuilder(),
+              child: formatBody(),
             ),
             Transform.rotate(
               angle: 180 * math.pi / 180,
               child: buildAnimation(context)
-            )
-            
+            )  
           ]
         )
       )
@@ -195,13 +197,15 @@ Widget buildAnimation(BuildContext context) {
                 playAudio(currentSong!.getSongPreviewUrl()!);
                 print(count);
               }
-              return formatBody();
+              if(count == 0){return formatAnimatedBody();}
+              else{return formatBody();}
             }
           },
         ),
       );
     } else {
-      return formatBody();
+      if(count == 0){return formatAnimatedBody();}
+      else{return formatBody();}
     }
   }
 

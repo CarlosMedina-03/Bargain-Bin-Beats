@@ -53,7 +53,7 @@ class SongHandler{
     Set<dynamic> songSet = <dynamic>{};
     List<String> checkPrevUrl = [];
     for (String genre in genres) {
-      final fetchedSongs = await fetchTracksByPopularity(genre, accessToken, (100/genres.length).floor());
+      final fetchedSongs = await generateSongData(genre, accessToken, (100/genres.length).floor());
       for(dynamic song in fetchedSongs){
         if(!checkPrevUrl.contains(song.getSongPreviewUrl())){
           checkPrevUrl.add(song.getSongPreviewUrl());
@@ -67,7 +67,7 @@ class SongHandler{
     return finalFetchedSongs;
   }
 
-  Future<Set<dynamic>> fetchTracksByPopularity(String genre, String accessToken, int numTracksReturned) async {
+  Future<Set<dynamic>> generateSongData(String genre, String accessToken, int numTracksReturned) async {
     Set<dynamic> allTracks = <dynamic>{};
     List<int> previousOffsets = [];
     final random = Random();
@@ -79,9 +79,8 @@ class SongHandler{
       final response = await fetchTracks(genre, accessToken, randomOffset);
       final List<dynamic> items = response['tracks']['items'];
       for (var track in items) {
-        int popularityLevel = track['popularity'];
         Song song = Song("", "", "", "", "", "");
-        if (popularityLevel >-1 && track['preview_url']!= null && track['artists']!=null && track['album']['images'][0]['url']!=null) {
+        if (track['preview_url']!= null && track['artists']!=null && track['album']['images'][0]['url']!=null) {
             song.setTitle(track['name']);
             List<dynamic> artists = track['artists'];
             String artistName = artists.map((artist) => artist['name']).join(', ');
@@ -92,7 +91,16 @@ class SongHandler{
             song.setSongUri(track['uri']);
             print(song.getSongUri());
             allTracks.add(song);
-            // numTracks++;
+           // every 10 songs added, scramble the offset for more variety
+            if (allTracks.length % 10 == 0) {
+              randomOffset = (random.nextDouble() * 550).floor();
+              while (previousOffsets.contains(randomOffset)) {
+                randomOffset = (random.nextDouble() * 550).floor();
+              }
+              previousOffsets.add(randomOffset);
+              print("randomoffset: ${randomOffset}");
+
+            }
             if (allTracks.length >= numTracksReturned) {
               break;
             }
@@ -116,7 +124,7 @@ class SongHandler{
   }
 
   Future<Map<String, dynamic>> fetchTracks(String genre, String accessToken, int offset) async {
-    final url = Uri.parse('https://api.spotify.com/v1/search?q=genre:$genre&type=track&market=US&limit=50&offset=$offset&sort=popularity');
+    final url = Uri.parse('https://api.spotify.com/v1/search?q=genre:$genre&type=track&market=US&limit=50&offset=$offset');
     final response = await http.get(url, headers: {'Authorization': 'Bearer $accessToken'});
     if (json.decode(response.body) == null) {
       print("fetch failed, trying again...");

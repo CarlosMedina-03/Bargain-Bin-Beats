@@ -69,7 +69,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     return songs;
   }
 
-  void nextSong(bool addToPlaylist) {
+  void nextSong(bool addToPlaylist) async {
     if (addToPlaylist && currentSong != null && !widget.playlistSongs.contains(currentSong)) {
       widget.playlistSongs.add(currentSong!);
       count++;
@@ -94,6 +94,10 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
           currentSong = null;
         }
       });
+    }
+    //logic allows for "infinite" song queue
+    if (count == songs.length - 15) {
+      songs.addAll(await fetchData());
     }
   }
 

@@ -76,56 +76,6 @@ class PlaylistPageState extends State<PlaylistPage> {
     );
   }
 
-//gets the localPath for file storage
-Future<String> get _localPath async {
-      final directory = await getApplicationDocumentsDirectory();
-      print(directory);
-      return directory.path;
-    }
-
-//gets the file path
-Future<File> get _localFile async {
-      final path = await _localPath;
-      return File('$path/playlist.txt');
-    }
-
-//writes the playlist to a file
-Future<File> writePlaylist(List<Song> playlist, String playlistName) async {
-      // final file = await _localFile;
-      final path = await _localPath;
-      final file = File('$path/$playlistName.txt');
-    
-      // Write the file
-      return file.writeAsString(jsonEncode(playlist));
-    }
-
-//reads the playlist back from a file as a List<Dynamic>
-Future<List<dynamic>> readPlaylist(String name) async {
-        final path = await _localPath;
-        final file = File('$path/$name.txt');
-        // Read the file
-        final contents = await file.readAsString();
-        return json.decode(contents);
-    }
-  
-  //saves a list of all the playlists the user has made so far
-  Future<File> writePlaylistList() async {
-    final path = await _localPath;
-    final file = File('$path/My_Playlists.txt');
-
-    return file.writeAsString(json.encode(playlistNames));
-  }
-
-  //returns a list of strings containing the names of all the playlists the user has made so far
-  Future<List<String>> readPlaylistList() async {
-    final path = await _localPath;
-    final file = File('$path/My_Playlists.txt');
-
-    final contents = await file.readAsString();
-    return json.decode(contents); 
-  }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -147,17 +97,6 @@ Future<List<dynamic>> readPlaylist(String name) async {
               MaterialPageRoute(builder: (context) => ExportPage( songsExport: widget.pickedSongs)),
             );
         }),
-        buildFooterButton(Icons.save, "Save", () {
-          String playlistName = "temporaryPlaylistName";
-          playlistNames.add(playlistName);
-          writePlaylistList();
-          writePlaylist(widget.getPickedSongs(), playlistName);
-          print("Playlist saved!");
-        }),
-        buildFooterButton(Icons.drive_folder_upload_rounded, "Load", () {
-          print("hello load");
-        }),
-
         buildFooterButton(Icons.home, "Home", () {
           Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => HomePage()),

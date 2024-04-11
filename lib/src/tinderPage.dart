@@ -95,7 +95,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
         }
       });
     }
-    //logic allows for "infinite" song queue
+    //allows for "infinite" song queue by adding more songs to the list when user approached the end
     if (count == songs.length - 15) {
       songs.addAll(await fetchData());
     }

@@ -47,8 +47,6 @@ class SongHandler{
   }
 
 
-
-
   Future<List<dynamic>> getFinalSongs(List<String> genres, String accessToken) async {
     Set<dynamic> songSet = <dynamic>{};
     List<String> checkPrevUrl = [];
@@ -66,6 +64,7 @@ class SongHandler{
     finalFetchedSongs.shuffle(); // randomize the order of the songs
     return finalFetchedSongs;
   }
+
 
   Future<Set<dynamic>> generateSongData(String genre, String accessToken, int numTracksReturned) async {
     Set<dynamic> allTracks = <dynamic>{};
@@ -97,7 +96,7 @@ class SongHandler{
               while (previousOffsets.contains(randomOffset)) {
                 randomOffset = (random.nextDouble() * 550).floor();
               }
-              previousOffsets.add(randomOffset);
+              previousOffsets.add(randomOffset); //prevents the same page from appearing more than once
               print("randomoffset: ${randomOffset}");
 
             }
@@ -111,9 +110,7 @@ class SongHandler{
         while (previousOffsets.contains(randomOffset)) {
           randomOffset = (random.nextDouble() * 550).floor();
         }
-        previousOffsets.add(randomOffset);
-        // fetchTracksByPopularity(genre, accessToken, numTracksReturned);
-        
+        previousOffsets.add(randomOffset);  
       }
       // If offset exceeds the number of available tracks, break the loop
       if (randomOffset >= response['tracks']['total']) {
@@ -122,6 +119,7 @@ class SongHandler{
     }
     return allTracks;
   }
+
 
   Future<Map<String, dynamic>> fetchTracks(String genre, String accessToken, int offset) async {
     final url = Uri.parse('https://api.spotify.com/v1/search?q=genre:$genre&type=track&market=US&limit=50&offset=$offset');

@@ -90,8 +90,8 @@ class SongHandler{
             song.setSongUri(track['uri']);
             print(song.getSongUri());
             allTracks.add(song);
-           // every 10 songs added, scramble the offset for more variety
-            if (allTracks.length % 10 == 0) {
+           // 15% of the time scramble the offset for more variety (this can be adjusted easily)
+            if (random.nextInt(100) >= 85) {
               randomOffset = (random.nextDouble() * 550).floor();
               while (previousOffsets.contains(randomOffset)) {
                 randomOffset = (random.nextDouble() * 550).floor();

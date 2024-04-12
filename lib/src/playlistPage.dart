@@ -35,35 +35,6 @@ class PlaylistPageState extends State<PlaylistPage> {
   List<String> playlistNames = [];
 
 
-
-
-  String buildListOfSongs(List<Song> songList) {
-    String res = '';
-    for (Song song in songList) {
-      String? title = song.getSongTitle();
-      String? artist = song.getSongArtist();
-      // res = '$res$title by $artist\n\n';
-      res = '$res$title \nby $artist\n\n';
-      // res = '$res$title \nby \n$artist\n\n';
-    }
-    return(res);
-  }
-
-  Widget displaySongs(){
-    paddingValue = MediaQuery.of(context).size.height * 0.02;
-    return Center(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.only(left: paddingValue, right: paddingValue),
-          child: Text(
-            buildListOfSongs(widget.getPickedSongs()),
-            style: const TextStyle(fontSize: 24, color: DARK_PURPLE),
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget buildFooterButton(IconData icon, String label, VoidCallback onPressed) {
     return TextButton.icon(
       onPressed: onPressed,
@@ -76,6 +47,52 @@ class PlaylistPageState extends State<PlaylistPage> {
     );
   }
 
+  List <Widget> buildListOfSongs(List<Song> songList) {
+    // ignore: unused_local_variable
+    List <Widget> songsInfo = [];
+    for (Song song in songList) {
+      String? title = song.getSongTitle();
+      String? artist = song.getSongArtist();
+      Widget singleSongInfo = buildCard(title, artist);
+      songsInfo.add(singleSongInfo);
+    }
+    return songsInfo;
+  }
+
+  Widget displaySongs(){
+    return Center(
+      child: SingleChildScrollView(
+          child: Column(
+            children: buildListOfSongs(widget.getPickedSongs())),
+        ),
+    );
+  } 
+
+  Widget buildCard(String? title, String? artist) {
+    paddingValue = MediaQuery.of(context).size.height * 0.02;
+    return Card(
+      color: DARK_PURPLE,
+      margin: EdgeInsets.only(left: paddingValue, right: paddingValue, top: paddingValue),
+      //elevation: 5,
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column( 
+          children: [
+          Text(
+            '$title \nby',
+            style: const TextStyle(fontSize: 24, color: WHITE,
+          ),
+          ),
+          Text(
+            '$artist',
+            style: const TextStyle(fontSize: 24, color: PALE_PURPLE,
+          ),
+          ),
+        ]
+      ),
+      )
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

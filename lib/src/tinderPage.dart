@@ -9,7 +9,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'dart:async';
-import 'dart:math' as math;
 import 'package:flutter_animate/flutter_animate.dart';
 
 class TinderPage extends StatefulWidget {
@@ -198,7 +197,7 @@ Widget buildRightColumn(BuildContext context){
               )
             ),
             Positioned(
-              right: 0,
+              right: 5,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * .1,
                 child: buildRightColumn(context),

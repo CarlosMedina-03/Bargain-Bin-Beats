@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/ColorOptions.dart';
 import 'package:flutter_application_1/src/SelectableButton.dart';
 import 'package:flutter_application_1/src/tinderPage.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 // This class creates the page as a concept, and gives it a state.
 class genreSelectionPage extends StatefulWidget {
@@ -107,7 +108,7 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
       },
       child: Text(
         genres[index], 
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        style:  GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.bold,),
       ),
     );
   }

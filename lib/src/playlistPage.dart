@@ -32,7 +32,6 @@ class PlaylistPageState extends State<PlaylistPage> {
   final songHandler = SongHandler();
   // List<playList> playListList = [];
   // void addplayList(playList n){ playListList.add(n);}
-  List<String> playlistNames = [];
 
 
   Widget buildFooterButton(IconData icon, String label, VoidCallback onPressed) {

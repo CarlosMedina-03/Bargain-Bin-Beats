@@ -20,34 +20,38 @@ class HomePage extends StatelessWidget {
         const SizedBox(height: 30),
         buildStartButton(context),
         const SizedBox(height: 30),
-        // buildPlaylistsButton(context),
-        // const SizedBox(height: 30),
       ],
     );
   }
 
-
-  Widget buildWelcomeText() {
-    return Text(
-      'Hot Jams In Your Area',
-      style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.bold,),
-      textAlign: TextAlign.center,
+  Widget buildWelcomeText(){
+    return RichText(
+      text: TextSpan(
+        style: GoogleFonts.poppins(
+          fontSize: 30.0,
+          color: MAGENTA,
+          fontWeight: FontWeight.bold
+        ),
+        children: const <TextSpan>[
+          TextSpan(text: 'B', style: TextStyle(fontSize: 40, color: DARK_PURPLE)),
+          TextSpan(text: 'argain '),
+          TextSpan(text: 'B', style: TextStyle(fontSize: 40, color: DARK_PURPLE)),
+          TextSpan(text: 'in '),
+          TextSpan(text: 'B', style: TextStyle(fontSize: 40, color: DARK_PURPLE)),
+          TextSpan(text: 'eats'),
+        ],
+      ),
     );
   }
 
-
-
-
   Widget buildStartButton(BuildContext context) {
-    return 
-   Container(
+    return Container(
       width: 200,
       height: 40,
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Colors.blue, Colors.green],
+      decoration: BoxDecoration( 
+        gradient: const RadialGradient(
+          radius: 2.6,
+          colors: [BLUE, MAGENTA, YELLOW],
         ),
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
@@ -64,13 +68,13 @@ class HomePage extends StatelessWidget {
         child: InkWell(
           onTap: () {Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => const genreSelectionPage()),
-        );},
+          );},
           borderRadius: BorderRadius.circular(30),
           child: const Center(
             child: Text(
-              "start",
+              "START",
               style: TextStyle(
-                color: Colors.white,
+                color: WHITE,
                 fontWeight: FontWeight.bold,
               ),
             ),

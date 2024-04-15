@@ -62,6 +62,7 @@ class PlaylistPageState extends State<PlaylistPage> {
     return Center(
       child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: buildListOfSongs(widget.getPickedSongs())),
         ),
     );
@@ -69,13 +70,17 @@ class PlaylistPageState extends State<PlaylistPage> {
 
   Widget buildCard(String? title, String? artist) {
     paddingValue = MediaQuery.of(context).size.height * 0.02;
-    return Card(
+    return Container(
+          width: double.infinity,
+          height: 300,
+          child: Card(
       color: DARK_PURPLE,
-      margin: EdgeInsets.only(left: paddingValue, right: paddingValue, top: paddingValue),
+      margin: EdgeInsets.only(top: paddingValue),
       //elevation: 5,
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column( 
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
           Text(
             '$title \nby',
@@ -90,6 +95,7 @@ class PlaylistPageState extends State<PlaylistPage> {
         ]
       ),
       )
+          )
     );
   }
 
@@ -123,18 +129,5 @@ class PlaylistPageState extends State<PlaylistPage> {
   }
 
 }
-
-  // class playList{
-  //   String name = "";
-  //   List<String> songs = [];
-
-  //   playList(String n, List<String> s){
-  //     String name = n;
-  //     List<String> songs = s;
-  //   }
-  //   String getPlayListName(){return name;}
-  //   List<String> getSongs(){return songs;}
-  //   void changePlayListName(String n){name = n;}
-  // }
 
   

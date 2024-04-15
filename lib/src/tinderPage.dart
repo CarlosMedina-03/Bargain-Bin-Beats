@@ -173,7 +173,6 @@ Widget buildLeftColumn(BuildContext context){
 Widget buildRightColumn(BuildContext context){
   return Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Transform.flip(child: buildAnimation(context),
               flipX: true),
@@ -192,14 +191,14 @@ Widget buildRightColumn(BuildContext context){
             Positioned(
               left: 5,
               child: SizedBox(
-                width: MediaQuery.of(context).size.width * .1,
+                width: MediaQuery.of(context).size.width * .15, // text column width
                 child: buildLeftColumn(context)
               )
             ),
             Positioned(
               right: 5,
               child: SizedBox(
-                width: MediaQuery.of(context).size.width * .1,
+                width: MediaQuery.of(context).size.width * .15,
                 child: buildRightColumn(context),
               )
             )

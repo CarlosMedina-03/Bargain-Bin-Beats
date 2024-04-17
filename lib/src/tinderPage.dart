@@ -26,6 +26,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   late Future<List<Song>> fetchDataFuture;
   Song? currentSong;
   List<Song> songs = [];
+    List<Song> newSongs = [];
   int count = 0;
   late String songText;
   late AudioPlayer player;
@@ -96,7 +97,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     }
     //allows for "infinite" song queue by adding more songs to the list when user approached the end
     if (count == songs.length - 15) {
-      songs.addAll(await fetchData());
+      await fetchData();
     }
   }
 

@@ -128,13 +128,8 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
     }
   }
 
-  Widget createFooterButton(){
-    return TextButton(
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
-        foregroundColor: MaterialStateProperty.all<Color>(WHITE),
-      ),
-      child: const Text("Next"),
+  Widget buildFooterButton() {
+    return TextButton.icon(
       onPressed: () {
         if (selectedGenres.isNotEmpty && selectedGenres.length <= 3) {
           Navigator.of(context).push(
@@ -143,6 +138,12 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
         }
         print(selectedGenres);
       },
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
+        foregroundColor: MaterialStateProperty.all<Color>(WHITE),
+      ),
+      label: const Icon(Icons.arrow_right_alt),
+      icon: const Text("Next"),
     );
   }
 
@@ -162,7 +163,7 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
           ),
         ),
       ),
-      persistentFooterButtons: [createFooterButton()],
+      persistentFooterButtons: [buildFooterButton()],
     );
   }
 }

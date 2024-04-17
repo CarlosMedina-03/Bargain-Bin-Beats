@@ -111,12 +111,15 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     if (currentSong?.imageUrl != null) {
       String? imageUrl = currentSong!.imageUrl;
       return Padding(
-        padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
+        padding: EdgeInsets.only(
+          top: MediaQuery.of(context).size.height * 0.01, 
+        ),
         child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.5,
+          width: MediaQuery.of(context).size.width * 0.95,
           child: Image.network(
             imageUrl!,
-            fit: BoxFit.cover,
+            fit: BoxFit.contain,
             key: ValueKey<String>(imageUrl), // Helps Flutter know when to update the image
           ),
         ),
@@ -144,7 +147,7 @@ Widget buildAnimation(BuildContext context) {
   Widget myWidget = Container(
     child: const Icon(
       Icons.touch_app,
-      color: Color.fromARGB(255, 223, 30, 233),
+      color: MAGENTA,
       size: 30.0),
   );
   return myWidget.animate(onPlay:(controller) => controller.repeat(),)
@@ -153,22 +156,23 @@ Widget buildAnimation(BuildContext context) {
   .then(delay: 500.ms)
   .shake(hz: 50)
   .then(delay:500.ms)
-  .slideX(end: 5, duration: 500.ms)
+  .slideX(end: 2, duration: 500.ms)
   .then(delay: 500.ms)
-  .slideX(end:-5)
-  .then(delay: 500.ms)
+  // .slideX(end:-5)
+  // .then(delay: 500.ms)
   .fadeOut(duration: 500.ms);
 }
+
 Widget buildLeftColumn(BuildContext context){
   return Center(
-        child: Column(
-          children: [
-            buildAnimation(context),
-            const Text('Swipe right to save!',
-              textAlign: TextAlign.center),
-          ]
-        )
-    );
+    child: Column(
+      children: [
+        buildAnimation(context),
+        const Text('Swipe right to save!',
+          textAlign: TextAlign.center),
+      ]
+    )
+  );
 }
 
 Widget buildRightColumn(BuildContext context){
@@ -239,9 +243,7 @@ Widget buildRightColumn(BuildContext context){
   }
 
   Widget buildCard() {
-    // currentSong != null ? songText = '${currentSong!.title} by ${currentSong!.artist}' : songText= 'No songs available';
     songText = currentSong != null ?  '${currentSong!.title} by ${currentSong!.artist}': 'No songs available';
-    // songText = '${currentSong!.title} by ${currentSong!.artist}';
     return Card(
       color: DARK_PURPLE,
       elevation: 5,
@@ -339,7 +341,7 @@ Widget buildRightColumn(BuildContext context){
       persistentFooterButtons: [
         buildFooterButton(Icons.thumb_up, "Add", () => nextSong(true)),
         buildFooterButton(Icons.thumb_down, "Skip", () => nextSong(false)),
-        buildFooterButton(Icons.check_circle, "Done", () {
+        buildFooterButton(Icons.check, "Done", () {
           player.stop();
           Navigator.of(context).push(
             SwipeablePageRoute(

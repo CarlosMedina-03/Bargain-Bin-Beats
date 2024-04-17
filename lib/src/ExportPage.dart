@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/ColorOptions.dart';
+import 'package:flutter_application_1/src/homePage.dart';
 import 'package:flutter_application_1/src/song.dart';
 import 'package:flutter_application_1/src/songHandler.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -165,11 +166,11 @@ Widget build(BuildContext context) {
           ),
         ),
       ),
+      persistentFooterButtons: [buildFooterButton()],
     ),
   );
 }
 
-/// Builds the app bar for the export page.
 /// Builds the app bar for the export page.
 PreferredSizeWidget? _buildAppBar() {
   return PreferredSize(
@@ -299,6 +300,22 @@ Widget _buildPlaylistUrlVisibility() {
         ),
       ),
     ),
+  );
+}
+
+Widget buildFooterButton() {
+  return TextButton.icon(
+    onPressed: () {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
+    },
+    style: ButtonStyle(
+      backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
+      foregroundColor: MaterialStateProperty.all<Color>(WHITE),
+    ),
+    icon: const Icon(Icons.restart_alt),
+    label: const Text("Restart"),
   );
 }
 

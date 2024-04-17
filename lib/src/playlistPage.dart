@@ -81,10 +81,10 @@ class PlaylistPageState extends State<PlaylistPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
             Text(
-              '$title \nby',
+              '$title',
               style: const TextStyle(fontSize: 24, color: WHITE,)),
             Text(
-              '$artist',
+              'by $artist',
               style: const TextStyle(fontSize: 24, color: PALE_PURPLE,)),
             ]
           ),
@@ -98,7 +98,7 @@ class PlaylistPageState extends State<PlaylistPage> {
     return Scaffold(
       backgroundColor: PALE_PURPLE,
       appBar: AppBar(
-        title: const Text("My Playlist"),
+        title: const Text("More songs"),
         backgroundColor: DARK_PURPLE,
         foregroundColor: WHITE,
       ),
@@ -109,11 +109,11 @@ class PlaylistPageState extends State<PlaylistPage> {
           // for (var object in temp) {
           //   print(object);
           // }
-           Navigator.of(context).push(
+          Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => ExportPage( songsExport: widget.pickedSongs)),
             );
         }),
-        buildFooterButton(Icons.home, "Home", () {
+        buildFooterButton(Icons.restart_alt, "Restart", () {
           Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => HomePage()),
             );

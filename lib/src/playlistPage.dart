@@ -71,30 +71,24 @@ class PlaylistPageState extends State<PlaylistPage> {
   Widget buildCard(String? title, String? artist) {
     paddingValue = MediaQuery.of(context).size.height * 0.02;
     return Container(
-          width: double.infinity,
-          height: 300,
-          child: Card(
-      color: DARK_PURPLE,
-      margin: EdgeInsets.only(top: paddingValue),
-      //elevation: 5,
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column( 
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-          Text(
-            '$title \nby',
-            style: const TextStyle(fontSize: 24, color: WHITE,
+      width: MediaQuery.of(context).size.width *0.95,
+      child: Card(
+        color: DARK_PURPLE,
+        margin: EdgeInsets.only(top: paddingValue),
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column( 
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+            Text(
+              '$title \nby',
+              style: const TextStyle(fontSize: 24, color: WHITE,)),
+            Text(
+              '$artist',
+              style: const TextStyle(fontSize: 24, color: PALE_PURPLE,)),
+            ]
           ),
-          ),
-          Text(
-            '$artist',
-            style: const TextStyle(fontSize: 24, color: PALE_PURPLE,
-          ),
-          ),
-        ]
-      ),
-      )
+        )
           )
     );
   }

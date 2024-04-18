@@ -98,20 +98,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     }
   }
   
-  Future<void> fetchMoreSongs() async {
-  final songHandler = SongHandler();
-  final String accessToken = await songHandler.getAccessToken(songHandler.getRefreshToken());
-  List<String> lowerCaseGenres = widget.genres.map((genre) => genre.toLowerCase()).toList();
-  final tracks = await songHandler.getFinalSongs(lowerCaseGenres, accessToken);
-
-  for (var track in tracks) {
-    if (!songs.contains(track) && !newSongs.contains(track)) {
-      newSongs.add(track);
-    }
-  }
-  songs.addAll(newSongs);
-  newSongs.clear();
-}
+  
 
 
   void playAudio(String url) async {

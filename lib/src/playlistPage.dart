@@ -1,15 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/ColorOptions.dart';
 import 'package:flutter_application_1/src/ExportPage.dart';
 import 'package:flutter_application_1/src/homePage.dart';
 import 'package:flutter_application_1/src/song.dart';
-import 'package:flutter_application_1/src/songHandler.dart';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
-import 'package:http/http.dart' as http;
-
 
 /// This class represents the Playlist page where users can view, export, save, and load their playlists.
 class PlaylistPage extends StatefulWidget {
@@ -29,9 +22,6 @@ class PlaylistPage extends StatefulWidget {
 class PlaylistPageState extends State<PlaylistPage> {
   late double paddingValue;
   String? playlistUrl;
-  final songHandler = SongHandler();
-  // List<playList> playListList = [];
-  // void addplayList(playList n){ playListList.add(n);}
 
 
   Widget buildFooterButton(IconData icon, String label, VoidCallback onPressed) {
@@ -47,12 +37,12 @@ class PlaylistPageState extends State<PlaylistPage> {
   }
 
   List <Widget> buildListOfSongs(List<Song> songList) {
-    // ignore: unused_local_variable
     List <Widget> songsInfo = [];
     for (Song song in songList) {
       String? title = song.getSongTitle();
       String? artist = song.getSongArtist();
-      Widget singleSongInfo = buildCard(title, artist);
+      String? imageURL = song.getImageUrl();
+      Widget singleSongInfo = buildCard(title, artist, imageURL);
       songsInfo.add(singleSongInfo);
     }
     return songsInfo;
@@ -61,35 +51,56 @@ class PlaylistPageState extends State<PlaylistPage> {
   Widget displaySongs(){
     return Center(
       child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: buildListOfSongs(widget.getPickedSongs())),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: buildListOfSongs(widget.getPickedSongs())
         ),
+      ),
     );
   } 
 
-  Widget buildCard(String? title, String? artist) {
+  Widget albumArtForCard(String? imageURL){
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.15,
+      height: MediaQuery.of(context).size.width * 0.15,
+      child: imageURL != null
+        ? Image.network(imageURL, fit: BoxFit.contain)
+        : const Placeholder(), // Placeholder for when imageURL is null
+    );
+  }
+
+  Widget textForCard(String? title, String? artist){
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('$title', style: const TextStyle(fontSize: 24, color: WHITE)),
+          Text('by $artist', style: const TextStyle(fontSize: 18, color: PALE_PURPLE)),
+        ],
+      ),
+    );
+  }
+
+
+  Widget buildCard(String? title, String? artist, String? imageURL) {
     paddingValue = MediaQuery.of(context).size.height * 0.02;
     return Container(
       width: MediaQuery.of(context).size.width *0.95,
+      margin: EdgeInsets.only(top: paddingValue),
       child: Card(
         color: DARK_PURPLE,
-        margin: EdgeInsets.only(top: paddingValue),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Column( 
+          child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            Text(
-              '$title',
-              style: const TextStyle(fontSize: 24, color: WHITE,)),
-            Text(
-              'by $artist',
-              style: const TextStyle(fontSize: 24, color: PALE_PURPLE,)),
-            ]
-          ),
-        )
+              albumArtForCard(imageURL),
+              SizedBox(width: MediaQuery.of(context).size.width * 0.02), // Add spacing between album art and text
+              textForCard(title, artist)
+            ],
           )
+        )
+      )
     );
   }
 
@@ -105,23 +116,16 @@ class PlaylistPageState extends State<PlaylistPage> {
       body: displaySongs(),
       persistentFooterButtons: [
         buildFooterButton(Icons.cloud_upload, "Export", () {
-          // List<dynamic> temp =  readPlaylist() as List;
-          // for (var object in temp) {
-          //   print(object);
-          // }
           Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => ExportPage( songsExport: widget.pickedSongs)),
             );
         }),
         buildFooterButton(Icons.restart_alt, "Restart", () {
           Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => HomePage()),
-            );
+            MaterialPageRoute(builder: (context) => HomePage()),
+          );
         }),
       ]
     );
   }
-
 }
-
-  

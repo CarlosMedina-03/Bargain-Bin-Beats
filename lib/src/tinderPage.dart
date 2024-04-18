@@ -143,50 +143,51 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     );
   }
   
-Widget buildAnimation(BuildContext context) {
-  Widget myWidget = Container(
-    child: const Icon(
-      Icons.touch_app,
-      color: MAGENTA,
-      size: 30.0),
-  );
-  return myWidget.animate(onPlay:(controller) => controller.repeat(),)
-  .then(delay: 500.ms)
-  .fadeIn(duration: 500.ms)
-  .then(delay: 500.ms)
-  .shake(hz: 50)
-  .then(delay:500.ms)
-  .slideX(end: 2, duration: 500.ms)
-  .then(delay: 500.ms)
-  // .slideX(end:-5)
-  // .then(delay: 500.ms)
-  .fadeOut(duration: 500.ms);
-}
-
-Widget buildLeftColumn(BuildContext context){
-  return Center(
-    child: Column(
-      children: [
-        buildAnimation(context),
-        const Text('Swipe right to save!',
-          textAlign: TextAlign.center),
-      ]
-    )
-  );
-}
-
-Widget buildRightColumn(BuildContext context){
-  return Center(
-        child: Column(
-          children: [
-            Transform.flip(child: buildAnimation(context),
-              flipX: true),
-            const Text('Swipe left to skip!',
-              textAlign: TextAlign.center),
-          ]
-        )
+  Widget buildAnimation(BuildContext context) {
+    Widget myWidget = Container(
+      child: const Icon(
+        Icons.touch_app,
+        color: MAGENTA,
+        size: 30.0),
     );
-}
+    return myWidget.animate(onPlay:(controller) => controller.repeat(),)
+    .then(delay: 500.ms)
+    .fadeIn(duration: 500.ms)
+    .then(delay: 500.ms)
+    .shake(hz: 50)
+    .then(delay:500.ms)
+    .slideX(end: 2, duration: 500.ms)
+    .then(delay: 500.ms)
+    // .slideX(end:-5)
+    // .then(delay: 500.ms)
+    .fadeOut(duration: 500.ms);
+  }
+
+  Widget buildLeftColumn(BuildContext context){
+    return Center(
+      child: Column(
+        children: [
+          buildAnimation(context),
+          const Text('Swipe right to save!',
+            textAlign: TextAlign.center),
+        ]
+      )
+    );
+  }
+
+  Widget buildRightColumn(BuildContext context){
+    return Center(
+      child: Column(
+        children: [
+          Transform.flip(child: buildAnimation(context),
+            flipX: true),
+          const Text('Swipe left to skip!',
+          textAlign: TextAlign.center),
+        ]
+      )
+    );
+  }
+
   Widget formatAnimatedBody() {
     return Center(
       child: Stack(

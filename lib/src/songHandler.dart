@@ -1,19 +1,14 @@
 import 'dart:async';
-
 import 'package:flutter_application_1/src/song.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:math';
-import 'package:url_launcher/url_launcher.dart';
-
 
 class SongHandler{
   static const String CLIENT_ID = 'da3531944d1f4a7fa2c20b63a46d1d60';
   static const String CLIENT_SECRET = '01c615f0104e4ce585ed871ae37f4490';
   
-  /**
-   * Getter Method for refresh token 
-   */
+  /// Getter Method for refresh token 
   String getRefreshToken(){
     return 'AQA7cG_FjXyApdq1aYiMpnDfovnxzpogKg4S44xSkWioVS-AsKtGdj4IsjAwk4nVIeA0vesSlhmQJ1QSRNyrf1pNlbdA8lvDfxeTWgcQ1CsCjGJ_ZQhrnDV10C3yRTC3AIw';
   }
@@ -69,7 +64,7 @@ class SongHandler{
   Future<Set<dynamic>> generateSongData(String genre, String accessToken, int numTracksReturned) async {
     Set<dynamic> allTracks = <dynamic>{};
     List<int> previousOffsets = [];
-    int totalTracks =0;
+    int totalTracks = 0;
     final random = Random();
     int randomOffset = (random.nextDouble() * 550).floor();
     previousOffsets.add(randomOffset);

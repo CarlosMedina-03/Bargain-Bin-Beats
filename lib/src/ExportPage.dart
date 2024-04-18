@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/ColorOptions.dart';
 import 'package:flutter_application_1/src/homePage.dart';
@@ -7,7 +6,6 @@ import 'package:flutter_application_1/src/song.dart';
 import 'package:flutter_application_1/src/songHandler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 /// This class represents the Export Page widget, which allows users to export a playlist to this app's spotify account and go to that
@@ -89,7 +87,7 @@ class ExportPageState extends State<ExportPage> with TickerProviderStateMixin {
 /// Helper method that adds all the picked songs into a playlist based on the playlist id. Songs are being put into 
 /// the playlist through their uri. 
 Future<void> addSongsToPlaylist(String accessToken, String playlistId, List<String> listTrackUris) async {
-   try {
+  try {
     final response = await http.put(
       Uri.parse('https://api.spotify.com/v1/playlists/$playlistId/tracks'),
       headers: {

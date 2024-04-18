@@ -68,6 +68,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     print("songs in tinder page length: ${songs.length}");
     return songs;
   }
+  
 
   void nextSong(bool addToPlaylist) async {
     if (addToPlaylist && currentSong != null && !widget.playlistSongs.contains(currentSong)) {
@@ -95,11 +96,23 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
         }
       });
     }
-    //allows for "infinite" song queue by adding more songs to the list when user approached the end
-    if (count == songs.length - 15) {
-      await fetchData();
+  }
+  
+  Future<void> fetchMoreSongs() async {
+  final songHandler = SongHandler();
+  final String accessToken = await songHandler.getAccessToken(songHandler.getRefreshToken());
+  List<String> lowerCaseGenres = widget.genres.map((genre) => genre.toLowerCase()).toList();
+  final tracks = await songHandler.getFinalSongs(lowerCaseGenres, accessToken);
+
+  for (var track in tracks) {
+    if (!songs.contains(track) && !newSongs.contains(track)) {
+      newSongs.add(track);
     }
   }
+  songs.addAll(newSongs);
+  newSongs.clear();
+}
+
 
   void playAudio(String url) async {
     await player.play(UrlSource(url));

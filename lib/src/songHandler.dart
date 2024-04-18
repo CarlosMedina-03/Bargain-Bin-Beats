@@ -1,14 +1,19 @@
 import 'dart:async';
+
 import 'package:flutter_application_1/src/song.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:math';
+import 'package:url_launcher/url_launcher.dart';
+
 
 class SongHandler{
   static const String CLIENT_ID = 'da3531944d1f4a7fa2c20b63a46d1d60';
   static const String CLIENT_SECRET = '01c615f0104e4ce585ed871ae37f4490';
   
-  /// Getter Method for refresh token 
+  /**
+   * Getter Method for refresh token 
+   */
   String getRefreshToken(){
     return 'AQA7cG_FjXyApdq1aYiMpnDfovnxzpogKg4S44xSkWioVS-AsKtGdj4IsjAwk4nVIeA0vesSlhmQJ1QSRNyrf1pNlbdA8lvDfxeTWgcQ1CsCjGJ_ZQhrnDV10C3yRTC3AIw';
   }
@@ -44,15 +49,10 @@ class SongHandler{
 
   Future<List<dynamic>> getFinalSongs(List<String> genres, String accessToken) async {
     Set<dynamic> songSet = <dynamic>{};
-    List<String> checkPrevUrl = [];
     for (String genre in genres) {
       final fetchedSongs = await generateSongData(genre, accessToken, (100/genres.length).floor());
-      for(dynamic song in fetchedSongs){
-        if(!checkPrevUrl.contains(song.getSongPreviewUrl())){
-          checkPrevUrl.add(song.getSongPreviewUrl());
-          songSet.add(song);
-        }
-      }
+      print(fetchedSongs);
+      songSet.addAll(fetchedSongs);
     }
     List<dynamic> finalFetchedSongs = songSet.toList();
     print("songs fetched: ${finalFetchedSongs.length}");
@@ -64,39 +64,54 @@ class SongHandler{
   Future<Set<dynamic>> generateSongData(String genre, String accessToken, int numTracksReturned) async {
     Set<dynamic> allTracks = <dynamic>{};
     List<int> previousOffsets = [];
-    int totalTracks = 0;
     final random = Random();
     int randomOffset = (random.nextDouble() * 550).floor();
     previousOffsets.add(randomOffset);
     print("randomoffset: ${randomOffset}");
     
-    while (allTracks.length < 100) {
-    // Generate a random offset between 0 and the total number of available tracks
-    int randomOffset = Random().nextInt(550);
+    while (allTracks.length < numTracksReturned) {
+      final response = await fetchTracks(genre, accessToken, randomOffset);
+      final List<dynamic> items = response['tracks']['items'];
+      for (var track in items) {
+        Song song = Song("", "", "", "", "", "");
+        if (track['preview_url']!= null && track['artists']!=null && track['album']['images'][0]['url']!=null) {
+            song.setTitle(track['name']);
+            List<dynamic> artists = track['artists'];
+            String artistName = artists.map((artist) => artist['name']).join(', ');
+            song.setArtist(artistName);
+            song.setPreviewUrl(track['preview_url']);
+            song.setImageUrl(track['album']['images'][0]['url']);
+            song.setTrackID(track['id']);
+            song.setSongUri(track['uri']);
+            print(song.getSongUri());
+            allTracks.add(song);
+           // 15% of the time scramble the offset for more variety (this can be adjusted easily)
+            if (random.nextInt(100) >= 85) {
+              randomOffset = (random.nextDouble() * 550).floor();
+              while (previousOffsets.contains(randomOffset)) {
+                randomOffset = (random.nextDouble() * 550).floor();
+              }
+              previousOffsets.add(randomOffset); //prevents the same page from appearing more than once
+              print("randomoffset: ${randomOffset}");
 
-    final response = await fetchTracks(genre, accessToken, randomOffset);
-    final List<dynamic> items = response['tracks']['items'];
-
-    for (var track in items) {
-      if (track['preview_url'] != null && track['artists'] != null && track['album']['images'][0]['url'] != null) {
-        Song song = Song(
-          track['name'],
-          track['artists'].map((artist) => artist['name']).join(', '),
-          track['preview_url'],
-          track['album']['images'][0]['url'],
-          track['id'],
-          track['uri'],
-        );
-        allTracks.add(song);
-
-        if (allTracks.length >= 100) {
-          break;
+            }
+            if (allTracks.length >= numTracksReturned) {
+              break;
+            }
         }
       }
+      if (allTracks.length < numTracksReturned) {
+        randomOffset = (random.nextDouble() * 550).floor();
+        while (previousOffsets.contains(randomOffset)) {
+          randomOffset = (random.nextDouble() * 550).floor();
+        }
+        previousOffsets.add(randomOffset);  
+      }
+      // If offset exceeds the number of available tracks, change offset
+      if (randomOffset >= response['tracks']['total']) {
+        randomOffset = (random.nextDouble() * 550).floor();
+      }
     }
-
-    totalTracks = response['tracks']['total'];
-  }
     return allTracks;
   }
 

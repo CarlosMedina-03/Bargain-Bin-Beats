@@ -89,5 +89,14 @@ class Song {
       return false;
     }
   }
+  @override
+int get hashCode {
+  return title.hashCode ^
+      artist.hashCode ^
+      prevUrl.hashCode ^
+      imageUrl.hashCode ^
+      trackID.hashCode ^
+      spotifyUri.hashCode;
+}
 }
 

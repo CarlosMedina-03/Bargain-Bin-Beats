@@ -60,9 +60,20 @@ class PlaylistPageState extends State<PlaylistPage> {
   } 
 
   Widget albumArtForCard(String? imageURL){
+    double imageWidth;
+    double imageHeight;
+    if (MediaQuery.of(context).size.width >= MediaQuery.of(context).size.height) {
+      imageWidth =  MediaQuery.of(context).size.height * 0.11;
+      imageHeight = MediaQuery.of(context).size.height * 0.11;
+    }
+    else {
+      imageWidth = MediaQuery.of(context).size.width * 0.15;
+      imageHeight = MediaQuery.of(context).size.width * 0.15;
+    }
+
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.15,
-      height: MediaQuery.of(context).size.width * 0.15,
+      width: imageWidth,
+      height: imageHeight,
       child: imageURL != null
         ? Image.network(imageURL, fit: BoxFit.contain)
         : const Placeholder(), // Placeholder for when imageURL is null
@@ -85,7 +96,7 @@ class PlaylistPageState extends State<PlaylistPage> {
   Widget buildCard(String? title, String? artist, String? imageURL) {
     paddingValue = MediaQuery.of(context).size.height * 0.02;
     return Container(
-      width: MediaQuery.of(context).size.width *0.95,
+      width: MediaQuery.of(context).size.width * 0.95,
       margin: EdgeInsets.only(top: paddingValue),
       child: Card(
         color: DARK_PURPLE,
@@ -95,7 +106,7 @@ class PlaylistPageState extends State<PlaylistPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               albumArtForCard(imageURL),
-              SizedBox(width: MediaQuery.of(context).size.width * 0.02), // Add spacing between album art and text
+              SizedBox(width: MediaQuery.of(context).size.width * 0.02),
               textForCard(title, artist)
             ],
           )

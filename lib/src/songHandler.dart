@@ -71,30 +71,12 @@ class SongHandler{
     
     while (allTracks.length < numTracksReturned) {
       final response = await fetchTracks(genre, accessToken, randomOffset);
-      print("current random offset: $randomOffset");
-      if (response.isEmpty) {
-        print("line response from fetch tracks empty");
-      }
-      else {
-        int temp = response.length;
-        print("response length: $temp");
-      }
       final List<dynamic> items = response['tracks']['items'];
-      if (items.isEmpty) {
-        print("line items is empty");
-      }
-      else {
-        int temp = items.length;
-        print("items length: $temp");
-      }
       for (var track in items) {
         Song song = Song("", "", "", "", "", "");
         if (track['preview_url']!= null && track['artists']!=null && track['album']['images'][0]['url']!=null) {
             song.setTitle(track['name']);
             List<dynamic> artists = track['artists'];
-            if (artists.isEmpty) {
-              print("artists list is empty somehow");
-            }
             String artistName = artists.map((artist) => artist['name']).join(', ');
             song.setArtist(artistName);
             song.setPreviewUrl(track['preview_url']);
@@ -130,9 +112,6 @@ class SongHandler{
         randomOffset = (random.nextDouble() * 550).floor();
       }
     }
-    //proof that on blues it never reaches this point
-    int temp = allTracks.length;
-    print("size of allTracks: $temp");
     return allTracks;
   }
 

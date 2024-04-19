@@ -30,6 +30,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   int count = 0;
   late String songText;
   late AudioPlayer player;
+  bool tutorial = true;
 
   late final controller = SlidableController(this);
 
@@ -71,6 +72,20 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   
 
   void nextSong(bool addToPlaylist) async {
+    if(tutorial){
+      tutorial = false; 
+      setState((){
+        if (count <= songs.length) {
+          currentSong = songs[count];
+          playAudio(currentSong!.getSongPreviewUrl()!);
+          print(count);
+        } else {
+          currentSong = null;
+        }
+      });
+      return;
+      
+      }
     if (addToPlaylist && currentSong != null && !widget.playlistSongs.contains(currentSong)) {
       widget.playlistSongs.add(currentSong!);
       count++;
@@ -129,6 +144,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   }
 
   Widget formatBody() {
+    print('formatBody');
     return Center(
       child: SingleChildScrollView(
         child: Column(
@@ -164,51 +180,78 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   }
 
   Widget buildLeftColumn(BuildContext context){
-    return Center(
-      child: Column(
-        children: [
-          buildAnimation(context),
-          const Text('Swipe right to save!',
-            textAlign: TextAlign.center),
-        ]
+    return Positioned(
+      left:5,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * .15, // text column width
+              child: Center(
+                child: Column(
+                  children: [
+                    buildAnimation(context),
+                    const Text('Swipe right to save!',
+                      textAlign: TextAlign.center,),
+                  ]
+                )
+              )
       )
     );
   }
 
   Widget buildRightColumn(BuildContext context){
-    return Center(
-      child: Column(
-        children: [
-          Transform.flip(child: buildAnimation(context),
-            flipX: true),
-          const Text('Swipe left to skip!',
-          textAlign: TextAlign.center),
-        ]
+    return Positioned(
+      right: 5,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * .15,
+        child: Center(
+          child: Column(
+            children: [
+              Transform.flip(child: buildAnimation(context),
+                flipX: true),
+                const Text('Swipe left to skip!',
+            textAlign: TextAlign.center),
+            ]
+          )
+        ),
       )
     );
   }
 
-  Widget formatAnimatedBody() {
+  Widget buildTutorial() {
     return Center(
       child: Stack(
-      alignment:  AlignmentDirectional.center,
+        alignment:  AlignmentDirectional.center,
         children:[ 
-            formatBody(),
-            Positioned(
-              left: 5,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * .15, // text column width
-                child: buildLeftColumn(context)
-              )
-            ),
-            Positioned(
-              right: 5,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * .15,
-                child: buildRightColumn(context),
-              )
+          Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(color: Colors.black, height: 300,width: 300,
+                  child: const Column(
+                    children: [Text('\nThis is a tutorial card',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 40, color: WHITE)),
+                    Text('\n\nGet your audio ready!',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 20, color: WHITE))
+                  ])
+                  
+                  ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                SizedBox(width: MediaQuery.of(context).size.height * 0.5,
+                  child: const Text(
+                  'This is where the song title and artist(s) will appear!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20),
+                  ),
+                )
+              ]
             )
-          ]
+          )
+        ),
+          buildLeftColumn(context),
+          buildRightColumn(context)
+        ]
       )
     );
   }
@@ -220,7 +263,10 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
         child: FutureBuilder<List<Song>>(
           future: fetchDataFuture,
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
+            if (tutorial){
+              tutorial = false;
+              return buildTutorial();}
+            else if (snapshot.connectionState == ConnectionState.waiting) {
               return const CircularProgressIndicator(color: DARK_PURPLE);
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
@@ -231,15 +277,14 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
                 playAudio(currentSong!.getSongPreviewUrl()!);
                 print(count);
               }
-              if(count == 0){return formatAnimatedBody();}
-              else{return formatBody();}
+              return formatBody();
             }
           },
         ),
       );
     } else {
-      if(count == 0){return formatAnimatedBody();}
-      else{return formatBody();}
+      //if (tutorial){return buildTutorial();}
+      return formatBody();
     }
   }
 
@@ -273,8 +318,10 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   }
 
   void doNothing(BuildContext context) {}
+  
 
   Widget buildSlidable(BuildContext context){
+
     return Slidable(
       // Specify a key if the Slidable is dismissible.
       key: UniqueKey(),

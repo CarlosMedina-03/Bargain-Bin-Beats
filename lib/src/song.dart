@@ -81,9 +81,14 @@ class Song {
     @override
   bool operator ==(Object other) {
     if (other is Song) {
-      return other.getSongPreviewUrl() == prevUrl &&
-      other.getSongTitle() == title &&
-      other.getSongArtist() == artist;
+      // print('Comparing songs:');
+      // print('This: ${this.getSongPreviewUrl()}');
+      // print('Other: ${other.getSongPreviewUrl()}');
+    
+    return this.getSongPreviewUrl() == other.getSongPreviewUrl() || 
+     this.getSongTitle() == other.getSongTitle() ||
+     this.getSongUri() == other.getSongUri() ||
+     this.getTrackID() == other.getTrackID();
     }
     else {
       return false;
@@ -92,9 +97,7 @@ class Song {
   @override
 int get hashCode {
   return title.hashCode ^
-      artist.hashCode ^
       prevUrl.hashCode ^
-      imageUrl.hashCode ^
       trackID.hashCode ^
       spotifyUri.hashCode;
 }

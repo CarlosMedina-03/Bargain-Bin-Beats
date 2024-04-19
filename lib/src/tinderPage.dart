@@ -84,7 +84,6 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
         }
       });
       return;
-      
       }
     if (addToPlaylist && currentSong != null && !widget.playlistSongs.contains(currentSong)) {
       widget.playlistSongs.add(currentSong!);
@@ -264,7 +263,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
           future: fetchDataFuture,
           builder: (context, snapshot) {
             if (tutorial){
-              tutorial = false;
+              //tutorial = false;
               return buildTutorial();}
             else if (snapshot.connectionState == ConnectionState.waiting) {
               return const CircularProgressIndicator(color: DARK_PURPLE);
@@ -277,6 +276,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
                 playAudio(currentSong!.getSongPreviewUrl()!);
                 print(count);
               }
+              print('topformatBody in buildBodyindicator');
               return formatBody();
             }
           },
@@ -284,6 +284,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
       );
     } else {
       //if (tutorial){return buildTutorial();}
+      print('bottom formatBody in buildBody indicator');
       return formatBody();
     }
   }

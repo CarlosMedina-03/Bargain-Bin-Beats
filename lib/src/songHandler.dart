@@ -51,7 +51,6 @@ class SongHandler{
     Set<dynamic> songSet = <dynamic>{};
     for (String genre in genres) {
       final fetchedSongs = await generateSongData(genre, accessToken, (100/genres.length).floor());
-      print(fetchedSongs);
       songSet.addAll(fetchedSongs);
     }
     List<dynamic> finalFetchedSongs = songSet.toList();
@@ -65,55 +64,75 @@ class SongHandler{
     Set<dynamic> allTracks = <dynamic>{};
     List<int> previousOffsets = [];
     final random = Random();
-    int randomOffset = (random.nextDouble() * 550).floor();
-    previousOffsets.add(randomOffset);
-    print("randomoffset: ${randomOffset}");
-    
     while (allTracks.length < numTracksReturned) {
+      print(previousOffsets);
+      int randomOffset = getRandomOffset(previousOffsets, random);
+      print("randomoffset: ${randomOffset}");
       final response = await fetchTracks(genre, accessToken, randomOffset);
-      final List<dynamic> items = response['tracks']['items'];
-      for (var track in items) {
-        Song song = Song("", "", "", "", "", "");
-        if (track['preview_url']!= null && track['artists']!=null && track['album']['images'][0]['url']!=null) {
-            song.setTitle(track['name']);
-            List<dynamic> artists = track['artists'];
+      final List<dynamic>? items = response['tracks']?['items'];
+      print(response['tracks']['total']);
+      if (items != null) {
+        var itemsIterator = items.iterator;
+        while (itemsIterator.moveNext()) {
+          final currentItem = itemsIterator.current;
+          if (currentItem != null &&
+              currentItem['name'] != null &&
+              currentItem['preview_url'] != null &&
+              currentItem['artists'] != null &&
+              currentItem['album'] != null &&
+              currentItem['album']['images'] != null &&
+              currentItem['album']['images'].isNotEmpty) {
+            Song song = Song("", "", "", "", "", "");
+            song.setTitle(currentItem['name']);
+            List<dynamic> artists = currentItem['artists'];
             String artistName = artists.map((artist) => artist['name']).join(', ');
             song.setArtist(artistName);
-            song.setPreviewUrl(track['preview_url']);
-            song.setImageUrl(track['album']['images'][0]['url']);
-            song.setTrackID(track['id']);
-            song.setSongUri(track['uri']);
-            print(song.getSongUri());
+            song.setPreviewUrl(currentItem['preview_url']);
+            song.setImageUrl(currentItem['album']['images'][0]['url']);
+            song.setTrackID(currentItem['id']);
+            song.setSongUri(currentItem['uri']);
             allTracks.add(song);
-           // 15% of the time scramble the offset for more variety (this can be adjusted easily)
             if (random.nextInt(100) >= 85) {
-              randomOffset = (random.nextDouble() * 550).floor();
-              while (previousOffsets.contains(randomOffset)) {
-                randomOffset = (random.nextDouble() * 550).floor();
-              }
-              previousOffsets.add(randomOffset); //prevents the same page from appearing more than once
+              randomOffset = getRandomOffset(previousOffsets, random);
               print("randomoffset: ${randomOffset}");
-
             }
             if (allTracks.length >= numTracksReturned) {
               break;
             }
+          } else {
+            print("Skipping song due to missing data");
+          }
         }
+      } 
+         if (allTracks.length < numTracksReturned) {
+        randomOffset = getRandomOffset(previousOffsets, random);
       }
-      if (allTracks.length < numTracksReturned) {
-        randomOffset = (random.nextDouble() * 550).floor();
-        while (previousOffsets.contains(randomOffset)) {
-          randomOffset = (random.nextDouble() * 550).floor();
-        }
-        previousOffsets.add(randomOffset);  
-      }
-      // If offset exceeds the number of available tracks, change offset
+
       if (randomOffset >= response['tracks']['total']) {
-        randomOffset = (random.nextDouble() * 550).floor();
+        randomOffset = getRandomOffset(previousOffsets, random);
       }
+
     }
     return allTracks;
   }
+
+
+
+  /// Helper method to generate random offsets that are not already stored
+  /// in a list 
+  int getRandomOffset(List<int> previousOffsets, Random random) {
+  // int randomOffset = (random.nextDouble() * 550).floor();
+  int randomOffset = (random.nextDouble() * 700).floor();
+  
+  // Ensure the offset hasn't been used before
+  while (previousOffsets.contains(randomOffset)) {
+    randomOffset =  (random.nextDouble() * 700).floor();
+  
+  }
+
+  previousOffsets.add(randomOffset);
+  return randomOffset;
+}
 
 
   Future<Map<String, dynamic>> fetchTracks(String genre, String accessToken, int offset) async {
@@ -146,16 +165,17 @@ void main() async {
   // print(myTracks);
   
   // while(true) {
-  List<String> genres = ["indie"];
+  List<String> genres = ["Blues"];
   final List<dynamic> m = await handle.getFinalSongs(genres, accessToken);
   List<String>checkList = [];
   m.forEach((element) { 
     if(checkList.contains(element.getSongPreviewUrl())){
       print("True");
+       print("Title: ${element.getSongTitle()}, Preview URL: ${element.getSongPreviewUrl()}");
     }
     checkList.add(element.getSongPreviewUrl());
   });
-  print("no duplicate");
+  // print("no duplicate");
   // print(checkList);
   // print(tracks);
   // print(tracks.length);

@@ -188,7 +188,8 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
                   children: [
                     buildAnimation(context),
                     const Text('Swipe right to save!',
-                      textAlign: TextAlign.center,),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: WHITE)),
                   ]
                 )
               )
@@ -207,7 +208,9 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
               Transform.flip(child: buildAnimation(context),
                 flipX: true),
                 const Text('Swipe left to skip!',
-            textAlign: TextAlign.center),
+            textAlign: TextAlign.center,
+            style: TextStyle(color: WHITE)
+            ),
             ]
           )
         ),

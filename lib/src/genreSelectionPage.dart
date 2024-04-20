@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/ColorOptions.dart';
 import 'package:flutter_application_1/src/SelectableButton.dart';
+import 'package:flutter_application_1/src/TutorialPage.dart';
 import 'package:flutter_application_1/src/tinderPage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -42,6 +43,10 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
     for(num i = 0; i < genres.length; i = i + 1) {
       genreState.add(false);
     }
+  }
+
+  List<String> getSelectedGenres(){
+    return selectedGenres;
   }
 
   // This method takes in the list of genres and creates the appropriate number of 
@@ -133,7 +138,7 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
       onPressed: () {
         if (selectedGenres.isNotEmpty && selectedGenres.length <= 3) {
           Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => TinderPage(playlistSongs: [], genres: selectedGenres,)),
+            MaterialPageRoute(builder: (context) => TutorialPage(genres:selectedGenres)),
           );
         }
         print(selectedGenres);

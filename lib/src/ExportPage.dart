@@ -150,15 +150,15 @@ Widget build(BuildContext context) {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               _buildPlaylistNameTextField(),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               _buildPlaylistDescriptionTextField(),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               _buildSubmitButton(),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               _buildPlaylistLinkInfo(),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               _buildPlaylistUrlVisibility(),
             ],
           ),
@@ -172,10 +172,10 @@ Widget build(BuildContext context) {
 /// Builds the app bar for the export page.
 PreferredSizeWidget? _buildAppBar() {
   return PreferredSize(
-    preferredSize: Size.fromHeight(kToolbarHeight),
+    preferredSize: const Size.fromHeight(kToolbarHeight),
     child: AppBar(
       leading: IconButton(
-        icon: Icon(Icons.arrow_back),
+        icon: const Icon(Icons.arrow_back),
         onPressed: () {
           // Navigate back to the previous page
           Navigator.of(context).pop();
@@ -196,7 +196,7 @@ PreferredSizeWidget? _buildAppBar() {
 Widget _buildPlaylistNameTextField() {
   return TextFormField(
     controller: playlistNameController,
-    decoration: InputDecoration(
+    decoration: const InputDecoration(
       labelText: 'Playlist Name',
       border: OutlineInputBorder(),
     ),
@@ -207,7 +207,7 @@ Widget _buildPlaylistNameTextField() {
 Widget _buildPlaylistDescriptionTextField() {
   return TextFormField(
     controller: playlistDescriptionController,
-    decoration: InputDecoration(
+    decoration: const InputDecoration(
       labelText: 'Short Description for playlist',
       border: OutlineInputBorder(),
     ),
@@ -232,7 +232,7 @@ Widget _buildSubmitButton() {
     style: ElevatedButton.styleFrom(
       backgroundColor: DARK_PURPLE,
       foregroundColor: WHITE,
-      padding: EdgeInsets.symmetric(vertical: 16.0),
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8.0),
       ),
@@ -278,17 +278,17 @@ Widget _buildPlaylistUrlVisibility() {
         },
         child: Row(
           children: [
-            Icon(
+            const Icon(
               Icons.link,
-              color: Colors.blue,
+              color: DARK_PURPLE,
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Expanded(
               child: Text(
                 'Playlist URL: $playlistUrl',
                 style: GoogleFonts.openSans(
                   fontSize: 14.0,
-                  color: Colors.blue,
+                  color: DARK_PURPLE,
                   decoration: TextDecoration.underline,
                 ),
                 overflow: TextOverflow.ellipsis,

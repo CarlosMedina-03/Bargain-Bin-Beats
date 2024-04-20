@@ -1,5 +1,3 @@
-// import 'dart:html' as prefix;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/ColorOptions.dart';
 import 'package:flutter_application_1/src/SongHandler.dart';
@@ -9,7 +7,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'dart:async';
-import 'package:flutter_animate/flutter_animate.dart';
 
 class TinderPage extends StatefulWidget {
   final List<Song> playlistSongs;
@@ -26,7 +23,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   late Future<List<Song>> fetchDataFuture;
   Song? currentSong;
   List<Song> songs = [];
-    List<Song> newSongs = [];
+  List<Song> newSongs = [];
   int count = 0;
   late String songText;
   late AudioPlayer player;
@@ -72,19 +69,6 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   
 
   void nextSong(bool addToPlaylist) async {
-    if(tutorial){
-      tutorial = false; 
-      setState((){
-        if (count <= songs.length) {
-          currentSong = songs[count];
-          playAudio(currentSong!.getSongPreviewUrl()!);
-          print(count);
-        } else {
-          currentSong = null;
-        }
-      });
-      return;
-      }
     if (addToPlaylist && currentSong != null && !widget.playlistSongs.contains(currentSong)) {
       widget.playlistSongs.add(currentSong!);
       count++;
@@ -111,15 +95,10 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
       });
     }
   }
-  
-  
-
 
   void playAudio(String url) async {
     await player.play(UrlSource(url));
   }
-  // Original build method
-
 
   Widget buildImageSection() {
     if (currentSong?.imageUrl != null) {
@@ -157,106 +136,6 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
       )
     );
   }
-  
-  Widget buildAnimation(BuildContext context) {
-    Widget myWidget = Container(
-      child: const Icon(
-        Icons.touch_app,
-        color: MAGENTA,
-        size: 30.0),
-    );
-    return myWidget.animate(onPlay:(controller) => controller.repeat(),)
-    .then(delay: 500.ms)
-    .fadeIn(duration: 500.ms)
-    .then(delay: 500.ms)
-    .shake(hz: 50)
-    .then(delay:500.ms)
-    .slideX(end: 2, duration: 500.ms)
-    .then(delay: 500.ms)
-    // .slideX(end:-5)
-    // .then(delay: 500.ms)
-    .fadeOut(duration: 500.ms);
-  }
-
-  Widget buildLeftColumn(BuildContext context){
-    return Positioned(
-      left:5,
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width * .15, // text column width
-              child: Center(
-                child: Column(
-                  children: [
-                    buildAnimation(context),
-                    const Text('Swipe right to save!',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: WHITE)),
-                  ]
-                )
-              )
-      )
-    );
-  }
-
-  Widget buildRightColumn(BuildContext context){
-    return Positioned(
-      right: 5,
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width * .15,
-        child: Center(
-          child: Column(
-            children: [
-              Transform.flip(child: buildAnimation(context),
-                flipX: true),
-                const Text('Swipe left to skip!',
-            textAlign: TextAlign.center,
-            style: TextStyle(color: WHITE)
-            ),
-            ]
-          )
-        ),
-      )
-    );
-  }
-
-  Widget buildTutorial() {
-    return Center(
-      child: Stack(
-        alignment:  AlignmentDirectional.center,
-        children:[ 
-          Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(color: Colors.black, height: 300,width: 300,
-                  child: const Column(
-                    children: [Text('\nThis is a tutorial card',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 40, color: WHITE)),
-                    Text('\n\nGet your audio ready!',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 20, color: WHITE))
-                  ])
-                  
-                  ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                SizedBox(width: MediaQuery.of(context).size.height * 0.5,
-                  child: const Text(
-                  'This is where the song title and artist(s) will appear!',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20),
-                  ),
-                )
-              ]
-            )
-          )
-        ),
-          buildLeftColumn(context),
-          buildRightColumn(context)
-        ]
-      )
-    );
-  }
 
   Widget buildBody() {
     if (currentSong == null) {
@@ -265,10 +144,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
         child: FutureBuilder<List<Song>>(
           future: fetchDataFuture,
           builder: (context, snapshot) {
-            if (tutorial){
-              //tutorial = false;
-              return buildTutorial();}
-            else if (snapshot.connectionState == ConnectionState.waiting) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
               return const CircularProgressIndicator(color: DARK_PURPLE);
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
@@ -322,7 +198,6 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   }
 
   void doNothing(BuildContext context) {}
-  
 
   Widget buildSlidable(BuildContext context){
 
@@ -390,6 +265,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
         title: const Text("Add songs to your playlist!"),
       ),
       body: buildSlidable(context),
+      persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
         buildFooterButton(Icons.thumb_up, "Add", () => nextSong(true)),
         buildFooterButton(Icons.thumb_down, "Skip", () => nextSong(false)),

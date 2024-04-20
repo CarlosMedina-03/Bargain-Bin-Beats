@@ -104,7 +104,7 @@ class SongHandler{
           }
         }
       } 
-         if (allTracks.length < numTracksReturned) {
+      if (allTracks.length < numTracksReturned) {
         randomOffset = getRandomOffset(previousOffsets, random);
       }
 

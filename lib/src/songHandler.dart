@@ -47,10 +47,10 @@ class SongHandler{
   }
 
 
-  Future<List<dynamic>> getFinalSongs(List<String> genres, String accessToken) async {
+  Future<List<dynamic>> getFinalSongs(List<String> genres, String accessToken, List<int> previousOffsets) async {
     Set<dynamic> songSet = <dynamic>{};
     for (String genre in genres) {
-      final fetchedSongs = await generateSongData(genre, accessToken, (100/genres.length).floor());
+      final fetchedSongs = await generateSongData(genre, accessToken, (100/genres.length).floor(), previousOffsets);
       songSet.addAll(fetchedSongs);
     }
     List<dynamic> finalFetchedSongs = songSet.toList();
@@ -60,9 +60,8 @@ class SongHandler{
   }
 
 
-  Future<Set<dynamic>> generateSongData(String genre, String accessToken, int numTracksReturned) async {
+  Future<Set<dynamic>> generateSongData(String genre, String accessToken, int numTracksReturned, List<int> previousOffsets) async {
     Set<dynamic> allTracks = <dynamic>{};
-    List<int> previousOffsets = [];
     final random = Random();
     while (allTracks.length < numTracksReturned) {
       print(previousOffsets);
@@ -94,6 +93,7 @@ class SongHandler{
             allTracks.add(song);
             if (random.nextInt(100) >= 85) {
               randomOffset = getRandomOffset(previousOffsets, random);
+              if (random.nextBool()) items.reversed; print("list reversed");
               print("randomoffset: ${randomOffset}");
             }
             if (allTracks.length >= numTracksReturned) {
@@ -164,17 +164,17 @@ void main() async {
   // }
   // print(myTracks);
   
-  // while(true) {
-  List<String> genres = ["Blues"];
-  final List<dynamic> m = await handle.getFinalSongs(genres, accessToken);
-  List<String>checkList = [];
-  m.forEach((element) { 
-    if(checkList.contains(element.getSongPreviewUrl())){
-      print("True");
-       print("Title: ${element.getSongTitle()}, Preview URL: ${element.getSongPreviewUrl()}");
-    }
-    checkList.add(element.getSongPreviewUrl());
-  });
+  // // while(true) {
+  // List<String> genres = ["Blues"];
+  // final List<dynamic> m = await handle.getFinalSongs(genres, accessToken);
+  // List<String>checkList = [];
+  // m.forEach((element) { 
+  //   if(checkList.contains(element.getSongPreviewUrl())){
+  //     print("True");
+  //      print("Title: ${element.getSongTitle()}, Preview URL: ${element.getSongPreviewUrl()}");
+  //   }
+  //   checkList.add(element.getSongPreviewUrl());
+  // });
   // print("no duplicate");
   // print(checkList);
   // print(tracks);

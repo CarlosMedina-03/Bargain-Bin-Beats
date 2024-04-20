@@ -23,7 +23,8 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   late Future<List<Song>> fetchDataFuture;
   Song? currentSong;
   List<Song> songs = [];
-  List<Song> newSongs = [];
+    List<Song> newSongs = [];
+    List<int> previousOffsets = [];
   int count = 0;
   late String songText;
   late AudioPlayer player;
@@ -50,7 +51,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     for (var genre in widget.genres) {
       lowerCaseGenres.add(genre.toLowerCase());
     }
-    final tracks = await songHandler.getFinalSongs(lowerCaseGenres, accessToken);
+    final tracks = await songHandler.getFinalSongs(lowerCaseGenres, accessToken, previousOffsets);
     for (var track in tracks) {
       songs.add(
         Song(
@@ -93,6 +94,9 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
           currentSong = null;
         }
       });
+    }
+      if (count == songs.length - 15) {
+      await fetchData();
     }
   }
 
@@ -271,6 +275,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
         buildFooterButton(Icons.thumb_down, "Skip", () => nextSong(false)),
         buildFooterButton(Icons.check, "Done", () {
           player.stop();
+          previousOffsets = [];
           Navigator.of(context).push(
             SwipeablePageRoute(
               builder: (context) => PlaylistPage(pickedSongs: widget.playlistSongs),

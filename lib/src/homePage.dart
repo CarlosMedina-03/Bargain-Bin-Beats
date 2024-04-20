@@ -6,9 +6,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
+/// This class creates the home page of the app.
 class HomePage extends StatelessWidget {
   bool startIsPressed = false;
 
+  /// Displayas animation picture on home page and use helper methods to create title and start button
   Widget buildContent(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -24,6 +26,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  /// Creates the title of the app.
   Widget buildWelcomeText(){
     return RichText(
       text: TextSpan(
@@ -44,6 +47,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  /// Creates the start button of the home page and styles the button. 
   Widget buildStartButton(BuildContext context) {
     return Container(
       width: 200,
@@ -84,30 +88,6 @@ class HomePage extends StatelessWidget {
     );
   }
 
-
-
-
-  Widget buildPlaylistsButton(BuildContext context) {
-    return buildButton(
-      onPressed: () {
-        Navigator.of(context).push(
-          SwipeablePageRoute(builder: (context) => PlaylistPage(pickedSongs: [])),
-        );
-      },
-      label: "Playlists",
-    );
-  }
-
-  Widget buildButton({required VoidCallback onPressed, required String label}) {
-    return TextButton(
-      style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.all<Color>(WHITE),
-        backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
-      ),
-      onPressed: onPressed,
-      child: Text(label, style: const TextStyle(fontSize: 18)),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {

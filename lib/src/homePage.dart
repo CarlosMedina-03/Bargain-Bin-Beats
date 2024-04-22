@@ -53,17 +53,14 @@ class HomePage extends StatelessWidget {
       width: 200,
       height: 40,
       decoration: BoxDecoration( 
-        gradient: const RadialGradient(
-          radius: 2.6,
-          colors: [BLUE, MAGENTA, YELLOW],
-        ),
+        color: YELLOW,
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
+            color: Colors.grey.withOpacity(1),
             spreadRadius: 5,
             blurRadius: 7,
-            offset: const Offset(0, 3),
+            offset: const Offset(3, 3),
           ),
         ],
       ),
@@ -78,7 +75,7 @@ class HomePage extends StatelessWidget {
             child: Text(
               "START",
               style: TextStyle(
-                color: WHITE,
+                color: DARK_PURPLE,
                 fontWeight: FontWeight.bold,
               ),
             ),

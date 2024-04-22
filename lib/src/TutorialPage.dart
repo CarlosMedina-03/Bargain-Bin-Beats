@@ -113,18 +113,20 @@ class TutorialPageState extends State<TutorialPage>  {
 
   Widget buildRightColumn(BuildContext context){
     return Positioned(
-      right: 5,
+      right: 75,
+      bottom: 20,
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * .15,
+        width: MediaQuery.of(context).size.width * .17,
         child: Center(
           child: Column(
             children: [
+              SizedBox(height: MediaQuery.of(context).size.height * 0.8),
               Transform.flip(
                 flipX: true,
                 child: buildAnimation(context),
               ),
               const Text(
-                'Swipe right to save!',
+                'Swipe right or press Add to save!',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: DARK_PURPLE)
               ),
@@ -137,15 +139,17 @@ class TutorialPageState extends State<TutorialPage>  {
 
   Widget buildLeftColumn(BuildContext context){
     return Positioned(
-      left:5,
+      left: 75,
+      bottom: 20,
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * .15, // text column width
+        width: MediaQuery.of(context).size.width * .17, // text column width
         child: Center(
           child: Column(
             children: [
+              SizedBox(height: MediaQuery.of(context).size.height * 0.8),
               buildAnimation(context),
               const Text(
-                'Swipe left to skip!',
+                'Swipe left or press Skip to skip!',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: DARK_PURPLE)
               ),

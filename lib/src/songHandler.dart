@@ -11,13 +11,16 @@ class SongHandler{
   static const String CLIENT_ID = 'da3531944d1f4a7fa2c20b63a46d1d60';
   static const String CLIENT_SECRET = '01c615f0104e4ce585ed871ae37f4490';
   
-  /**
-   * Getter Method for refresh token 
-   */
+  ///
+  /// Getter method for refresh token
+  ///
   String getRefreshToken(){
     return 'AQA7cG_FjXyApdq1aYiMpnDfovnxzpogKg4S44xSkWioVS-AsKtGdj4IsjAwk4nVIeA0vesSlhmQJ1QSRNyrf1pNlbdA8lvDfxeTWgcQ1CsCjGJ_ZQhrnDV10C3yRTC3AIw';
   }
 
+///
+/// Retrieves Spotify access token using the permanent refresh token
+/// 
   Future<String> getAccessToken(String refreshToken) async {
     const String clientId = 'da3531944d1f4a7fa2c20b63a46d1d60';
     const String clientSecret = '01c615f0104e4ce585ed871ae37f4490';
@@ -46,7 +49,10 @@ class SongHandler{
     }
   }
 
-
+/// 
+/// Retrieves the final list of songs for use in the swiping portion of the app. 
+/// Takes the genres for the songs, an access token, a list of previous offsets to pass to generateSongData
+/// 
   Future<List<dynamic>> getFinalSongs(List<String> genres, String accessToken, List<int> previousOffsets) async {
     Set<dynamic> songSet = <dynamic>{};
     for (String genre in genres) {
@@ -59,7 +65,16 @@ class SongHandler{
     return finalFetchedSongs;
   }
 
-
+///
+/// Fetches songs from Spotify from the proper genres
+/// Each genre gets an even share of the songs. 
+/// Songs are randomized through several methods:
+/// 1. A random page of 50 songs is selected from the pool to start
+/// 2. Songs are grabbed one at a time from that page, with each song having a 15% chance to change the page looked at
+/// 3. Whenever the page is randomly changed, there is a 50% chance to reverse the order of the iterator
+/// 4. No page can be visited more than once in a session
+/// Only songs that have complete data are added: Title, artist, preview url, and album art
+///  
   Future<Set<dynamic>> generateSongData(String genre, String accessToken, int numTracksReturned, List<int> previousOffsets) async {
     Set<dynamic> allTracks = <dynamic>{};
     final random = Random();

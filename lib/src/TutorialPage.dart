@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/src/ColorOptions.dart';
+import 'package:flutter_application_1/src/genreSelectionPage.dart';
 import 'package:flutter_application_1/src/tinderPage.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -163,9 +164,9 @@ class TutorialPageState extends State<TutorialPage>  {
         motion: const ScrollMotion(),
         dismissible: DismissiblePane(
           onDismissed: () {
-            // Navigator.of(context).push(
-            //   MaterialPageRoute(builder: (context) => TutorialPage(genres: widget.genres)),
-            // );
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => TutorialPage(genres: widget.genres)),
+            );
           },
           dismissThreshold: .1
         ),
@@ -210,6 +211,11 @@ class TutorialPageState extends State<TutorialPage>  {
     return Scaffold (
       backgroundColor: PALE_PURPLE,
       appBar: AppBar (
+        leading: BackButton(
+          onPressed: () {Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const genreSelectionPage()),
+          );},
+        ),
         backgroundColor: DARK_PURPLE,
         foregroundColor: WHITE,
         title: const Text("Press done to begin!"),

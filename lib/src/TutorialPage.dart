@@ -164,9 +164,7 @@ class TutorialPageState extends State<TutorialPage>  {
         motion: const ScrollMotion(),
         dismissible: DismissiblePane(
           onDismissed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => TutorialPage(genres: widget.genres)),
-            );
+             setState(() {});
           },
           dismissThreshold: .1
         ),
@@ -187,9 +185,7 @@ class TutorialPageState extends State<TutorialPage>  {
         extentRatio: .0001,
         motion: const ScrollMotion(),
         dismissible: DismissiblePane(onDismissed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => TutorialPage(genres: widget.genres)),
-          );
+          setState(() {});
         },
           dismissThreshold: .1),
         children: const [
@@ -211,11 +207,6 @@ class TutorialPageState extends State<TutorialPage>  {
     return Scaffold (
       backgroundColor: PALE_PURPLE,
       appBar: AppBar (
-        leading: BackButton(
-          onPressed: () {Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => const genreSelectionPage()),
-          );},
-        ),
         backgroundColor: DARK_PURPLE,
         foregroundColor: WHITE,
         title: const Text("Press done to begin!"),

@@ -149,7 +149,7 @@ class SongHandler{
   return randomOffset;
 }
 
-
+/// Method to actually retrieve the map of songs from Spotify
   Future<Map<String, dynamic>> fetchTracks(String genre, String accessToken, int offset) async {
     final url = Uri.parse('https://api.spotify.com/v1/search?q=genre:$genre&type=track&market=US&limit=50&offset=$offset');
     final response = await http.get(url, headers: {'Authorization': 'Bearer $accessToken'});
@@ -162,42 +162,3 @@ class SongHandler{
   }
 }
 
-
-void main() async {
-  // var song1 = new Song("title", "artist", "genre");
-  var handle = SongHandler();
-  final String refreshToken = handle.getRefreshToken(); // Replace with your refresh token
-  final String accessToken = await handle.getAccessToken(refreshToken);
-
-  // var arr = await song1.getAvailableGenres(refreshToken);
-  // print(arr);
-
-
-  // final Set<dynamic> myTracks = await handle.fetchTracksByPopularity("metal", accessToken, 100);
-  // for(Song song in myTracks){
-  //   print(song.getImageUrl());
-  // }
-  // print(myTracks);
-  
-  // // while(true) {
-  // List<String> genres = ["Blues"];
-  // final List<dynamic> m = await handle.getFinalSongs(genres, accessToken);
-  // List<String>checkList = [];
-  // m.forEach((element) { 
-  //   if(checkList.contains(element.getSongPreviewUrl())){
-  //     print("True");
-  //      print("Title: ${element.getSongTitle()}, Preview URL: ${element.getSongPreviewUrl()}");
-  //   }
-  //   checkList.add(element.getSongPreviewUrl());
-  // });
-  // print("no duplicate");
-  // print(checkList);
-  // print(tracks);
-  // print(tracks.length);
-  // // List<dynamic>  m =await handle.getTrackInfo(tracks);
-  // // print(m.length);
-  // assert(testDuplicates(m.toList()).isEmpty);
-  // }
-
-
-}

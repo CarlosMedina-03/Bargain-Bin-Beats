@@ -133,8 +133,10 @@ class SongHandler{
 
 
 
+  /// 
   /// Helper method to generate random offsets that are not already stored
-  /// in a list 
+  /// in a list
+  ///  
   int getRandomOffset(List<int> previousOffsets, Random random) {
   // int randomOffset = (random.nextDouble() * 550).floor();
   int randomOffset = (random.nextDouble() * 700).floor();
@@ -149,7 +151,9 @@ class SongHandler{
   return randomOffset;
 }
 
+/// 
 /// Method to actually retrieve the map of songs from Spotify
+/// 
   Future<Map<String, dynamic>> fetchTracks(String genre, String accessToken, int offset) async {
     final url = Uri.parse('https://api.spotify.com/v1/search?q=genre:$genre&type=track&market=US&limit=50&offset=$offset');
     final response = await http.get(url, headers: {'Authorization': 'Bearer $accessToken'});

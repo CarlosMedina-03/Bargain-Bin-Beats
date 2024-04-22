@@ -1,9 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/src/ColorOptions.dart';
-import 'package:flutter_application_1/src/genreSelectionPage.dart';
 import 'package:flutter_application_1/src/tinderPage.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:lottie/lottie.dart';
 
 class TutorialPage extends StatefulWidget {
   final List<String> genres;
@@ -29,11 +31,12 @@ class TutorialPageState extends State<TutorialPage>  {
                 children: [
                   buildTutorialBox(context),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                  buildTutorialText(context)
+                  buildExampleSongText(context)
                 ],
               ),
             ),
           ),
+          buildTutorialText(context),
           buildLeftColumn(context),
           buildRightColumn(context),
         ],
@@ -41,13 +44,28 @@ class TutorialPageState extends State<TutorialPage>  {
     );
   }
 
-  Widget buildTutorialText(BuildContext context){
+  Widget buildExampleSongText(BuildContext context){
     return SizedBox(
       width: MediaQuery.of(context).size.height * 0.5,
       child: const Text(
         'This is where the song title and artist(s) will appear!',
         textAlign: TextAlign.center,
         style: TextStyle(fontSize: 20, color: DARK_PURPLE),
+      ),
+    );
+  }
+
+  Widget buildTutorialText(BuildContext context){
+    return Positioned (
+      top: MediaQuery.of(context).size.height * 0.16,
+      left: MediaQuery.of(context).size.height * 0.085,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.height * 0.5,
+        child: const Text(
+          'Tutorial',
+          textAlign: TextAlign.left,
+          style: TextStyle(fontSize: 50, color: DARK_PURPLE, fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }
@@ -60,24 +78,13 @@ class TutorialPageState extends State<TutorialPage>  {
     else {
       imageSize = MediaQuery.of(context).size.height * 0.5;
     }
-    return Container(
-      color: Colors.black,
+    return SizedBox(
       height: imageSize,
       width: imageSize,
-      child: const Column(
-        children: [
-          Text(
-            '\nThis is a tutorial card',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 40, color: Colors.white),
-          ),
-          Text(
-            '\n\nGet your audio ready!',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 20, color: Colors.white),
-          ),
-        ],
-      ),
+      child: Lottie.asset(
+        'assets/images/guitarDudes.json', 
+        animate: true, 
+        fit: BoxFit.cover),
     );
   }
 
@@ -164,7 +171,9 @@ class TutorialPageState extends State<TutorialPage>  {
         motion: const ScrollMotion(),
         dismissible: DismissiblePane(
           onDismissed: () {
-             setState(() {});
+            // Navigator.of(context).push(
+            //   MaterialPageRoute(builder: (context) => TutorialPage(genres: widget.genres)),
+            // );
           },
           dismissThreshold: .1
         ),
@@ -185,7 +194,9 @@ class TutorialPageState extends State<TutorialPage>  {
         extentRatio: .0001,
         motion: const ScrollMotion(),
         dismissible: DismissiblePane(onDismissed: () {
-          setState(() {});
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => TutorialPage(genres: widget.genres)),
+          );
         },
           dismissThreshold: .1),
         children: const [

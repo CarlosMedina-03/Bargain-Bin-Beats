@@ -8,4 +8,6 @@ Bargain Bin Beats is a music app that lets you discover new music based on genre
 ## Acknowledgement
 We would like to give credit to the json assets, music, and code we utilized
 
+Link to homePage logo from Lottie: https://lottiefiles.com/animations/girl-listening-to-music-taLUHBXg1O 
+
 

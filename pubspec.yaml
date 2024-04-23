@@ -10,7 +10,7 @@ environment:
   sdk: '>=3.2.6 <4.0.0'
 
 dependencies:
-  audioplayers: ^5.2.1
+  audioplayers: ^6.0.0
   flutter:
     sdk: flutter
   flutter_localizations:
@@ -21,7 +21,7 @@ dependencies:
   spotify: ^0.13.0
   swipeable_page_route: ^0.4.2
   url_launcher: ^6.2.5
-  google_fonts: ^4.0.1
+  google_fonts: ^6.2.1
   lottie: ^3.1.0 
   flutter_animate: ^4.5.0
 
@@ -41,4 +41,5 @@ flutter:
     # Add assets from the images directory to the application.
     - assets/images/
     - assets/images/homepageanimation.json
+    - assets/images/guitarDudes.json
 

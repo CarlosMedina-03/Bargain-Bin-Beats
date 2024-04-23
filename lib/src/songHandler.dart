@@ -99,7 +99,7 @@ class SongHandler{
             Song song = Song("", "", "", "", "", "");
             song.setTitle(currentItem['name']);
             List<dynamic> artists = currentItem['artists'];
-            String artistName = artists.map((artist) => artist['name']).join(', ');
+            String artistName = artists[0]['name'];
             song.setArtist(artistName);
             song.setPreviewUrl(currentItem['preview_url']);
             song.setImageUrl(currentItem['album']['images'][0]['url']);

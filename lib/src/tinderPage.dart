@@ -335,6 +335,8 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
                   value: position.inSeconds.toDouble(),
                   activeColor: GREEN,
                   onChanged: (value) {
+                    final newPosition = Duration(seconds: value.toInt());
+                    player.seek(newPosition);
                   },
                 );
               },

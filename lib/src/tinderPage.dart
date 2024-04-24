@@ -4,10 +4,15 @@ import 'package:flutter_application_1/src/SongHandler.dart';
 import 'package:flutter_application_1/src/PlaylistPage.dart';
 import 'package:flutter_application_1/src/song.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'dart:async';
 
+///
+/// Constructs everything in the song page and all the functionalities in the song page. 
+/// This where users can swipe through songs to add or skip them.
+/// 
 class TinderPage extends StatefulWidget {
   final List<Song> playlistSongs;
   final List<String> genres;
@@ -19,31 +24,51 @@ class TinderPage extends StatefulWidget {
   _TinderPageState createState() => _TinderPageState();
 }
 
+///
+/// The state for the `SongPage` widget.
+/// 
 class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateMixin {
   late Future<List<Song>> fetchDataFuture;
   Song? currentSong;
   List<Song> songs = [];
-    List<Song> newSongs = [];
-    List<int> previousOffsets = [];
+  List<Song> newSongs = [];
+  List<int> previousOffsets = [];
   int count = 0;
-  late String songText;
+  late String songTitle;
+  late String songArtist;
   late AudioPlayer player;
+  Duration duration = Duration.zero;
+  Duration position = Duration.zero;
   bool tutorial = true;
+  
 
   late final controller = SlidableController(this);
 
+
+  //Initalizes state of page  by fetching song data and intializing audio player
   @override
   void initState() {
     super.initState();
     fetchDataFuture = fetchData();
     player = AudioPlayer();
-  }
-  @override
-  void dispose() {
-    player.dispose();
-    super.dispose();
-  }     
 
+  }
+
+  // In this implementation, the [player] object, likely representing an audio player, is disposed
+  ///to release any resources it holds. Additionally, `super.dispose()` is called to ensure that
+  // the framework can perform its own cleanup tasks related to the state object.
+  @override
+    @override
+    void dispose() {
+      player.dispose();
+      super.dispose();
+    }     
+
+
+  /// 
+  /// Fetches random song from spotify and create a song object that consists of title, artist, preview url, track id, image url,
+  /// and track uri. This methid returns the song object that is created. 
+  /// 
   Future<List<Song>> fetchData() async {
     final songHandler = SongHandler();
     final String accessToken = await songHandler.getAccessToken(songHandler.getRefreshToken());
@@ -68,7 +93,11 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     return songs;
   }
   
-
+  ///
+  /// A method that updates the state of current song to make sure that current song is updated correctly when 
+  /// user adds or skips a song. When user is reaching the end of the song list, sepcifically less than 15 songs until the end, 
+  /// fetchData is called again to make sure a new bath of songs are added to the list. 
+  ///
   void nextSong(bool addToPlaylist) async {
     if (addToPlaylist && currentSong != null && !widget.playlistSongs.contains(currentSong)) {
       widget.playlistSongs.add(currentSong!);
@@ -100,33 +129,64 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     }
   }
 
-  void playAudio(String url) async {
-    await player.play(UrlSource(url));
-  }
-
+  ///
+  /// Displays the image of a song based on it's album cover/image url. This image is then clipped in a rounded rectangle. 
+  /// It also displays the song's title and artist inside this clipped rectangle. 
+  ///
   Widget buildImageSection() {
-    if (currentSong?.imageUrl != null) {
-      String? imageUrl = currentSong!.imageUrl;
-      return Padding(
-        padding: EdgeInsets.only(
-          top: MediaQuery.of(context).size.height * 0.01, 
-        ),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.5,
-          width: MediaQuery.of(context).size.width * 0.95,
-          child: Image.network(
-            imageUrl!,
-            fit: BoxFit.contain,
-            key: ValueKey<String>(imageUrl), // Helps Flutter know when to update the image
+  if (currentSong?.imageUrl != null) {
+    String? imageUrl = currentSong!.imageUrl;
+    double imageSize;
+    if (MediaQuery.of(context).size.height * 0.5 > MediaQuery.of(context).size.width * 0.95) {
+      imageSize = MediaQuery.of(context).size.width * 0.95;
+    }
+    else {
+      imageSize = MediaQuery.of(context).size.height * 0.5;
+    }
+    return Container(
+      width: imageSize, 
+      height: imageSize, 
+      decoration: BoxDecoration(
+        color: PALE_YELLOW_CARD, 
+        borderRadius: BorderRadius.circular(11), 
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(1), 
+            spreadRadius: 3, // Adjust the spread radius of the shadow
+            blurRadius: 5, // Adjust the blur radius of the shadow
+            offset: const Offset(0, 3), // Adjust the offset of the shadow
+          ),
+        ],
+      ),
+      padding: const EdgeInsets.all(8), 
+      // ClipRRect is what clips the image inside a rounded rectangle
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: Image.network(
+                  imageUrl!,
+                  fit: BoxFit.fill,
+                  key: ValueKey<String>(imageUrl),
+                ),
+              ),
+              buildTitleAndArtist(),
+            ],
           ),
         ),
-      );
-    }
-    return const SizedBox.shrink();
+      ),
+    );
   }
+  return const SizedBox.shrink();
+}
 
+  ///
+  ///Formats image section and loading bar to the center of screen. 
+  ///
   Widget formatBody() {
-    print('formatBody');
     return Center(
       child: SingleChildScrollView(
         child: Column(
@@ -134,22 +194,49 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
           children: [
             buildImageSection(),
             SizedBox(height: MediaQuery.of(context).size.height * 0.03), // Add some space between image and card
-            buildCard(),
+            buildLoadingBar()
           ]
         )
       )
     );
   }
 
+
+  /// 
+  /// Plays the audio of a song based on url 
+  /// 
+  void playAudio(String url) async {
+    await player.play(UrlSource(url));
+  }
+  
+  ///
+  ///Helper method that sets up player listeners to update duration and position. 
+  ///Position is how many seconds have passed, while duration is the total duration of the preview, which is 29 sec.
+  ///
+  void setUpPlayerListeners() {
+  player.onDurationChanged.listen((Duration d) {
+        duration = d;
+      });
+
+      player.onPositionChanged.listen((Duration p) {
+        position = p;
+      });
+  }
+
+  ///
+  ///Builds main body of page widget, hanlde different states such as loading, error, displaying the fetched songs, and also 
+  /// uses setUpPlayer to update postion and duration. 
+  ///
   Widget buildBody() {
     if (currentSong == null) {
-      // This handles the initial state where _fetchDataFuture is still fetching data
+      // This handles the initial state where fetchDataFuture is still fetching data
       return Center(
         child: FutureBuilder<List<Song>>(
           future: fetchDataFuture,
           builder: (context, snapshot) {
+            // Displays circular progress indicator if songs are still being fetched
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator(color: DARK_PURPLE);
+              return const CircularProgressIndicator(color: DARK_PURPLE); 
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else {
@@ -157,38 +244,122 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
               if (count <= songs.length && currentSong == null){
                 currentSong = songs[count];
                 playAudio(currentSong!.getSongPreviewUrl()!);
+                setUpPlayerListeners();
                 print(count);
               }
-              print('topformatBody in buildBodyindicator');
+
               return formatBody();
             }
           },
         ),
       );
     } else {
-      //if (tutorial){return buildTutorial();}
-      print('bottom formatBody in buildBody indicator');
       return formatBody();
     }
   }
 
-  Widget buildCard() {
-    songText = currentSong != null ?  '${currentSong!.title} by ${currentSong!.artist}': 'No songs available';
-    return Card(
-      color: DARK_PURPLE,
-      elevation: 5,
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Text(
-          // currentSong != null ? songText : 'No songs available'
-          songText,
-          style: const TextStyle(fontSize: 20, color: WHITE),
-          textAlign: TextAlign.center,
+  /// 
+  /// Displays and styles the song's title artist if current song isn't null. It also displays a heart icon.
+  /// 
+  Widget buildTitleAndArtist() {
+  songTitle = currentSong != null ?  '${currentSong!.title}' : 'No Song Available';
+  songArtist = currentSong != null ?  'by ${currentSong!.artist}' : 'No Song Available';
+  return Padding(
+    padding: const EdgeInsets.all(15),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(child: 
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              songTitle, 
+              style: GoogleFonts.poppins(fontSize: 13.5, fontWeight: FontWeight.bold),
+              ),
+            Text(songArtist)
+          ],
         ),
-      ),
-    );
+        ),
+          const Icon(
+          Icons.favorite,
+          color: Colors.red,
+        )
+      ],
+    ),
+  );
+}
+
+  ///
+  ///Helper method to format time in seconds. This is used to display how many seconds have the song played. 
+  ///
+  String formatTime(Duration duration){
+    String twoDigitSeconds = duration.inSeconds.remainder(60).toString().padLeft(2, "0");
+    String formattedTime = "${duration.inMinutes}:$twoDigitSeconds";
+    return formattedTime;
   }
 
+
+  ///
+  ///Creates a loading bar that shows the progress of the preview. It also displays position and duration of the preview.
+  ///
+  Widget buildLoadingBar() {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 115.0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        // Position is how many seconds have passed. This is what updates.
+        StreamBuilder<Duration>(
+          stream: player.onPositionChanged,
+          builder: (context, snapshot) {
+            final position = snapshot.data ?? Duration.zero;
+            return Text(formatTime(position),  
+            style: GoogleFonts.poppins(),
+            );
+          },
+        ),
+        //This is the loading bar. 
+        Expanded(
+          child: SliderTheme(
+            data: SliderTheme.of(context).copyWith(
+              thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 0),
+            ),
+            child: StreamBuilder<Duration>(
+              stream: player.onPositionChanged,
+              builder: (context, snapshot) {
+                final position = snapshot.data ?? Duration.zero;
+                return Slider(
+                  min: 0.0,
+                  max: duration.inSeconds.toDouble(),
+                  value: position.inSeconds.toDouble(),
+                  activeColor: GREEN,
+                  onChanged: (value) {
+                  },
+                );
+              },
+            ),
+          ),
+        ),
+        //Total duration of the preview 
+        StreamBuilder<Duration>(
+          stream: player.onDurationChanged,
+          builder: (context, snapshot) {
+            final duration = snapshot.data ?? Duration.zero;
+            return Text(formatTime(duration),
+              style: GoogleFonts.poppins(),
+            );
+          },
+        ),
+      ],
+    ),
+  );
+}
+
+
+  ///
+  ///Builds a footer button underneath the page.
+  ///
   Widget buildFooterButton(IconData icon, String label, VoidCallback onPressed) {
     return TextButton.icon(
       onPressed: onPressed,
@@ -201,10 +372,17 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     );
   }
 
+  ///
+  ///Helper method that does nothing
+  ///
   void doNothing(BuildContext context) {}
 
+  ///
+  /// Constructs a slidable action handler, allowing users to swipe right or left to add or skip songs.
+  /// This method sets up the sliding functionality, determining the threshold for triggering song addition
+  /// or skipping when the user drags the screen and adding labels and colors.
+  /// 
   Widget buildSlidable(BuildContext context){
-
     return Slidable(
       // Specify a key if the Slidable is dismissible.
       key: UniqueKey(),
@@ -259,6 +437,12 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     );
   }
 
+
+  ///
+  ///This method constructs the an app bar, background color, and persistent footer buttons.
+  ///The body of the scaffold contains a `Slidable` widget, which enables swipe actions for adding or skipping songs.
+  /// This returns a widget representing the main UI of the song page.
+  ///
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -275,10 +459,10 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
         buildFooterButton(Icons.thumb_down, "Skip", () => nextSong(false)),
         buildFooterButton(Icons.check, "Done", () {
           player.stop();
-          previousOffsets = [];
+          previousOffsets = []; // Intialize previous offset to an empty list
           Navigator.of(context).push(
             SwipeablePageRoute(
-              builder: (context) => PlaylistPage(pickedSongs: widget.playlistSongs),
+              builder: (context) => PlaylistPage(pickedSongs: widget.playlistSongs), // Moves to playlist page when done button is pushed
             ),
           );
         }),

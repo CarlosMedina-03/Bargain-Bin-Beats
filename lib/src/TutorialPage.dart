@@ -29,6 +29,7 @@ class TutorialPageState extends State<TutorialPage>  {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                   buildTutorialBox(context),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                   buildExampleSongText(context)
@@ -78,13 +79,17 @@ class TutorialPageState extends State<TutorialPage>  {
     else {
       imageSize = MediaQuery.of(context).size.height * 0.5;
     }
-    return SizedBox(
-      height: imageSize,
-      width: imageSize,
-      child: Lottie.asset(
-        'assets/images/guitarDudes.json', 
-        animate: true, 
-        fit: BoxFit.cover),
+    return Positioned (
+      top: MediaQuery.of(context).size.height * -5,
+      child: SizedBox(
+        height: imageSize,
+        width: imageSize,
+        child: Lottie.asset(
+          'assets/images/guitarDudes.json', 
+          animate: true, 
+          fit: BoxFit.contain
+        ),
+      ),
     );
   }
 
@@ -120,10 +125,10 @@ class TutorialPageState extends State<TutorialPage>  {
 
   Widget buildRightColumn(BuildContext context){
     return Positioned(
-      right: 75,
-      bottom: 20,
+      right: 20,
+      bottom: 15,
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * .17,
+        width: MediaQuery.of(context).size.width * .31,
         child: Center(
           child: Column(
             children: [
@@ -146,10 +151,10 @@ class TutorialPageState extends State<TutorialPage>  {
 
   Widget buildLeftColumn(BuildContext context){
     return Positioned(
-      left: 75,
-      bottom: 20,
+      left: 20,
+      bottom: 15,
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * .17, // text column width
+        width: MediaQuery.of(context).size.width * .3, // text column width
         child: Center(
           child: Column(
             children: [
@@ -176,7 +181,7 @@ class TutorialPageState extends State<TutorialPage>  {
         dismissible: DismissiblePane(
           onDismissed: () {
             setState(() {
-         });
+        });
           },
           dismissThreshold: .1
         ),
@@ -197,8 +202,8 @@ class TutorialPageState extends State<TutorialPage>  {
         extentRatio: .0001,
         motion: const ScrollMotion(),
         dismissible: DismissiblePane(onDismissed: () {
-         setState(() {
-         });
+          setState(() {
+          });
         },
           dismissThreshold: .1),
         children: const [
@@ -226,11 +231,21 @@ class TutorialPageState extends State<TutorialPage>  {
       ),
       body: buildSlidable(context),
       persistentFooterButtons: [
+        buildFooterButton(Icons.thumb_up, "Add", () {
+          setState(() {
+            
+          });
+        }),
+        buildFooterButton(Icons.thumb_down, "Skip", () {
+          setState(() {
+            
+          });
+        }),
         buildFooterButton(Icons.arrow_right_alt, "Done", () {
           Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => TinderPage(playlistSongs: [], genres: widget.genres,)),
           );
-        })
+        }),
       ],
     );
   }

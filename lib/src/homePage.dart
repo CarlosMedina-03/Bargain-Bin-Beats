@@ -53,12 +53,12 @@ class HomePage extends StatelessWidget {
       width: 200,
       height: 40,
       decoration: BoxDecoration( 
-        color: YELLOW,
+        color: MAGENTA,
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(1),
-            spreadRadius: 5,
+            color: DARK_PURPLE.withOpacity(1),
+            spreadRadius: 1,
             blurRadius: 7,
             offset: const Offset(3, 3),
           ),
@@ -77,6 +77,7 @@ class HomePage extends StatelessWidget {
               style: TextStyle(
                 color: DARK_PURPLE,
                 fontWeight: FontWeight.bold,
+                fontSize: 25
               ),
             ),
           ),

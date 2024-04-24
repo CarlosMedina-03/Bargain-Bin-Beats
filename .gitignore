@@ -114,3 +114,4 @@ macos/RunnerTests/RunnerTests.swift
 web/manifest.json
 pubspec.lock
 pubspec.yaml
+pubspec.lock

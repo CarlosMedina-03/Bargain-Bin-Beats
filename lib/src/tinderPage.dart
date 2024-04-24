@@ -305,7 +305,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   ///
   Widget buildLoadingBar() {
   return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 115.0),
+    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.1),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

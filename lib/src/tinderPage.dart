@@ -37,7 +37,6 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   late String songTitle;
   late String songArtist;
   late AudioPlayer player;
-  Duration duration = Duration.zero;
   Duration position = Duration.zero;
   bool tutorial = true;
   
@@ -51,6 +50,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     super.initState();
     fetchDataFuture = fetchData();
     player = AudioPlayer();
+    setUpPlayerListeners();
 
   }
 
@@ -129,6 +129,40 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     }
   }
 
+  /// 
+  /// Displays and styles the song's title artist if current song isn't null. It also displays a song note icon.
+  /// 
+  Widget buildTitleAndArtist() {
+  songTitle = currentSong != null ?  '${currentSong!.title}' : 'No Song Available';
+  songArtist = currentSong != null ?  'by ${currentSong!.artist}' : 'No Song Available';
+  return Padding(
+    padding: const EdgeInsets.all(15),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(child: 
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              songTitle, 
+              style: GoogleFonts.poppins(fontSize: 17.5, fontWeight: FontWeight.bold),
+              ),
+            Text(songArtist, style: GoogleFonts.poppins(fontSize: 14),)
+          ],
+        ),
+        ),
+          const Icon(
+          Icons.audiotrack,
+          color: Colors.red,
+        )
+      ],
+    ),
+  );
+}
+
+
+
   ///
   /// Displays the image of a song based on it's album cover/image url. This image is then clipped in a rounded rectangle. 
   /// It also displays the song's title and artist inside this clipped rectangle. 
@@ -174,31 +208,13 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
                 ),
               ),
               buildTitleAndArtist(),
-            ],
+             ],
+            ),
           ),
-        ),
-      ),
-    );
-  }
-  return const SizedBox.shrink();
-}
-
-  ///
-  ///Formats image section and loading bar to the center of screen. 
-  ///
-  Widget formatBody() {
-    return Center(
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            buildImageSection(),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.03), // Add some space between image and card
-            buildLoadingBar()
-          ]
-        )
-      )
-    );
+       ),
+      );
+   }
+    return const SizedBox.shrink();
   }
 
 
@@ -210,88 +226,18 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   }
   
   ///
-  ///Helper method that sets up player listeners to update duration and position. 
-  ///Position is how many seconds have passed, while duration is the total duration of the preview, which is 29 sec.
+  ///Helper method that sets up player listeners to update position. 
+  ///Position indicates how many seconds the song has been played.
   ///
   void setUpPlayerListeners() {
-  player.onDurationChanged.listen((Duration d) {
-        duration = d;
-      });
-
       player.onPositionChanged.listen((Duration p) {
         position = p;
       });
   }
 
-  ///
-  ///Builds main body of page widget, hanlde different states such as loading, error, displaying the fetched songs, and also 
-  /// uses setUpPlayer to update postion and duration. 
-  ///
-  Widget buildBody() {
-    if (currentSong == null) {
-      // This handles the initial state where fetchDataFuture is still fetching data
-      return Center(
-        child: FutureBuilder<List<Song>>(
-          future: fetchDataFuture,
-          builder: (context, snapshot) {
-            // Displays circular progress indicator if songs are still being fetched
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator(color: DARK_PURPLE); 
-            } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            } else {
-              final songs = snapshot.data!;
-              if (count <= songs.length && currentSong == null){
-                currentSong = songs[count];
-                playAudio(currentSong!.getSongPreviewUrl()!);
-                setUpPlayerListeners();
-                print(count);
-              }
-
-              return formatBody();
-            }
-          },
-        ),
-      );
-    } else {
-      return formatBody();
-    }
-  }
-
-  /// 
-  /// Displays and styles the song's title artist if current song isn't null. It also displays a heart icon.
-  /// 
-  Widget buildTitleAndArtist() {
-  songTitle = currentSong != null ?  '${currentSong!.title}' : 'No Song Available';
-  songArtist = currentSong != null ?  'by ${currentSong!.artist}' : 'No Song Available';
-  return Padding(
-    padding: const EdgeInsets.all(15),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(child: 
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              songTitle, 
-              style: GoogleFonts.poppins(fontSize: 13.5, fontWeight: FontWeight.bold),
-              ),
-            Text(songArtist)
-          ],
-        ),
-        ),
-          const Icon(
-          Icons.favorite,
-          color: Colors.red,
-        )
-      ],
-    ),
-  );
-}
 
   ///
-  ///Helper method to format time in seconds. This is used to display how many seconds have the song played. 
+  ///Helper method to format time in seconds. 
   ///
   String formatTime(Duration duration){
     String twoDigitSeconds = duration.inSeconds.remainder(60).toString().padLeft(2, "0");
@@ -301,7 +247,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
 
 
   ///
-  ///Creates a loading bar that shows the progress of the preview. It also displays position and duration of the preview.
+  ///Creates a loading bar that shows the progress of the preview. It also displays hoow many seconds the song  has been played. 
   ///
   Widget buildLoadingBar() {
   return Padding(
@@ -331,7 +277,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
                 final position = snapshot.data ?? Duration.zero;
                 return Slider(
                   min: 0.0,
-                  max: duration.inSeconds.toDouble(),
+                  max: 29.0,
                   value: position.inSeconds.toDouble(),
                   activeColor: GREEN,
                   onChanged: (value) {
@@ -347,8 +293,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
         StreamBuilder<Duration>(
           stream: player.onDurationChanged,
           builder: (context, snapshot) {
-            final duration = snapshot.data ?? Duration.zero;
-            return Text(formatTime(duration),
+            return Text("0:29",
               style: GoogleFonts.poppins(),
             );
           },
@@ -359,20 +304,92 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
 }
 
 
-  ///
-  ///Builds a footer button underneath the page.
-  ///
-  Widget buildFooterButton(IconData icon, String label, VoidCallback onPressed) {
-    return TextButton.icon(
-      onPressed: onPressed,
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
-        foregroundColor: MaterialStateProperty.all<Color>(WHITE),
+  Widget buildPauseWidget(){
+    double pauseSize;
+    if (MediaQuery.of(context).size.height * 0.5 > MediaQuery.of(context).size.width * 0.95) {
+      pauseSize= MediaQuery.of(context).size.width * 0.05;
+    }
+    else {
+      pauseSize = MediaQuery.of(context).size.height * 0.05;
+    }
+    return Padding(
+      padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.3),
+      child: Expanded(
+        child: GestureDetector(onTap: (){},
+        child: Container(
+          width: pauseSize, // Adjust the width
+          height:pauseSize, // Adjust the height
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: PALE_YELLOW_CARD, 
+              
+            ),
+          child: const Icon(Icons.play_arrow),
+          ),
+        ),
       ),
-      icon: Icon(icon),
-      label: Text(label),
     );
   }
+
+
+
+
+
+  ///
+  ///Formats image section and loading bar to the center of screen. 
+  ///
+  Widget formatBody() {
+    return Center(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            buildImageSection(),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.03), // Add some space between image and card
+            buildLoadingBar(),
+            buildPauseWidget()
+          ]
+        )
+      )
+    );
+  }
+
+
+
+  ///
+  ///Builds main body of page widget, hanlde different states such as loading, error, displaying the fetched songs, and also 
+  /// uses setUpPlayer to update postion and duration. 
+  ///
+  Widget buildBody() {
+    if (currentSong == null) {
+      // This handles the initial state where fetchDataFuture is still fetching data
+      return Center(
+        child: FutureBuilder<List<Song>>(
+          future: fetchDataFuture,
+          builder: (context, snapshot) {
+            // Displays circular progress indicator if songs are still being fetched
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator(color: DARK_PURPLE); 
+            } else if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else {
+              final songs = snapshot.data!;
+              if (count <= songs.length && currentSong == null){
+                currentSong = songs[count];
+                playAudio(currentSong!.getSongPreviewUrl()!);
+                print(count);
+              }
+
+              return formatBody();
+            }
+          },
+        ),
+      );
+    } else {
+      return formatBody();
+    }
+  }
+
 
   ///
   ///Helper method that does nothing
@@ -436,6 +453,21 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
 
       // The child of the Slidable is what the user sees when the component is not dragged.
       child: buildBody(),
+    );
+  }
+
+  ///
+  ///Builds a footer button underneath the page.
+  ///
+  Widget buildFooterButton(IconData icon, String label, VoidCallback onPressed) {
+    return TextButton.icon(
+      onPressed: onPressed,
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
+        foregroundColor: MaterialStateProperty.all<Color>(WHITE),
+      ),
+      icon: Icon(icon),
+      label: Text(label),
     );
   }
 

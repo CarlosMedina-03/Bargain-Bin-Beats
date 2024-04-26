@@ -503,30 +503,60 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   ///The body of the scaffold contains a `Slidable` widget, which enables swipe actions for adding or skipping songs.
   /// This returns a widget representing the main UI of the song page.
   ///
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: PALE_PURPLE,
-      appBar: AppBar(
-        backgroundColor: DARK_PURPLE,
-        foregroundColor: WHITE,
-        title: const Text("Add songs to your playlist!"),
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: PALE_PURPLE,
+    appBar: AppBar(
+      backgroundColor: DARK_PURPLE,
+      foregroundColor: WHITE,
+      title: const Text("Add songs to your playlist!"),
+    ),
+    body: buildSlidable(context),
+    persistentFooterAlignment: AlignmentDirectional.center,
+    persistentFooterButtons: [
+      buildFooterButton(
+        Icons.thumb_up,
+        "Add",
+        () {
+          nextSong(true);
+          setState(() {
+            isPlaying = true;
+            pausedPosition = Duration.zero;
+          });
+          if (currentSong != null && currentSong!.prevUrl != null && isPlaying) {
+            playAudio(currentSong!.prevUrl!);
+          }
+        },
       ),
-      body: buildSlidable(context),
-      persistentFooterAlignment: AlignmentDirectional.center,
-      persistentFooterButtons: [
-        buildFooterButton(Icons.thumb_up, "Add", () => nextSong(true)),
-        buildFooterButton(Icons.thumb_down, "Skip", () => nextSong(false)),
-        buildFooterButton(Icons.check, "Done", () {
+      buildFooterButton(
+        Icons.thumb_down,
+        "Skip",
+        () {
+          nextSong(false);
+          setState(() {
+            isPlaying = true;
+            pausedPosition = Duration.zero;
+          });
+          if (currentSong != null && currentSong!.prevUrl != null && isPlaying) {
+            playAudio(currentSong!.prevUrl!);
+          }
+        },
+      ),
+      buildFooterButton(
+        Icons.check,
+        "Done",
+        () {
           player.stop();
-          previousOffsets = []; // Intialize previous offset to an empty list
+          previousOffsets = []; // Initialize previous offset to an empty list
           Navigator.of(context).push(
             SwipeablePageRoute(
-              builder: (context) => PlaylistPage(pickedSongs: widget.playlistSongs), // Moves to playlist page when done button is pushed
+              builder: (context) => PlaylistPage(pickedSongs: widget.playlistSongs),
             ),
           );
-        }),
-      ],
-    );
-  }  
+        },
+      ),
+    ],
+  );
+}
 }

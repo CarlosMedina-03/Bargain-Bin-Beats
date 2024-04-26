@@ -428,7 +428,14 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
 
         // A pane can dismiss the Slidable.
         dismissible: DismissiblePane(
-          onDismissed: () {nextSong(true);},
+          onDismissed: () {
+            nextSong(true);
+            isPlaying =true;
+            pausedPosition=Duration.zero;
+
+
+            playAudio(currentSong!.prevUrl!);
+            },
           dismissThreshold: .1),
           //dismissThreshold: .01),
 
@@ -452,7 +459,12 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
         extentRatio: .0001,
 
         motion: const ScrollMotion(),
-        dismissible: DismissiblePane(onDismissed: () {nextSong(false);},
+        dismissible: DismissiblePane(onDismissed: () {
+          nextSong(false);
+          isPlaying =true;
+          pausedPosition=Duration.zero;
+          playAudio(currentSong!.prevUrl!);
+          },
           dismissThreshold: .1),
         children: [
           SlidableAction(

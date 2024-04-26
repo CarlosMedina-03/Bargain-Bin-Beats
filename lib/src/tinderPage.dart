@@ -211,11 +211,11 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
               ),
             ),
             buildTitleAndArtist(),
-           ],
+            ],
           ),
-       ),
+        ),
       );
-   }
+    }
     return const SizedBox.shrink();
   }
 
@@ -325,7 +325,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
       padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.3),
       child: Expanded(
         child: GestureDetector(onTap: (){
-           setState(() {
+          setState(() {
             isPlaying = !isPlaying;
           });
           playAudio(currentSong!.getSongPreviewUrl()!);

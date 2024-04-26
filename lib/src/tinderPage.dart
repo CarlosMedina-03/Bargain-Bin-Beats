@@ -39,6 +39,8 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   late AudioPlayer player;
   Duration position = Duration.zero;
   bool tutorial = true;
+  late bool isPlaying;
+  late Duration pausedPosition = Duration.zero;
   
 
   late final controller = SlidableController(this);
@@ -51,6 +53,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     fetchDataFuture = fetchData();
     player = AudioPlayer();
     setUpPlayerListeners();
+    isPlaying = true;
 
   }
 
@@ -99,6 +102,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   /// fetchData is called again to make sure a new bath of songs are added to the list. 
   ///
   void nextSong(bool addToPlaylist) async {
+    pausedPosition = Duration.zero;
     if (addToPlaylist && currentSong != null && !widget.playlistSongs.contains(currentSong)) {
       widget.playlistSongs.add(currentSong!);
       count++;
@@ -196,20 +200,18 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
       // ClipRRect is what clips the image inside a rounded rectangle
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
-        child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: Image.network(
-                  imageUrl!,
-                  fit: BoxFit.fill,
-                  key: ValueKey<String>(imageUrl),
-                ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: Image.network(
+                imageUrl!,
+                fit: BoxFit.fill,
+                key: ValueKey<String>(imageUrl),
               ),
-              buildTitleAndArtist(),
-             ],
             ),
+            buildTitleAndArtist(),
+           ],
           ),
        ),
       );
@@ -219,10 +221,15 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
 
 
   /// 
-  /// Plays the audio of a song based on url 
+  /// Plays the audio of a song based on url when isPlaying is true, but pauses audio when isPlaying is false. 
   /// 
   void playAudio(String url) async {
-    await player.play(UrlSource(url));
+    if(isPlaying){
+        await player.play(UrlSource(url));
+    } else {
+      pausedPosition = position;
+      await player.pause();
+  }
   }
   
   ///
@@ -259,8 +266,8 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
         StreamBuilder<Duration>(
           stream: player.onPositionChanged,
           builder: (context, snapshot) {
-            final position = snapshot.data ?? Duration.zero;
-            return Text(formatTime(position),  
+            position = snapshot.data ?? Duration.zero;
+              return Text(formatTime(position),  
             style: GoogleFonts.poppins(),
             );
           },
@@ -274,7 +281,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
             child: StreamBuilder<Duration>(
               stream: player.onPositionChanged,
               builder: (context, snapshot) {
-                final position = snapshot.data ?? Duration.zero;
+                position = snapshot.data ?? pausedPosition;
                 return Slider(
                   min: 0.0,
                   max: 29.0,
@@ -303,7 +310,9 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   );
 }
 
-
+  ///
+  ///Creates a pause button that the user can use to stop or resume song.
+  ///
   Widget buildPauseWidget(){
     double pauseSize;
     if (MediaQuery.of(context).size.height * 0.5 > MediaQuery.of(context).size.width * 0.95) {
@@ -315,7 +324,12 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     return Padding(
       padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.3),
       child: Expanded(
-        child: GestureDetector(onTap: (){},
+        child: GestureDetector(onTap: (){
+           setState(() {
+            isPlaying = !isPlaying;
+          });
+          playAudio(currentSong!.getSongPreviewUrl()!);
+        },
         child: Container(
           width: pauseSize, // Adjust the width
           height:pauseSize, // Adjust the height
@@ -324,7 +338,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
               color: PALE_YELLOW_CARD, 
               
             ),
-          child: const Icon(Icons.play_arrow),
+          child: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
           ),
         ),
       ),

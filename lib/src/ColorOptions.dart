@@ -19,7 +19,8 @@ const Color SOFT_PEACH_CARD = Color(0xFFFFD9C0);
 
 const Color MUTED_GREEN_CARD =Color(0xFFD0E0C2);
 
-const Color LIGHT_CORAL_CARD = Color(0xFFFFC9C9);
+const Color LIGHT_CORAL = Color(0xFFFFC9C9);
 
 const Color PALE_YELLOW_CARD = Color(0xFFFFF9C4);
 const Color PASTEL_PURPLE =    Color(0xFFBBB8EB);
+const Color UNIQUE_ORANGE = Color(0xFFE0AE7F);

@@ -266,7 +266,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
         StreamBuilder<Duration>(
           stream: player.onPositionChanged,
           builder: (context, snapshot) {
-            position = snapshot.data ?? Duration.zero;
+            position = snapshot.data ?? pausedPosition;
               return Text(formatTime(position),  
             style: GoogleFonts.poppins(),
             );

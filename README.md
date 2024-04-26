@@ -3,11 +3,11 @@ Bargain Bin Beats is an interactive music player built to help users discover ne
 
 # Our Goals
 When first starting our project we had a few features we wanted to implement:
-[x] Random songs from the Spotify API
-[x] Genre selection
-[x] Swiping
-[x] Exporting playlists to Spotify
-[] Saving playlists locally
+- [x] Random songs from the Spotify API
+- [x] Genre selection
+- [x] Swiping
+- [x] Exporting playlists to Spotify
+- [ ] Saving playlists locally
 
 ## Getting Started
 Modifying our project requires the Flutter framework. Visit the [Flutter Install Page](https://docs.flutter.dev/get-started/install?gad_source=1&gclid=CjwKCAjwoa2xBhACEiwA1sb1BEl_EE9_hc6iC4FWZ_pqyJeOjE9lnMiZd5whcc7HBb6hdIsvJ3yMGBoCTZsQAvD_BwE&gclsrc=aw.ds) to download it.

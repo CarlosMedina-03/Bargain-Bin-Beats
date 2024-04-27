@@ -120,7 +120,9 @@ class PlaylistPageState extends State<PlaylistPage> {
     return Scaffold(
       backgroundColor: PALE_PURPLE,
       appBar: AppBar(
-        title: const Text("More songs"),
+        title: const Text("More songs",           
+          style: TextStyle(fontWeight: FontWeight.bold)
+        ),
         backgroundColor: DARK_PURPLE,
         foregroundColor: WHITE,
       ),

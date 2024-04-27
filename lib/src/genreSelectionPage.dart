@@ -157,8 +157,11 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
     return Scaffold(
       backgroundColor: PALE_PURPLE,
       appBar: AppBar(
-        title: const Text("Select 1-3 genres:"),
-        backgroundColor: DARK_PURPLE,
+        title: const Text(
+          "Select 1-3 genres:", 
+          style: TextStyle(fontWeight: FontWeight.bold)
+        ),
+        backgroundColor:  DARK_PURPLE,
         foregroundColor: WHITE,
       ),
       body: Center(

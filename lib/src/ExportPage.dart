@@ -183,7 +183,12 @@ PreferredSizeWidget? _buildAppBar() {
       ),
       title: Text(
         'Create Playlist in Spotify',
-        style: GoogleFonts.openSans(fontSize: 20),
+        style: GoogleFonts.openSans(
+          fontSize: 20, 
+          textStyle: const TextStyle(
+            fontWeight: FontWeight.bold
+          )
+        ),
       ),
       backgroundColor: DARK_PURPLE,
       foregroundColor: WHITE,
@@ -285,13 +290,14 @@ Widget _buildPlaylistUrlVisibility() {
             const SizedBox(width: 8),
             Expanded(
               child: Text(
-                'Playlist URL: $playlistUrl',
+                // 'Playlist URL: $playlistUrl',
+                "jehfjdbfhsbdvjhbvjehrvherf bed cbnd fvhj fvnbd vhbfvwedhb scnsdm vndb vndb vnbsdvdsnmbvmnds vndc vdnb vsdb vnsdbvn,dcvnds nbdsbn cmdnsb vndbv dnsv bsdnv dbnc vd dnb",
                 style: GoogleFonts.openSans(
-                  fontSize: 14.0,
+                  fontSize: 24.0,
                   color: DARK_PURPLE,
                   decoration: TextDecoration.underline,
                 ),
-                overflow: TextOverflow.ellipsis,
+                overflow: TextOverflow.visible,
               ),
             ),
           ],

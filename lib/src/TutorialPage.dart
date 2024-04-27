@@ -29,15 +29,13 @@ class TutorialPageState extends State<TutorialPage>  {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                  buildTutorialText(context),
                   buildTutorialBox(context),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                   buildExampleSongText(context)
                 ],
               ),
             ),
           ),
-          buildTutorialText(context),
           buildLeftColumn(context),
           buildRightColumn(context),
         ],
@@ -57,17 +55,10 @@ class TutorialPageState extends State<TutorialPage>  {
   }
 
   Widget buildTutorialText(BuildContext context){
-    return Positioned (
-      top: MediaQuery.of(context).size.height * 0.16,
-      left: MediaQuery.of(context).size.height * 0.085,
-      child: SizedBox(
-        width: MediaQuery.of(context).size.height * 0.5,
-        child: const Text(
-          'Tutorial',
-          textAlign: TextAlign.left,
-          style: TextStyle(fontSize: 50, color: DARK_PURPLE, fontWeight: FontWeight.bold),
-        ),
-      ),
+    return  const Text(
+      'Tutorial',
+      textAlign: TextAlign.center,
+      style: TextStyle(fontSize: 50, color: DARK_PURPLE, fontWeight: FontWeight.bold)
     );
   }
 
@@ -109,7 +100,7 @@ class TutorialPageState extends State<TutorialPage>  {
     Widget myWidget = 
       const Icon(
         Icons.touch_app,
-        color: MAGENTA,
+        color: PURPLE,
         size: 30.0
       );
     return myWidget.animate(onPlay:(controller) => controller.repeat(),)
@@ -227,7 +218,10 @@ class TutorialPageState extends State<TutorialPage>  {
       appBar: AppBar (
         backgroundColor: DARK_PURPLE,
         foregroundColor: WHITE,
-        title: const Text("Press done to begin!"),
+        title: const Text(
+          "Press done to begin!",
+          style: TextStyle(fontWeight: FontWeight.bold)
+        ),
       ),
       body: buildSlidable(context),
       persistentFooterButtons: [

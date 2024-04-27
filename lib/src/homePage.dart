@@ -32,15 +32,15 @@ class HomePage extends StatelessWidget {
       text: TextSpan(
         style: GoogleFonts.poppins(
           fontSize: 30.0,
-          color: MAGENTA,
-          fontWeight: FontWeight.bold
+          color: PURPLE,
+          fontWeight: FontWeight.bold,
         ),
         children: const <TextSpan>[
-          TextSpan(text: 'B', style: TextStyle(fontSize: 40, color: DARK_PURPLE)),
+          TextSpan(text: 'B', style: TextStyle(fontSize: 40, color: DARK_BLUE)),
           TextSpan(text: 'argain '),
-          TextSpan(text: 'B', style: TextStyle(fontSize: 40, color: DARK_PURPLE)),
+          TextSpan(text: 'B', style: TextStyle(fontSize: 40, color: DARK_BLUE)),
           TextSpan(text: 'in '),
-          TextSpan(text: 'B', style: TextStyle(fontSize: 40, color: DARK_PURPLE)),
+          TextSpan(text: 'B', style: TextStyle(fontSize: 40, color: DARK_BLUE)),
           TextSpan(text: 'eats'),
         ],
       ),
@@ -53,7 +53,7 @@ class HomePage extends StatelessWidget {
       width: 200,
       height: 40,
       decoration: BoxDecoration( 
-        color: Color.fromARGB(255, 210, 110, 255),
+        color: MAGENTA,
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(

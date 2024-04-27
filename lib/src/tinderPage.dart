@@ -150,16 +150,12 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
           children: [
             Text(
               songTitle, 
-              style: GoogleFonts.poppins(fontSize: 17.5, fontWeight: FontWeight.bold),
+              style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-            Text(songArtist, style: GoogleFonts.poppins(fontSize: 14),)
+            Text(songArtist, style: GoogleFonts.poppins(fontSize: 16),)
           ],
         ),
         ),
-          const Icon(
-          Icons.audiotrack,
-          color: Colors.red,
-        )
       ],
     ),
   );
@@ -185,7 +181,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
       width: imageSize, 
       height: imageSize, 
       decoration: BoxDecoration(
-        color: PALE_YELLOW_CARD, 
+        color: PALE_YELLOW, 
         borderRadius: BorderRadius.circular(11), 
         boxShadow: [
           BoxShadow(
@@ -316,7 +312,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   Widget buildPauseWidget(){
     double pauseSize;
     if (MediaQuery.of(context).size.height * 0.5 > MediaQuery.of(context).size.width * 0.95) {
-      pauseSize= MediaQuery.of(context).size.width * 0.05;
+      pauseSize= MediaQuery.of(context).size.width * 0.08;
     }
     else {
       pauseSize = MediaQuery.of(context).size.height * 0.05;
@@ -335,7 +331,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
           height:pauseSize, // Adjust the height
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
-              color: PALE_YELLOW_CARD, 
+              color: PALE_YELLOW, 
               
             ),
           child: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
@@ -510,7 +506,10 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
       appBar: AppBar(
         backgroundColor: DARK_PURPLE,
         foregroundColor: WHITE,
-        title: const Text("Add songs to your playlist!"),
+        title: const Text(
+          "Add songs to your playlist!",
+          style: TextStyle(fontWeight: FontWeight.bold)
+        ),
       ),
       body: buildSlidable(context),
       persistentFooterAlignment: AlignmentDirectional.center,

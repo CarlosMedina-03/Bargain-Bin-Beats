@@ -16,7 +16,10 @@ Modifying our project requires the Flutter framework. Visit the [Flutter Install
 
 ## The Code
 ### SongHandler
-SongHandler is the backend code for interfacing with Spotify. It manages API calls along with the song objects we create from the track data fetched from Spotify. Songs are gathered, randomized, and placed into the final queue for the user's swiping.
+SongHandler is the backend code for interfacing with Spotify. It manages API calls along with the song objects we create from the track data fetched from Spotify. Songs are gathered, randomized, and placed into the final list for the user's swiping.
+### genreSelectionPage
+
+
 
 ## Acknowledgements
 We would like to give credit to the json assets, music, and code we utilized

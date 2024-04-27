@@ -290,8 +290,7 @@ Widget _buildPlaylistUrlVisibility() {
             const SizedBox(width: 8),
             Expanded(
               child: Text(
-                // 'Playlist URL: $playlistUrl',
-                "jehfjdbfhsbdvjhbvjehrvherf bed cbnd fvhj fvnbd vhbfvwedhb scnsdm vndb vndb vnbsdvdsnmbvmnds vndc vdnb vsdb vnsdbvn,dcvnds nbdsbn cmdnsb vndbv dnsv bsdnv dbnc vd dnb",
+                'Playlist URL: $playlistUrl',
                 style: GoogleFonts.openSans(
                   fontSize: 24.0,
                   color: DARK_PURPLE,

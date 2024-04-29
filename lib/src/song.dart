@@ -1,7 +1,7 @@
 class Song {
   String? title;
   String? artist;
-  String? prevUrl; //please do not fetch the url of a song not intialized through Song.fetch
+  String? prevUrl; 
   String? imageUrl;
   String? trackID;
   String? spotifyUri;
@@ -81,21 +81,15 @@ class Song {
     @override
   bool operator ==(Object other) {
     if (other is Song) {
-      return other.getSongPreviewUrl() == prevUrl &&
-      other.getSongTitle() == title &&
-      other.getSongArtist() == artist;
+      return other.getSongPreviewUrl() == prevUrl ;
     }
     else {
       return false;
     }
   }
-  @override
-int get hashCode {
-  return title.hashCode ^
-      artist.hashCode ^
-      prevUrl.hashCode ^
-      trackID.hashCode ^
-      spotifyUri.hashCode;
-}
-}
 
+  @override
+  int get hashCode {
+    return prevUrl?.hashCode ?? 0; 
+  }
+}

@@ -129,7 +129,9 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
       });
     }
       if (count == songs.length - 15) {
-      await fetchData();
+        await fetchData();
+        songs = songs.toSet().toList();
+        
     }
   }
 
@@ -306,10 +308,6 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   );
 }
 
-
-  
-
-
   ///
   ///Creates a pause button that the user can use to stop or resume song.
   ///
@@ -323,6 +321,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     }
     return Padding(
       padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.3),
+      child: Expanded(
         child: GestureDetector(onTap: (){
           setState(() {
             isPlaying = !isPlaying;
@@ -340,6 +339,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
           child: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
           ),
         ),
+      ),
     );
   }
 

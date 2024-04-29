@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:js_interop';
 
 import 'package:flutter_application_1/src/song.dart';
 import 'package:http/http.dart' as http;
@@ -78,10 +79,9 @@ class SongHandler{
   Future<Set<dynamic>> generateSongData(String genre, String accessToken, int numTracksReturned, List<int> previousOffsets) async {
     Set<dynamic> allTracks = <dynamic>{};
     final random = Random();
+    List<String> checkPrevUrl = [];
     while (allTracks.length < numTracksReturned) {
-      print(previousOffsets);
       int randomOffset = getRandomOffset(previousOffsets, random);
-      print("randomoffset: ${randomOffset}");
       final response = await fetchTracks(genre, accessToken, randomOffset);
       final List<dynamic>? items = response['tracks']?['items'];
       print(response['tracks']['total']);
@@ -91,12 +91,13 @@ class SongHandler{
           final currentItem = itemsIterator.current;
           if (currentItem != null &&
               currentItem['name'] != null &&
-              currentItem['preview_url'] != null &&
+              currentItem['preview_url'] != null && !checkPrevUrl.contains(currentItem['preview_url'])&&
               currentItem['artists'] != null &&
               currentItem['album'] != null &&
               currentItem['album']['images'] != null &&
               currentItem['album']['images'].isNotEmpty) {
             Song song = Song("", "", "", "", "", "");
+            checkPrevUrl.add(currentItem['preview_url']);
             song.setTitle(currentItem['name']);
             List<dynamic> artists = currentItem['artists'];
             String artistName = artists[0]['name'];

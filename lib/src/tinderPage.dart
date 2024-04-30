@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/src/ColorOptions.dart';
 import 'package:flutter_application_1/src/SongHandler.dart';
 import 'package:flutter_application_1/src/PlaylistPage.dart';
@@ -143,13 +142,14 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   songTitle = currentSong != null ?  '${currentSong!.title}' : 'No Song Available';
   songArtist = currentSong != null ?  'by ${currentSong!.artist}' : 'No Song Available';
   return Padding(
-    padding: const EdgeInsets.all(15),
+    padding: const EdgeInsets.all(10),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(child: 
         Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment:CrossAxisAlignment.start,
+          mainAxisAlignment: MediaQuery.of(context).size.height > MediaQuery.of(context).size.width ? MainAxisAlignment.start : MainAxisAlignment.center,
           children: [
             Text(
               songTitle, 
@@ -170,19 +170,28 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   /// Displays the image of a song based on it's album cover/image url. This image is then clipped in a rounded rectangle. 
   /// It also displays the song's title and artist inside this clipped rectangle. 
   ///
-  Widget buildImageSection() {
+  Widget buildFullCard() {
+    print (MediaQuery.of(context).size);
+
   if (currentSong?.imageUrl != null) {
-    String? imageUrl = currentSong!.imageUrl;
-    double imageSize;
-    if (MediaQuery.of(context).size.height * 0.5 > MediaQuery.of(context).size.width * 0.95) {
-      imageSize = MediaQuery.of(context).size.width * 0.95;
+    if (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) {
+      return drawVerticalCard();
     }
     else {
-      imageSize = MediaQuery.of(context).size.height * 0.5;
+      return drawHorizontalCard(); 
     }
+  }
+    return const SizedBox.shrink();
+    
+  }
+
+  Widget drawVerticalCard(){
+    double imageSize = MediaQuery.of(context).size.width * 0.9;
+    String? imageUrl = currentSong!.imageUrl;
+
     return Container(
-      width: imageSize, 
-      height: imageSize, 
+      width: imageSize + 20, 
+      height: imageSize + 100, 
       decoration: BoxDecoration(
         color: PALE_YELLOW, 
         borderRadius: BorderRadius.circular(11), 
@@ -195,27 +204,74 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
           ),
         ],
       ),
-      padding: const EdgeInsets.all(8), 
+      padding: const EdgeInsets.all(12), 
       // ClipRRect is what clips the image inside a rounded rectangle
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
+        
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
               child: Image.network(
+                width: imageSize, 
+                height: imageSize, 
                 imageUrl!,
-                fit: BoxFit.fill,
+                // fit: BoxFit.contain,
                 key: ValueKey<String>(imageUrl),
               ),
             ),
+            
             buildTitleAndArtist(),
             ],
           ),
         ),
       );
-    }
-    return const SizedBox.shrink();
+  }
+
+  Widget drawHorizontalCard(){
+    double imageSize = MediaQuery.of(context).size.height * 0.5;
+    String? imageUrl = currentSong!.imageUrl;
+
+    return Container(
+      width: imageSize * 1.9,
+      height: imageSize + 2, 
+      decoration: BoxDecoration(
+        color: PALE_YELLOW, 
+        borderRadius: BorderRadius.circular(11), 
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(1), 
+            spreadRadius: 3, // Adjust the spread radius of the shadow
+            blurRadius: 5, // Adjust the blur radius of the shadow
+            offset: const Offset(0, 3), // Adjust the offset of the shadow
+          ),
+        ],
+      ),
+      padding: const EdgeInsets.fromLTRB(12, 12, 0, 12), 
+      // ClipRRect is what clips the image inside a rounded rectangle
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Image.network(
+                width: imageSize, 
+                height: imageSize, 
+                imageUrl!,
+                // fit: BoxFit.contain,
+                key: ValueKey<String>(imageUrl),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded (
+              child: buildTitleAndArtist(),
+            )
+            ],
+          ),
+        ),
+      );
   }
 
 
@@ -357,7 +413,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            buildImageSection(),
+            buildFullCard(),
             SizedBox(height: MediaQuery.of(context).size.height * 0.03), // Add some space between image and card
             buildLoadingBar(),
             buildPauseWidget()
@@ -480,91 +536,6 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
       child: buildBody(),
     );
   }
-
-   ///
-  ///Builds the Swiping animation for when the "Add" button is pressed
-  ///
-  Widget buildLikeSwipe(BuildContext context){
-    Widget slide = Positioned(
-      // right: 20,
-      // bottom: 15,
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: Container(
-          color: GREEN,
-        child: Center(
-          child: Column(
-            children: [
-              SizedBox(height: MediaQuery.of(context).size.height*.4),
-              const Icon(Icons.archive, color: Colors.white),
-              const Text(
-                'Add',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: WHITE)
-              ),
-            ]
-          )
-        ),
-        )
-      )
-    );
-
-    Widget mainSlide = Positioned(
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: Center(
-          child: buildBody()
-        ),
-      )
-    );
-    var mainBody = buildSlidable(context);
-    
-
-    return Stack(children:[mainSlide.animate()
-      .slideX(begin: 0, end: 1, duration: 500.ms),
-    slide.animate()
-      .slideX(begin: -1, end: 0, duration: 500.ms)
-      .then()
-      .slideY(begin: 0, end:-1, duration: 300.ms), 
-    buildSlidable(context).animate()
-      .then(delay: 1000.ms)
-      .fadeIn(duration: 1.ms)]);
-  }
-
-   ///
-  ///Builds the Swiping animation for when the "Add" button is pressed
-  ///
-  Widget buildDislikeSwipe(BuildContext context){
-    Widget slide = Positioned(
-      // right: 20,
-      // bottom: 15,
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: Container(
-          color: RED,
-        child: Center(
-          child: Column(
-            children: [
-              SizedBox(height: MediaQuery.of(context).size.height*.4),
-              const Icon(Icons.delete, color: Colors.white),
-              const Text(
-                'Add',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: WHITE)
-              ),
-            ]
-          )
-        ),
-        )
-      )
-    );
-
-    return slide.animate()
-    .slideX(begin: 1, end: 0, duration: 500.ms)
-    .then()
-    .slideY(begin: 0, end:-1, duration: 300.ms);
-    
-  } 
 
   ///
   ///Builds a footer button underneath the page.

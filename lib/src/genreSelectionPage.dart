@@ -49,8 +49,10 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
     return selectedGenres;
   }
 
+  ///
   // This method takes in the list of genres and creates the appropriate number of 
   // buttons using the buildGenreRow method and seperates them out into the two columns.
+  ///
   List<Widget> generateButtons() {
     return List.generate((genres.length / 2).ceil(), (index) {
       final int firstGenreIndex = index * 2;
@@ -59,7 +61,11 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
     });
   }
 
-  // 
+
+
+  ///
+  /// Creates a row of two genre buttons.
+  ///
   Widget buildGenreRow(int firstIndex, int secondIndex) {
     return Row(
       children: [
@@ -81,6 +87,10 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
     );
   }
 
+
+  ///
+  /// Creates a SelectableButton for each genre, handling the selection state and styling.
+  ///
   Widget buildGenreButton(int index) {
     return SelectableButton(
       selected: genreState[index],
@@ -118,6 +128,11 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
     );
   }
 
+
+  ///
+  ///This method handles the button press event for each genre button, updating the selectedGenres list 
+  /// and genre state accordingly.
+  ///
   void handleGenreButtonPress(int index) {
     final String genre = genres[index];
     if (selectedGenres.contains(genre)) {
@@ -133,6 +148,11 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
     }
   }
 
+
+  ///
+  ///Creates the "Next" button at the bottom of the page, which navigates to the TutorialPage when pressed and 
+  /// sends selcted genre information into the tutorail page.
+  ///
   Widget buildFooterButton() {
     return TextButton.icon(
       onPressed: () {
@@ -152,6 +172,11 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
     );
   }
 
+
+
+  ///
+  /// Provides a basic structure for building a Material Design app.
+  ///
   @override
   Widget build(BuildContext context) {
     return Scaffold(

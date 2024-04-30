@@ -1,7 +1,4 @@
-import 'dart:js_interop';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/src/ColorOptions.dart';
 import 'package:flutter_application_1/src/SongHandler.dart';
@@ -48,9 +45,6 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   
 
   late final controller = SlidableController(this);
-  late Widget mainBody = buildBody();
-  bool liked = false;
-  
 
 
   //Initalizes state of page  by fetching song data and intializing audio player
@@ -421,12 +415,12 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   /// or skipping when the user drags the screen and adding labels and colors.
   /// 
   Widget buildSlidable(BuildContext context){
-   Slidable slider =  Slidable(
+    return Slidable(
       // Specify a key if the Slidable is dismissible.
       key: UniqueKey(),
 
       // The start action pane is the one at the left or the top side.
-      startActionPane: ActionPane(
+      startActionPane: ActionPane( 
         extentRatio: 0.0001,
         // A motion is a widget used to control how the pane animates.
         motion: const ScrollMotion(),
@@ -437,6 +431,8 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
             nextSong(true);
             isPlaying =true;
             pausedPosition=Duration.zero;
+
+
             playAudio(currentSong!.prevUrl!);
             },
           dismissThreshold: .1),
@@ -455,7 +451,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
             label: 'Add',
           ),
         ],
-    ),
+      ),
 
       // The end action pane is the one at the right or the bottom side.
       endActionPane:  ActionPane(
@@ -479,31 +475,13 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
           ),
         ],
       ),
+
       // The child of the Slidable is what the user sees when the component is not dragged.
-      child: mainBody
-    );
-
-
-    mainBody = buildBody();
-    return slider;
-  }
-
-  ///
-  ///Builds a footer button underneath the page.
-  ///
-  Widget buildFooterButton(IconData icon, String label, VoidCallback onPressed) {
-    return TextButton.icon(
-      onPressed: onPressed,
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
-        foregroundColor: MaterialStateProperty.all<Color>(WHITE),
-      ),
-      icon: Icon(icon),
-      label: Text(label),
+      child: buildBody(),
     );
   }
 
-  ///
+   ///
   ///Builds the Swiping animation for when the "Add" button is pressed
   ///
   Widget buildLikeSwipe(BuildContext context){
@@ -539,7 +517,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
         ),
       )
     );
-    mainBody = buildSlidable(context);
+    var mainBody = buildSlidable(context);
     
 
     return Stack(children:[mainSlide.animate()
@@ -589,6 +567,22 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   } 
 
   ///
+  ///Builds a footer button underneath the page.
+  ///
+  Widget buildFooterButton(IconData icon, String label, VoidCallback onPressed) {
+    return TextButton.icon(
+      onPressed: onPressed,
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(DARK_PURPLE),
+        foregroundColor: MaterialStateProperty.all<Color>(WHITE),
+      ),
+      icon: Icon(icon),
+      label: Text(label),
+    );
+  }
+
+
+  ///
   ///This method constructs the an app bar, background color, and persistent footer buttons.
   ///The body of the scaffold contains a `Slidable` widget, which enables swipe actions for adding or skipping songs.
   /// This returns a widget representing the main UI of the song page.
@@ -612,19 +606,15 @@ Widget build(BuildContext context) {
         Icons.thumb_up,
         "Add",
         () {
-          // mainBody = buildLikeSwipe(context);
-
           nextSong(true);
           setState(() {
             isPlaying = true;
             pausedPosition = Duration.zero;
           });
-          mainBody = buildLikeSwipe(context);
           if (currentSong != null && currentSong!.prevUrl != null && isPlaying) {
             playAudio(currentSong!.prevUrl!);
           }
         },
-        
       ),
       buildFooterButton(
         Icons.thumb_down,
@@ -638,7 +628,6 @@ Widget build(BuildContext context) {
           if (currentSong != null && currentSong!.prevUrl != null && isPlaying) {
             playAudio(currentSong!.prevUrl!);
           }
-          mainBody = buildDislikeSwipe(context);
         },
       ),
       buildFooterButton(

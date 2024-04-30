@@ -26,6 +26,9 @@ tinderPage is where the meat of the UI is handled. All the song cards, the swipi
 ### ExportPage
 The user-generated playlist is sent to Spotify. They are asked to give a name and a description to their playlist (though descriptions can be blank) and the appropriate playlist is created in our app-run Spotify account. From there the user is prompted to click on a url to our Spotify, where they can copy the playlist to their account.
 
+## Known Issues
+- Occasionally songs don't autoplay on Windows
+- Skipping/adding songs too quickly can cause autoplay to stop working
 
 ## Acknowledgements
 We would like to give credit to the json assets, music, and code we utilized

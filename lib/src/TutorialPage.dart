@@ -224,6 +224,7 @@ class TutorialPageState extends State<TutorialPage>  {
         ),
       ),
       body: buildSlidable(context),
+      persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
         buildFooterButton(Icons.thumb_up, "Add", () {
           setState(() {

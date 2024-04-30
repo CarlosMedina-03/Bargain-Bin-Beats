@@ -1,4 +1,8 @@
+import 'dart:js_interop';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/src/ColorOptions.dart';
 import 'package:flutter_application_1/src/SongHandler.dart';
 import 'package:flutter_application_1/src/PlaylistPage.dart';
@@ -44,6 +48,9 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   
 
   late final controller = SlidableController(this);
+  late Widget mainBody = buildBody();
+  bool liked = false;
+  
 
 
   //Initalizes state of page  by fetching song data and intializing audio player
@@ -414,12 +421,12 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   /// or skipping when the user drags the screen and adding labels and colors.
   /// 
   Widget buildSlidable(BuildContext context){
-    return Slidable(
+   Slidable slider =  Slidable(
       // Specify a key if the Slidable is dismissible.
       key: UniqueKey(),
 
       // The start action pane is the one at the left or the top side.
-      startActionPane: ActionPane( 
+      startActionPane: ActionPane(
         extentRatio: 0.0001,
         // A motion is a widget used to control how the pane animates.
         motion: const ScrollMotion(),
@@ -430,8 +437,6 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
             nextSong(true);
             isPlaying =true;
             pausedPosition=Duration.zero;
-
-
             playAudio(currentSong!.prevUrl!);
             },
           dismissThreshold: .1),
@@ -450,7 +455,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
             label: 'Add',
           ),
         ],
-      ),
+    ),
 
       // The end action pane is the one at the right or the bottom side.
       endActionPane:  ActionPane(
@@ -474,10 +479,13 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
           ),
         ],
       ),
-
       // The child of the Slidable is what the user sees when the component is not dragged.
-      child: buildBody(),
+      child: mainBody
     );
+
+
+    mainBody = buildBody();
+    return slider;
   }
 
   ///
@@ -495,6 +503,90 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     );
   }
 
+  ///
+  ///Builds the Swiping animation for when the "Add" button is pressed
+  ///
+  Widget buildLikeSwipe(BuildContext context){
+    Widget slide = Positioned(
+      // right: 20,
+      // bottom: 15,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: Container(
+          color: GREEN,
+        child: Center(
+          child: Column(
+            children: [
+              SizedBox(height: MediaQuery.of(context).size.height*.4),
+              const Icon(Icons.archive, color: Colors.white),
+              const Text(
+                'Add',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: WHITE)
+              ),
+            ]
+          )
+        ),
+        )
+      )
+    );
+
+    Widget mainSlide = Positioned(
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: Center(
+          child: buildBody()
+        ),
+      )
+    );
+    mainBody = buildSlidable(context);
+    
+
+    return Stack(children:[mainSlide.animate()
+      .slideX(begin: 0, end: 1, duration: 500.ms),
+    slide.animate()
+      .slideX(begin: -1, end: 0, duration: 500.ms)
+      .then()
+      .slideY(begin: 0, end:-1, duration: 300.ms), 
+    buildSlidable(context).animate()
+      .then(delay: 1000.ms)
+      .fadeIn(duration: 1.ms)]);
+  }
+
+   ///
+  ///Builds the Swiping animation for when the "Add" button is pressed
+  ///
+  Widget buildDislikeSwipe(BuildContext context){
+    Widget slide = Positioned(
+      // right: 20,
+      // bottom: 15,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: Container(
+          color: RED,
+        child: Center(
+          child: Column(
+            children: [
+              SizedBox(height: MediaQuery.of(context).size.height*.4),
+              const Icon(Icons.delete, color: Colors.white),
+              const Text(
+                'Add',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: WHITE)
+              ),
+            ]
+          )
+        ),
+        )
+      )
+    );
+
+    return slide.animate()
+    .slideX(begin: 1, end: 0, duration: 500.ms)
+    .then()
+    .slideY(begin: 0, end:-1, duration: 300.ms);
+    
+  } 
 
   ///
   ///This method constructs the an app bar, background color, and persistent footer buttons.
@@ -520,15 +612,19 @@ Widget build(BuildContext context) {
         Icons.thumb_up,
         "Add",
         () {
+          // mainBody = buildLikeSwipe(context);
+
           nextSong(true);
           setState(() {
             isPlaying = true;
             pausedPosition = Duration.zero;
           });
+          mainBody = buildLikeSwipe(context);
           if (currentSong != null && currentSong!.prevUrl != null && isPlaying) {
             playAudio(currentSong!.prevUrl!);
           }
         },
+        
       ),
       buildFooterButton(
         Icons.thumb_down,
@@ -542,6 +638,7 @@ Widget build(BuildContext context) {
           if (currentSong != null && currentSong!.prevUrl != null && isPlaying) {
             playAudio(currentSong!.prevUrl!);
           }
+          mainBody = buildDislikeSwipe(context);
         },
       ),
       buildFooterButton(

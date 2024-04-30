@@ -18,9 +18,11 @@ class ExportPage extends StatefulWidget {
   ExportPageState createState() => ExportPageState();
 }
 
+///
 /// This class represents the state of the ExportPage widget. It includes TickerProviderStateMixin because 
 ///  that allows a state object to act as a TicketProvider. A TicketProvider  is required for controlling 
 /// animations such as those created with AnimationController objects. 
+/// 
 class ExportPageState extends State<ExportPage> with TickerProviderStateMixin {
   final TextEditingController playlistNameController = TextEditingController();
   final TextEditingController playlistDescriptionController = TextEditingController();
@@ -30,8 +32,9 @@ class ExportPageState extends State<ExportPage> with TickerProviderStateMixin {
   late final AnimationController animationController;
   late final Animation<double> animation;
 
-
+  ///
   /// Initialize animation controller for animating UI elements.
+  /// 
   @override
   void initState() {
     super.initState();
@@ -43,8 +46,10 @@ class ExportPageState extends State<ExportPage> with TickerProviderStateMixin {
   }
 
 
+  ///
   /// Dispose of animation controller to free up resources when widget is removed.
   /// It also disposes text editing controllers to prevent memory leaks.
+  /// 
   @override
   void dispose() {
     // Dispose of animation controller to release resources
@@ -55,9 +60,10 @@ class ExportPageState extends State<ExportPage> with TickerProviderStateMixin {
     super.dispose();
   }
     
-
+  ///
   /// Adds the playlist that has been compiled by the user to a the app's spotify account. We created a special spotify account
   /// for this app.
+  /// 
   Future<void> exportPlaylist(String username ,String playlistName, String playlistDescription) async {
   try {
     // Obtain an access token 
@@ -84,8 +90,10 @@ class ExportPageState extends State<ExportPage> with TickerProviderStateMixin {
   }
 }
 
+///
 /// Helper method that adds all the picked songs into a playlist based on the playlist id. Songs are being put into 
 /// the playlist through their uri. 
+/// 
 Future<void> addSongsToPlaylist(String accessToken, String playlistId, List<String> listTrackUris) async {
   try {
     final response = await http.put(
@@ -112,8 +120,11 @@ Future<void> addSongsToPlaylist(String accessToken, String playlistId, List<Stri
   }
 }
 
+
+///
 /// Helper method that creates an empty playlist for user in spotify. This method will return the playlist id, and 
 /// we will add songs to that playlist id. It will throw and exeception if it fails to create a playlist.
+/// 
 Future<String> createPlaylistForUser(String accessToken, String username, String name, String description) async {
   final response = await http.post(
     Uri.parse('https://api.spotify.com/v1/users/$username/playlists'),
@@ -137,7 +148,10 @@ Future<String> createPlaylistForUser(String accessToken, String username, String
   }
 }
 
+
+///
 /// Builds the whole page by putting together all widget methods.
+/// 
 @override
 Widget build(BuildContext context) {
   return MaterialApp(
@@ -169,7 +183,10 @@ Widget build(BuildContext context) {
   );
 }
 
+
+///
 /// Builds the app bar for the export page.
+/// 
 PreferredSizeWidget? _buildAppBar() {
   return PreferredSize(
     preferredSize: const Size.fromHeight(kToolbarHeight),
@@ -196,8 +213,9 @@ PreferredSizeWidget? _buildAppBar() {
   );
 }
 
-
+///
 /// Builds the text field for entering the playlist name.
+/// 
 Widget _buildPlaylistNameTextField() {
   return TextFormField(
     controller: playlistNameController,
@@ -208,7 +226,11 @@ Widget _buildPlaylistNameTextField() {
   );
 }
 
+
+
+///
 /// Builds the text field for entering the playlist description.
+/// 
 Widget _buildPlaylistDescriptionTextField() {
   return TextFormField(
     controller: playlistDescriptionController,
@@ -219,9 +241,12 @@ Widget _buildPlaylistDescriptionTextField() {
   );
 }
 
+
+///
 /// Builds the submit button for exporting the playlist. When user presses button, playlist will be exported to a spotify account.
 /// The name and description of the playlist will be based on what user entered in the tet field. The animation process also starts
 /// after button is pressed to make sure url for playlist will appear.
+/// 
 Widget _buildSubmitButton() {
   return ElevatedButton(
     onPressed: () {
@@ -252,7 +277,10 @@ Widget _buildSubmitButton() {
   );
 }
 
+
+///
 /// Builds the information text about the playlist link.
+/// 
 Widget _buildPlaylistLinkInfo() {
   return Text(
     'A spotify playlist link will be created. You will need to go to that link and add that playlist to your own account',
@@ -264,7 +292,10 @@ Widget _buildPlaylistLinkInfo() {
   );
 }
 
+
+///
 /// Builds the visibility widget for displaying the playlist URL. Url will be visible after user presses submit.
+/// 
 Widget _buildPlaylistUrlVisibility() {
   return Visibility(
     visible: showPlaylistUrl,
@@ -306,6 +337,10 @@ Widget _buildPlaylistUrlVisibility() {
   );
 }
 
+
+///
+///Builds a restart button at the bootm of the page. When pressed, it takes you back to home page.
+///
 Widget buildFooterButton() {
   return TextButton.icon(
     onPressed: () {

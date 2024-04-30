@@ -62,4 +62,21 @@ void main() {
     });
    
   });
+
+
+  test('Offsets(how many songs you skip) or pages are not repeated', () async{
+      final songHandler = SongHandler();
+      List<int> previousOffsets = [200, 25, 30, 440, 369, 617];
+      Random random = Random();
+      int counter = 0;
+
+      while(counter < 100){
+        songHandler.getRandomOffset(previousOffsets, random);
+        counter ++;
+      }
+
+      List<int> testOffsetDuplicates = previousOffsets.toSet().toList();
+
+      expect(testOffsetDuplicates.length, previousOffsets.length);
+    });
 }

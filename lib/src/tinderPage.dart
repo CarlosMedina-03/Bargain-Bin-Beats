@@ -465,6 +465,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     if (currentSong != null && currentSong!.prevUrl != null && isPlaying) {
       playAudio(currentSong!.prevUrl!);
     }
+    LIKED = 0;
   }
 
   ///
@@ -487,13 +488,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
         // A pane can dismiss the Slidable.
         dismissible: DismissiblePane(
           onDismissed: () {
-            nextSong(true);
-            isPlaying =true;
-            pausedPosition=Duration.zero;
-
-
-            playAudio(currentSong!.prevUrl!);
-            builder = buildSlidable(context);
+            changeSong(true);
             },
           dismissThreshold: .1),
           //dismissThreshold: .01),
@@ -519,11 +514,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
 
         motion: const ScrollMotion(),
         dismissible: DismissiblePane(onDismissed: () {
-          nextSong(false);
-          isPlaying =true;
-          pausedPosition=Duration.zero;
-          playAudio(currentSong!.prevUrl!);
-          builder = buildSlidable(context);
+          changeSong(false);
           },
           dismissThreshold: .1),
         children: const [
@@ -662,9 +653,6 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
         )
       )
     );
-
-    builder = buildSlidable(context);
-    LIKED = 0;
 
     return Stack( key: UniqueKey(),
       children:[buildBody(context).animate()

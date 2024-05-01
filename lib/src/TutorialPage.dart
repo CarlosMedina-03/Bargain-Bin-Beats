@@ -20,7 +20,8 @@ class TutorialPage extends StatefulWidget {
 class TutorialPageState extends State<TutorialPage>  {
 
   Widget buildBody(BuildContext context) {
-    return Center(
+    return SingleChildScrollView(
+    child: Center(
       child: Stack(
         alignment: AlignmentDirectional.center,
         children: [
@@ -31,15 +32,24 @@ class TutorialPageState extends State<TutorialPage>  {
                 children: [
                   buildTutorialText(context),
                   buildTutorialBox(context),
-                  buildExampleSongText(context)
+                  buildExampleSongText(context),
+                  Padding(
+                    padding: EdgeInsets.all(MediaQuery.of(context).size.width*.02),
+                    child: Row (
+                      children: [
+                        buildLeftColumn(context),
+                        SizedBox(width: MediaQuery.of(context).size.width*.35),
+                        buildRightColumn(context),
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),
           ),
-          buildLeftColumn(context),
-          buildRightColumn(context),
         ],
       ),
+    )
     );
   }
 
@@ -115,15 +125,12 @@ class TutorialPageState extends State<TutorialPage>  {
   }
 
   Widget buildRightColumn(BuildContext context){
-    return Positioned(
-      right: 20,
-      bottom: 15,
-      child: SizedBox(
+    return 
+      SizedBox(
         width: MediaQuery.of(context).size.width * .31,
         child: Center(
           child: Column(
             children: [
-              SizedBox(height: MediaQuery.of(context).size.height * 0.8),
               Transform.flip(
                 flipX: true,
                 child: buildAnimation(context),
@@ -131,35 +138,35 @@ class TutorialPageState extends State<TutorialPage>  {
               const Text(
                 'Swipe right or press Add to save!',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: DARK_PURPLE)
+                style: TextStyle(color: DARK_PURPLE, fontSize: 18),
               ),
             ]
           )
         ),
-      )
+      // )
     );
   }
 
   Widget buildLeftColumn(BuildContext context){
-    return Positioned(
-      left: 20,
-      bottom: 15,
-      child: SizedBox(
+    // return Positioned(
+      // left: 20,
+      // bottom: 15,
+      return SizedBox(
         width: MediaQuery.of(context).size.width * .3, // text column width
         child: Center(
           child: Column(
             children: [
-              SizedBox(height: MediaQuery.of(context).size.height * 0.8),
+              // SizedBox(height: MediaQuery.of(context).size.height * 0.8),
               buildAnimation(context),
               const Text(
                 'Swipe left or press Skip to skip!',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: DARK_PURPLE)
+                style: TextStyle(color: DARK_PURPLE, fontSize: 18)
               ),
             ]
           )
         )
-      )
+      // )
     );
   }
 
@@ -213,8 +220,12 @@ class TutorialPageState extends State<TutorialPage>  {
 
   @override
   Widget build(BuildContext context){
-    return Scaffold (
+    return 
+    
+    Scaffold (
+      
       backgroundColor: PALE_PURPLE,
+
       appBar: AppBar (
         backgroundColor: DARK_PURPLE,
         foregroundColor: WHITE,

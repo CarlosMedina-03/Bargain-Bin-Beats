@@ -192,6 +192,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     return Container(
       width: imageSize + 20, 
       height: imageSize + 100, 
+      constraints: BoxConstraints(maxHeight : MediaQuery.of(context).size.height * 0.7, maxWidth:MediaQuery.of(context).size.height * 0.7 ),
       decoration: BoxDecoration(
         color: PALE_YELLOW, 
         borderRadius: BorderRadius.circular(11), 
@@ -374,7 +375,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
       pauseSize= MediaQuery.of(context).size.width * 0.08;
     }
     else {
-      pauseSize = MediaQuery.of(context).size.height * 0.05;
+      pauseSize = MediaQuery.of(context).size.height * 0.08;
     }
     return Padding(
       padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.3),

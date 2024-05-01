@@ -171,8 +171,6 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   /// It also displays the song's title and artist inside this clipped rectangle. 
   ///
   Widget buildFullCard() {
-    print (MediaQuery.of(context).size);
-
   if (currentSong?.imageUrl != null) {
     if (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) {
       return drawVerticalCard();
@@ -379,7 +377,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     }
     return Padding(
       padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.3),
-      child: Expanded(
+      // child: Expanded(
         child: GestureDetector(onTap: (){
           setState(() {
             isPlaying = !isPlaying;
@@ -397,7 +395,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
           child: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
           ),
         ),
-      ),
+      // ),
     );
   }
 

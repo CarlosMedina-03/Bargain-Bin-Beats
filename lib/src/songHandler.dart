@@ -83,7 +83,6 @@ class SongHandler{
       int randomOffset = getRandomOffset(previousOffsets, random);
       final response = await fetchTracks(genre, accessToken, randomOffset);
       final List<dynamic>? items = response['tracks']?['items'];
-      print(response['tracks']['total']);
       if (items != null) {
         var itemsIterator = items.iterator;
         while (itemsIterator.moveNext()) {
@@ -108,7 +107,6 @@ class SongHandler{
             if (random.nextInt(100) >= 85) {
               randomOffset = getRandomOffset(previousOffsets, random);
               if (random.nextBool()) items.reversed; print("list reversed");
-              print("randomoffset: ${randomOffset}");
             }
             if (allTracks.length >= numTracksReturned) {
               break;

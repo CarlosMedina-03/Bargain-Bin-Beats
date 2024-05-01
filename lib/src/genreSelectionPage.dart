@@ -175,7 +175,7 @@ class _genreSelectionPageState extends State<genreSelectionPage> {
 
 
   ///
-  /// Provides a basic structure for building a Material Design app.
+  /// Provides a basic structure for the whole page by putting eveyrthing together.
   ///
   @override
   Widget build(BuildContext context) {

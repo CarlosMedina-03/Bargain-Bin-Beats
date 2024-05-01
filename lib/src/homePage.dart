@@ -6,11 +6,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
+
+///
 /// This class creates the home page of the app.
+/// 
 class HomePage extends StatelessWidget {
   bool startIsPressed = false;
 
+ 
+  ///
   /// Displayas animation picture on home page and use helper methods to create title and start button
+  /// 
   Widget buildContent(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -26,7 +32,9 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  ///
   /// Creates the title of the app.
+  /// 
   Widget buildWelcomeText(){
     return RichText(
       text: TextSpan(
@@ -47,7 +55,9 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  ///
   /// Creates the start button of the home page and styles the button. 
+  /// 
   Widget buildStartButton(BuildContext context) {
     return Container(
       width: 200,
@@ -87,17 +97,20 @@ class HomePage extends StatelessWidget {
   }
 
 
+  ///
+  /// Puts everything toghether to build the home page. Provide basic structre of page too. 
+  ///
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: PALE_PURPLE,// Set background color to transparent
+        backgroundColor: PALE_PURPLE,
         body: Stack(
           children: [
             Positioned(
               left: 0,
               right: 0,
-              bottom: 60, // Adjust this value as needed
+              bottom: 60,
               child: Center(
                 child: buildContent(context),
               ),

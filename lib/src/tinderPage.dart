@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/src/ColorOptions.dart';
 import 'package:flutter_application_1/src/SongHandler.dart';
 import 'package:flutter_application_1/src/PlaylistPage.dart';
@@ -44,6 +45,8 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   
 
   late final controller = SlidableController(this);
+  late Widget builder = buildSlidable(context);
+  late int LIKED = 0; //0 nothing has happened, 1: song has been liked, 2:disliked
 
 
   //Initalizes state of page  by fetching song data and intializing audio player
@@ -424,7 +427,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   ///Builds main body of page widget, hanlde different states such as loading, error, displaying the fetched songs, and also 
   /// uses setUpPlayer to update postion and duration. 
   ///
-  Widget buildBody() {
+  Widget buildBody(context) {
     if (currentSong == null) {
       // This handles the initial state where fetchDataFuture is still fetching data
       return Center(
@@ -455,16 +458,34 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
 
 
   ///
-  ///Helper method that does nothing
-  ///
-  void doNothing(BuildContext context) {}
-
-  ///
   /// Constructs a slidable action handler, allowing users to swipe right or left to add or skip songs.
   /// This method sets up the sliding functionality, determining the threshold for triggering song addition
   /// or skipping when the user drags the screen and adding labels and colors.
   /// 
   Widget buildSlidable(BuildContext context){
+
+    if(LIKED == 1){
+      nextSong(true);
+            setState(() {
+              isPlaying = true;
+              pausedPosition = Duration.zero;
+            });
+            if (currentSong != null && currentSong!.prevUrl != null && isPlaying) {
+              playAudio(currentSong!.prevUrl!);
+            }
+    }
+    else if(LIKED == 2){
+      nextSong(false);
+            setState(() {
+              isPlaying = true;
+              pausedPosition = Duration.zero;
+            });
+            if (currentSong != null && currentSong!.prevUrl != null && isPlaying) {
+              playAudio(currentSong!.prevUrl!);
+            }
+    }
+    LIKED = 0;
+
     return Slidable(
       // Specify a key if the Slidable is dismissible.
       key: UniqueKey(),
@@ -484,6 +505,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
 
 
             playAudio(currentSong!.prevUrl!);
+            builder = buildSlidable(context);
             },
           dismissThreshold: .1),
           //dismissThreshold: .01),
@@ -491,10 +513,10 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
         // All actions are defined in the children parameter.
         openThreshold: .1,
         //closeThreshold: .9,
-        children: [
+        children: const [
           // A SlidableAction can have an icon and/or a label.
           SlidableAction(
-            onPressed: doNothing,
+            onPressed: null,
             backgroundColor: GREEN,
             foregroundColor: WHITE,
             icon: Icons.archive,
@@ -513,11 +535,12 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
           isPlaying =true;
           pausedPosition=Duration.zero;
           playAudio(currentSong!.prevUrl!);
+          builder = buildSlidable(context);
           },
           dismissThreshold: .1),
-        children: [
+        children: const [
           SlidableAction(
-            onPressed: doNothing,
+            onPressed: null,
             backgroundColor: RED,
             foregroundColor: WHITE,
             icon: Icons.delete,
@@ -527,7 +550,7 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
       ),
 
       // The child of the Slidable is what the user sees when the component is not dragged.
-      child: buildBody(),
+      child: buildBody(context),
     );
   }
 
@@ -552,63 +575,110 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
   ///The body of the scaffold contains a `Slidable` widget, which enables swipe actions for adding or skipping songs.
   /// This returns a widget representing the main UI of the song page.
   ///
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    backgroundColor: PALE_PURPLE,
-    appBar: AppBar(
-      backgroundColor: DARK_PURPLE,
-      foregroundColor: WHITE,
-      title: const Text(
-          "Add songs to your playlist!",
-          style: TextStyle(fontWeight: FontWeight.bold)
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: PALE_PURPLE,
+      appBar: AppBar(
+        backgroundColor: DARK_PURPLE,
+        foregroundColor: WHITE,
+        title: const Text(
+            "Add songs to your playlist!",
+            style: TextStyle(fontWeight: FontWeight.bold)
+          ),
+      ),
+      body: builder,
+      persistentFooterAlignment: AlignmentDirectional.center,
+      persistentFooterButtons: [
+        buildFooterButton(
+          Icons.thumb_up,
+          "Add",
+          () {
+            builder = buildLikeSwipe(context, true);
+          },
         ),
-    ),
-    body: buildSlidable(context),
-    persistentFooterAlignment: AlignmentDirectional.center,
-    persistentFooterButtons: [
-      buildFooterButton(
-        Icons.thumb_up,
-        "Add",
-        () {
-          nextSong(true);
-          setState(() {
-            isPlaying = true;
-            pausedPosition = Duration.zero;
-          });
-          if (currentSong != null && currentSong!.prevUrl != null && isPlaying) {
-            playAudio(currentSong!.prevUrl!);
-          }
-        },
-      ),
-      buildFooterButton(
-        Icons.thumb_down,
-        "Skip",
-        () {
-          nextSong(false);
-          setState(() {
-            isPlaying = true;
-            pausedPosition = Duration.zero;
-          });
-          if (currentSong != null && currentSong!.prevUrl != null && isPlaying) {
-            playAudio(currentSong!.prevUrl!);
-          }
-        },
-      ),
-      buildFooterButton(
-        Icons.check,
-        "Done",
-        () {
-          player.stop();
-          previousOffsets = []; // Initialize previous offset to an empty list
-          Navigator.of(context).push(
-            SwipeablePageRoute(
-              builder: (context) => PlaylistPage(pickedSongs: widget.playlistSongs),
-            ),
-          );
-        },
-      ),
-    ],
-  );
-}
+        buildFooterButton(
+          Icons.thumb_down,
+          "Skip",
+          () {
+            builder = buildLikeSwipe(context, false);
+          },
+        ),
+        buildFooterButton(
+          Icons.check,
+          "Done",
+          () {
+            player.stop();
+            previousOffsets = []; // Initialize previous offset to an empty list
+            Navigator.of(context).push(
+              SwipeablePageRoute(
+                builder: (context) => PlaylistPage(pickedSongs: widget.playlistSongs),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+    //button animations
+   ///
+  ///Builds the Swiping animation for when the "Add" button is pressed
+  ///
+  Widget buildLikeSwipe(BuildContext context, bool liked){
+    Color slideColor;
+    IconData slideIcon;
+    String slideText;
+    double mover;
+
+    if(liked){
+      slideColor = GREEN;
+      slideIcon = Icons.archive;
+      slideText = 'Add';
+      mover = 1;
+    }
+    else{
+      slideColor = RED;
+      slideIcon = Icons.delete;
+      slideText = 'Skip';
+      mover = -1;
+    }
+
+    Widget saveSkip = Positioned(
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: Container(
+          color: slideColor,
+        child: Center(
+          child: Column(
+            children: [
+              SizedBox(height: MediaQuery.of(context).size.height*.375),
+              Icon(slideIcon, color: Colors.white),
+              Text(slideText,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: WHITE)
+              ),
+            ]
+          )
+        ),
+        )
+      )
+    );
+
+    Widget mainSlide = buildBody(context);
+    builder = buildSlidable(context);
+    LIKED = 1;
+
+    return Stack( key: UniqueKey(),
+      children:[mainSlide.animate()
+      .slideX(begin: 0, end: mover, duration: 500.ms, curve: Curves.easeIn),
+    saveSkip.animate()
+      .slideX(begin: mover*(-1), end: 0, duration: 500.ms, curve: Curves.easeIn)
+      .then()
+      .slideY(begin: 0, end:-1, duration: 300.ms), 
+    buildSlidable(context).animate()
+      .then(delay: 1000.ms)
+      .fadeIn(duration: 1.ms)
+      ]);
+  }
 }

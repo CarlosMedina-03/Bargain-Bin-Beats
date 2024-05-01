@@ -19,7 +19,10 @@ class TutorialPage extends StatefulWidget {
 
 class TutorialPageState extends State<TutorialPage>  {
 
-  Widget buildBody(BuildContext context) {
+  late Widget builder = buildSlidable(context);
+  late int LIKED = 0;
+
+  Widget buildBody() {
     return SingleChildScrollView(
     child: Center(
       child: Stack(
@@ -178,7 +181,7 @@ class TutorialPageState extends State<TutorialPage>  {
         motion: const ScrollMotion(),
         dismissible: DismissiblePane(
           onDismissed: () {
-            setState(() {
+            setState(() { builder = buildSlidable(context);
         });
           },
           dismissThreshold: .1
@@ -200,7 +203,7 @@ class TutorialPageState extends State<TutorialPage>  {
         extentRatio: .0001,
         motion: const ScrollMotion(),
         dismissible: DismissiblePane(onDismissed: () {
-          setState(() {
+          setState(() { builder = buildSlidable(context);
           });
         },
           dismissThreshold: .1),
@@ -214,15 +217,18 @@ class TutorialPageState extends State<TutorialPage>  {
           ),
         ],
       ),
-      child: buildBody(context),
+      child: buildBody(),
     );
   }
 
   @override
   Widget build(BuildContext context){
-    return 
-    
-    Scaffold (
+    if(LIKED==0){builder = buildSlidable(context);}
+    else if(LIKED==1){builder = buildLikeSwipe(context, true);}
+    else{builder = buildLikeSwipe(context, false);}
+
+
+    return Scaffold (
       
       backgroundColor: PALE_PURPLE,
 
@@ -234,18 +240,23 @@ class TutorialPageState extends State<TutorialPage>  {
           style: TextStyle(fontWeight: FontWeight.bold)
         ),
       ),
-      body: buildSlidable(context),
+      body: builder,
+      //buildSlidable(context),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
         buildFooterButton(Icons.thumb_up, "Add", () {
           setState(() {
             
           });
+          builder = buildLikeSwipe(context, true);
+          LIKED = 1;
         }),
         buildFooterButton(Icons.thumb_down, "Skip", () {
           setState(() {
             
           });
+          builder = buildLikeSwipe(context, false);
+          LIKED = 2;
         }),
         buildFooterButton(Icons.arrow_right_alt, "Done", () {
           Navigator.of(context).push(
@@ -255,4 +266,66 @@ class TutorialPageState extends State<TutorialPage>  {
       ],
     );
   }
+
+  //button animations
+   ///
+  ///Builds the Swiping animation for when the "Add" button is pressed
+  ///
+  Widget buildLikeSwipe(BuildContext context, bool liked){
+    Color slideColor;
+    IconData slideIcon;
+    String slideText;
+    double mover;
+
+    if(liked){
+      slideColor = GREEN;
+      slideIcon = Icons.archive;
+      slideText = 'Add';
+      mover = 1;
+    }
+    else{
+      slideColor = RED;
+      slideIcon = Icons.delete;
+      slideText = 'Skip';
+      mover = -1;
+    }
+
+    Widget slide = SizedBox(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: Container(
+          color: slideColor,
+        child: Center(
+          child: Column(
+            children: [
+              SizedBox(height: MediaQuery.of(context).size.height*.37),
+              Icon(slideIcon, color: Colors.white),
+              Text(slideText,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: WHITE)
+              ),
+            ]
+          )
+        ),
+        )
+    );
+
+    builder = buildSlidable(context);
+    LIKED = 0;
+
+    return Stack( key: UniqueKey(),
+      children:[buildBody().animate()
+      .slideX(begin: 0, end: mover, duration: 500.ms, curve: Curves.easeIn),
+    slide.animate()
+      .slideX(begin: mover*(-1), end: 0, duration: 500.ms, curve: Curves.easeIn)
+      .then()
+      .slideY(begin: 0, end:-1, duration: 300.ms)
+      .fadeOut(), 
+    buildSlidable(context).animate()
+      .then(delay: 1000.ms)
+      .fadeIn(duration: 1.ms)
+      ]);
+  }
+
+
 }

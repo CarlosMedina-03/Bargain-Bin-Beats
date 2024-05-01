@@ -290,7 +290,7 @@ class TutorialPageState extends State<TutorialPage>  {
       mover = -1;
     }
 
-    Widget slide = SizedBox(
+    Widget saveSkip = SizedBox(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Container(
@@ -316,7 +316,7 @@ class TutorialPageState extends State<TutorialPage>  {
     return Stack( key: UniqueKey(),
       children:[buildBody().animate()
       .slideX(begin: 0, end: mover, duration: 500.ms, curve: Curves.easeIn),
-    slide.animate()
+    saveSkip.animate()
       .slideX(begin: mover*(-1), end: 0, duration: 500.ms, curve: Curves.easeIn)
       .then()
       .slideY(begin: 0, end:-1, duration: 300.ms)

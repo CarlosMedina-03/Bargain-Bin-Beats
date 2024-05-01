@@ -110,7 +110,6 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
         if (count <= songs.length) {
           currentSong = songs[count];
           playAudio(currentSong!.getSongPreviewUrl()!);
-          print(count);
         } else {
           currentSong = null;
         }
@@ -122,7 +121,6 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
         if (count <= songs.length) {
           currentSong = songs[count];
           playAudio(currentSong!.getSongPreviewUrl()!);
-          print(count);
         } else {
           currentSong = null;
         }
@@ -443,7 +441,6 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
               if (count <= songs.length && currentSong == null){
                 currentSong = songs[count];
                 playAudio(currentSong!.getSongPreviewUrl()!);
-                print(count);
               }
 
               return formatBody();

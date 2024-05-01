@@ -75,8 +75,6 @@ class ExportPageState extends State<ExportPage> with TickerProviderStateMixin {
     // Add songs to the playlist
     // If the expression before ?? is null, the expression evaluates to the value after ??.
     List<String> trackUris = widget.songsExport.map((song) => song.getSongUri() ?? '').where((uri) => uri.isNotEmpty).toList();
-    print(trackUris);
-    print(playlistUrl);
     await addSongsToPlaylist(accessToken, playlistId, trackUris);
     setState(() {
         showPlaylistUrl = true;
@@ -104,9 +102,6 @@ Future<void> addSongsToPlaylist(String accessToken, String playlistId, List<Stri
       },
       body: jsonEncode({'uris': listTrackUris}),
     );
-
-    print('Response status code: ${response.statusCode}');
-    print('Response body: ${response.body}');
 
     if (response.statusCode == 201) {
       print("Songs added to playlist successfully!");
@@ -254,8 +249,6 @@ Widget _buildSubmitButton() {
       final playlistName = playlistNameController.text;
       final playlistDescription = playlistDescriptionController.text;
 
-      print('Playlist Name: $playlistName');
-      print('Playlist Description: $playlistDescription');
       exportPlaylist("09jjfzr0qagrh21z7yxwula8l", playlistName, playlistDescription);
       animationController.forward();
     },

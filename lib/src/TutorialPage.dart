@@ -152,15 +152,11 @@ class TutorialPageState extends State<TutorialPage>  {
   }
 
   Widget buildLeftColumn(BuildContext context){
-    // return Positioned(
-      // left: 20,
-      // bottom: 15,
       return SizedBox(
         width: MediaQuery.of(context).size.width * .3, // text column width
         child: Center(
           child: Column(
             children: [
-              // SizedBox(height: MediaQuery.of(context).size.height * 0.8),
               buildAnimation(context),
               const Text(
                 'Swipe left or press Skip to skip!',

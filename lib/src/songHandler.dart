@@ -106,7 +106,7 @@ class SongHandler{
             allTracks.add(song);
             if (random.nextInt(100) >= 85) {
               randomOffset = getRandomOffset(previousOffsets, random);
-              if (random.nextBool()) items.reversed; print("list reversed");
+              if (random.nextBool()) items.reversed;
             }
             if (allTracks.length >= numTracksReturned) {
               break;

@@ -4,7 +4,9 @@ import 'package:flutter_application_1/src/ExportPage.dart';
 import 'package:flutter_application_1/src/homePage.dart';
 import 'package:flutter_application_1/src/song.dart';
 
+///
 /// This class represents the Playlist page where users can view, export, save, and load their playlists.
+/// 
 class PlaylistPage extends StatefulWidget {
   final List<Song> pickedSongs;
 
@@ -18,12 +20,16 @@ class PlaylistPage extends StatefulWidget {
   PlaylistPageState createState() => PlaylistPageState();
   }
 
+///
 /// The state of the PlaylistPage widget.
+/// 
 class PlaylistPageState extends State<PlaylistPage> {
   late double paddingValue;
   String? playlistUrl;
 
-
+  ///
+  /// Method to create a button in the footer/bottom of the page.
+  ///
   Widget buildFooterButton(IconData icon, String label, VoidCallback onPressed) {
     return TextButton.icon(
       onPressed: onPressed,
@@ -36,6 +42,10 @@ class PlaylistPageState extends State<PlaylistPage> {
     );
   }
 
+
+  ///
+  ///Extracts added songs information and add it into a widget that can be displayed. 
+  ///
   List <Widget> buildListOfSongs(List<Song> songList) {
     List <Widget> songsInfo = [];
     for (Song song in songList) {
@@ -48,6 +58,10 @@ class PlaylistPageState extends State<PlaylistPage> {
     return songsInfo;
   }
 
+
+  ///
+  /// Displays list of songs that were added by user in the playlist page.
+  ///
   Widget displaySongs(){
     return Center(
       child: SingleChildScrollView(
@@ -59,6 +73,10 @@ class PlaylistPageState extends State<PlaylistPage> {
     );
   } 
 
+
+  ///
+  /// Styles how the image of album covers are displayed on the playlist page.
+  ///
   Widget albumArtForCard(String? imageURL){
     double imageWidth;
     double imageHeight;
@@ -80,6 +98,10 @@ class PlaylistPageState extends State<PlaylistPage> {
     );
   }
 
+
+  ///
+  ///Styles the text style of song title and artist on the playlist page.
+  ///
   Widget textForCard(String? title, String? artist){
     return Expanded(
       child: Column(
@@ -93,6 +115,9 @@ class PlaylistPageState extends State<PlaylistPage> {
   }
 
 
+  ///
+  ///Builds the widget cards that show the songs that user has added.
+  ///
   Widget buildCard(String? title, String? artist, String? imageURL) {
     paddingValue = MediaQuery.of(context).size.height * 0.02;
     return Container(
@@ -115,6 +140,9 @@ class PlaylistPageState extends State<PlaylistPage> {
     );
   }
 
+  ///
+  /// Puts everything together and builds the whole structure of the playlist page
+  ///
   @override
   Widget build(BuildContext context) {
     return Scaffold(

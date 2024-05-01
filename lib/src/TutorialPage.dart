@@ -30,19 +30,10 @@ class TutorialPageState extends State<TutorialPage>  {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  buildTutorialText(context),
-                  buildTutorialBox(context),
-                  buildExampleSongText(context),
-                  Padding(
-                    padding: EdgeInsets.all(MediaQuery.of(context).size.width*.02),
-                    child: Row (
-                      children: [
-                        buildLeftColumn(context),
-                        SizedBox(width: MediaQuery.of(context).size.width*.35),
-                        buildRightColumn(context),
-                      ],
-                    ),
-                  )
+                  buildTutorialText(),
+                  buildTutorialBox(),
+                  buildExampleSongText(),
+                  buildSwipingTutorial()
                 ],
               ),
             ),
@@ -53,7 +44,20 @@ class TutorialPageState extends State<TutorialPage>  {
     );
   }
 
-  Widget buildExampleSongText(BuildContext context){
+  Widget buildSwipingTutorial(){
+    return Padding(
+      padding: EdgeInsets.all(MediaQuery.of(context).size.width*.02),
+      child: Row (
+        children: [
+          buildLeftColumn(context),
+          SizedBox(width: MediaQuery.of(context).size.width*.35),
+          buildRightColumn(context),
+        ],
+      ),
+    );
+  }
+
+  Widget buildExampleSongText(){
     return SizedBox(
       width: MediaQuery.of(context).size.height * 0.5,
       child: const Text(
@@ -64,7 +68,7 @@ class TutorialPageState extends State<TutorialPage>  {
     );
   }
 
-  Widget buildTutorialText(BuildContext context){
+  Widget buildTutorialText(){
     return  const Text(
       'Tutorial',
       textAlign: TextAlign.center,
@@ -72,7 +76,7 @@ class TutorialPageState extends State<TutorialPage>  {
     );
   }
 
-  Widget buildTutorialBox(BuildContext context){
+  Widget buildTutorialBox(){
     double imageSize;
     if (MediaQuery.of(context).size.height * 0.5 > MediaQuery.of(context).size.width * 0.95) {
       imageSize = MediaQuery.of(context).size.width * 0.95;

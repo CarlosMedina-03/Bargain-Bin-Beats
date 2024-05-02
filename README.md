@@ -29,6 +29,7 @@ The user-generated playlist is sent to Spotify. They are asked to give a name an
 ## Known Issues
 - Occasionally songs don't autoplay on Windows
 - Skipping/adding songs too quickly can cause autoplay to stop working
+- Spamming skip/add interrupts the button feedback animation, preventing the next song from appearing 
 
 ## Acknowledgements
 We would like to give credit to the json assets, music, and code we utilized

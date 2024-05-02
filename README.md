@@ -32,7 +32,8 @@ The user-generated playlist is sent to Spotify. They are asked to give a name an
 - Spamming skip/add interrupts the button feedback animation, preventing the next song from appearing 
 
 ## Acknowledgements
-We would like to give credit to the json assets, music, and code we utilized
+We would like to give credit to the json assets, music, and code we utilized.
+Also, a big thanks to Ev for the name "Bargain Bin Beats"
 
 Link to homePage logo from Lottie: https://lottiefiles.com/animations/girl-listening-to-music-taLUHBXg1O 
 

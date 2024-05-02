@@ -267,9 +267,8 @@ class TutorialPageState extends State<TutorialPage>  {
     );
   }
 
-  //button animations
    ///
-  ///Builds the Swiping animation for when the "Add" button is pressed
+  ///Builds the Swiping animation for when the buttons are pressed
   ///
   Widget buildLikeSwipe(BuildContext context, bool liked){
     Color slideColor;
@@ -315,7 +314,8 @@ class TutorialPageState extends State<TutorialPage>  {
 
     return Stack( key: UniqueKey(),
       children:[buildBody().animate()
-      .slideX(begin: 0, end: mover, duration: 500.ms, curve: Curves.easeIn),
+      .slideX(begin: 0, end: mover, duration: 500.ms, curve: Curves.easeIn)
+      .fadeOut(),
     saveSkip.animate()
       .slideX(begin: mover*(-1), end: 0, duration: 500.ms, curve: Curves.easeIn)
       .then()

@@ -609,9 +609,8 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
     );
   }
 
-    //button animations
    ///
-  ///Builds the Swiping animation for when the "Add" button is pressed
+  ///Builds the Swiping animation for when the buttons are pressed
   ///
   Widget buildLikeSwipe(BuildContext context, bool liked){
     Color slideColor;
@@ -656,7 +655,8 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
 
     return Stack( key: UniqueKey(),
       children:[buildBody(context).animate()
-      .slideX(begin: 0, end: mover, duration: 500.ms, curve: Curves.easeIn),
+      .slideX(begin: 0, end: mover, duration: 500.ms, curve: Curves.easeIn)
+      .fadeOut(),
     saveSkip.animate(onComplete: (controller){changeSong(liked);})
       .slideX(begin: mover*(-1), end: 0, duration: 500.ms, curve: Curves.easeIn)
       .then()

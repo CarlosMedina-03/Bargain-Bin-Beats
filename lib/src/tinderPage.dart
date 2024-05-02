@@ -445,7 +445,6 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
                 currentSong = songs[count];
                 playAudio(currentSong!.getSongPreviewUrl()!);
               }
-
               return formatBody();
             }
           },
@@ -637,30 +636,33 @@ class _TinderPageState extends State<TinderPage> with SingleTickerProviderStateM
         width: MediaQuery.of(context).size.width,
         child: Container(
           color: slideColor,
-        child: Center(
-          child: Column(
-            children: [
-              SizedBox(height: MediaQuery.of(context).size.height*.375),
-              Icon(slideIcon, color: Colors.white),
-              Text(slideText,
-                textAlign: TextAlign.center,
-                style: const TextStyle(color: WHITE)
-              ),
-            ]
-          )
-        ),
+          child: Center(
+            child: Column(
+              children: [
+                SizedBox(height: MediaQuery.of(context).size.height*.375),
+                Icon(slideIcon, color: Colors.white),
+                Text(
+                  slideText,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: WHITE)
+                ),
+              ]
+            )
+          ),
         )
       )
     );
 
-    return Stack( key: UniqueKey(),
+    return Stack( 
+      key: UniqueKey(),
       children:[buildBody(context).animate()
-      .slideX(begin: 0, end: mover, duration: 500.ms, curve: Curves.easeIn)
+      .slideX(begin: 0, end: mover, duration: 200.ms, curve: Curves.easeIn) // time for old page to slide out
       .fadeOut(),
-    saveSkip.animate(onComplete: (controller){changeSong(liked);})
-      .slideX(begin: mover*(-1), end: 0, duration: 500.ms, curve: Curves.easeIn)
+      saveSkip.animate(onComplete: (controller){changeSong(liked);})
+      .slideX(begin: mover*(-1), end: 0, duration: 200.ms, curve: Curves.easeIn) // time for new intersection to slide in
       .then()
-      .slideY(begin: 0, end:-1, duration: 300.ms), 
-      ]);
+      .slideY(begin: 0, end:-1, duration: 250.ms), // time to slide up to next song
+      ]
+    );
   }
 }

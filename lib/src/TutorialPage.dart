@@ -7,6 +7,9 @@ import 'package:flutter_application_1/src/tinderPage.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:lottie/lottie.dart';
 
+///
+/// Constructs everything in tutorial page.
+/// 
 class TutorialPage extends StatefulWidget {
   final List<String> genres;
   TutorialPage( {required this.genres, Key? key})
@@ -16,12 +19,18 @@ class TutorialPage extends StatefulWidget {
   TutorialPageState createState() => TutorialPageState();
 }
 
-
+///
+///The state of the tutorial page
+///
 class TutorialPageState extends State<TutorialPage>  {
 
   late Widget builder = buildSlidable(context);
   late int LIKED = 0;
 
+
+  ///
+  /// Builds the layout of the tutorial page.
+  ///
   Widget buildBody() {
     return SingleChildScrollView(
     child: Center(
@@ -47,6 +56,10 @@ class TutorialPageState extends State<TutorialPage>  {
     );
   }
 
+
+  ///
+  /// Formats text in tutorial page into a row.
+  ///
   Widget buildSwipingTutorial(){
     return Padding(
       padding: EdgeInsets.all(MediaQuery.of(context).size.width*.02),
@@ -60,6 +73,10 @@ class TutorialPageState extends State<TutorialPage>  {
     );
   }
 
+
+  ///
+  /// Create text widget that explains user where song title and artists will appear.
+  ///
   Widget buildExampleSongText(){
     return SizedBox(
       width: MediaQuery.of(context).size.height * 0.5,
@@ -79,6 +96,10 @@ class TutorialPageState extends State<TutorialPage>  {
     );
   }
 
+
+  ///
+  /// Creates the tutorial animation that user sees in this page. 
+  ///
   Widget buildTutorialBox(){
     double imageSize;
     if (MediaQuery.of(context).size.height * 0.5 > MediaQuery.of(context).size.width * 0.95) {
@@ -101,6 +122,9 @@ class TutorialPageState extends State<TutorialPage>  {
     );
   }
 
+  ///
+  ///Creates a footer with add or skip buttons on it below the page.
+  ///
   Widget buildFooterButton(IconData icon, String label, VoidCallback onPressed) {
     return TextButton.icon(
       onPressed: onPressed,
@@ -113,6 +137,10 @@ class TutorialPageState extends State<TutorialPage>  {
     );
   }
 
+
+  ///
+  ///Builds the animation that will show whether a song has been added or skipped. 
+  ///
   Widget buildAnimation(BuildContext context) {
     Widget myWidget = 
       const Icon(
@@ -131,6 +159,10 @@ class TutorialPageState extends State<TutorialPage>  {
     .fadeOut(duration: 500.ms);
   }
 
+
+  ///
+  ///Creates the text isntruction at the right column of the page.
+  ///
   Widget buildRightColumn(BuildContext context){
     return 
       SizedBox(
@@ -154,6 +186,9 @@ class TutorialPageState extends State<TutorialPage>  {
     );
   }
 
+  ///
+  ///Creates the text instruction at the left column of the page
+  ///
   Widget buildLeftColumn(BuildContext context){
       return SizedBox(
         width: MediaQuery.of(context).size.width * .3, // text column width
@@ -173,6 +208,9 @@ class TutorialPageState extends State<TutorialPage>  {
     );
   }
 
+  ///
+  ///Method that allows user to swiper right or left or the screen. Screen will follow direction.
+  ///
   Widget buildSlidable(BuildContext context){
     return Slidable(
       key: UniqueKey(),
@@ -221,6 +259,73 @@ class TutorialPageState extends State<TutorialPage>  {
     );
   }
 
+  ///
+  ///Creates the visual animation seen when trying to swioe the screen.
+  ///
+  Widget buildLikeSwipe(BuildContext context, bool liked){
+    Color slideColor;
+    IconData slideIcon;
+    String slideText;
+    double mover;
+
+    if(liked){
+      slideColor = GREEN;
+      slideIcon = Icons.archive;
+      slideText = 'Add';
+      mover = 1;
+    }
+    else{
+      slideColor = RED;
+      slideIcon = Icons.delete;
+      slideText = 'Skip';
+      mover = -1;
+    }
+
+    ///
+    ///Controls the speed and positioning of the swipong animation.
+    ///
+    Widget saveSkip = SizedBox(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: Container(
+          color: slideColor,
+        child: Center(
+          child: Column(
+            children: [
+              SizedBox(height: MediaQuery.of(context).size.height*.37),
+              Icon(slideIcon, color: Colors.white),
+              Text(slideText,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: WHITE)
+              ),
+            ]
+          )
+        ),
+        )
+    );
+
+    builder = buildSlidable(context);
+    LIKED = 0;
+
+    return Stack( key: UniqueKey(),
+      children:[buildBody().animate()
+      .slideX(begin: 0, end: mover, duration: 500.ms, curve: Curves.easeIn)
+      .fadeOut(),
+    saveSkip.animate()
+      .slideX(begin: mover*(-1), end: 0, duration: 500.ms, curve: Curves.easeIn)
+      .then()
+      .slideY(begin: 0, end:-1, duration: 300.ms)
+      .fadeOut(), 
+    buildSlidable(context).animate()
+      .then(delay: 1000.ms)
+      .fadeIn(duration: 1.ms)
+      ]);
+  }
+
+
+  ///
+  ///Puts everything together and gives functionality to buttons in tutorial page.
+  ///
   @override
   Widget build(BuildContext context){
     if(LIKED==0){builder = buildSlidable(context);}
@@ -267,65 +372,7 @@ class TutorialPageState extends State<TutorialPage>  {
     );
   }
 
-   ///
-  ///Builds the Swiping animation for when the buttons are pressed
-  ///
-  Widget buildLikeSwipe(BuildContext context, bool liked){
-    Color slideColor;
-    IconData slideIcon;
-    String slideText;
-    double mover;
-
-    if(liked){
-      slideColor = GREEN;
-      slideIcon = Icons.archive;
-      slideText = 'Add';
-      mover = 1;
-    }
-    else{
-      slideColor = RED;
-      slideIcon = Icons.delete;
-      slideText = 'Skip';
-      mover = -1;
-    }
-
-    Widget saveSkip = SizedBox(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Container(
-          color: slideColor,
-        child: Center(
-          child: Column(
-            children: [
-              SizedBox(height: MediaQuery.of(context).size.height*.37),
-              Icon(slideIcon, color: Colors.white),
-              Text(slideText,
-                textAlign: TextAlign.center,
-                style: const TextStyle(color: WHITE)
-              ),
-            ]
-          )
-        ),
-        )
-    );
-
-    builder = buildSlidable(context);
-    LIKED = 0;
-
-    return Stack( key: UniqueKey(),
-      children:[buildBody().animate()
-      .slideX(begin: 0, end: mover, duration: 500.ms, curve: Curves.easeIn)
-      .fadeOut(),
-    saveSkip.animate()
-      .slideX(begin: mover*(-1), end: 0, duration: 500.ms, curve: Curves.easeIn)
-      .then()
-      .slideY(begin: 0, end:-1, duration: 300.ms)
-      .fadeOut(), 
-    buildSlidable(context).animate()
-      .then(delay: 1000.ms)
-      .fadeIn(duration: 1.ms)
-      ]);
-  }
+ 
 
 
 }

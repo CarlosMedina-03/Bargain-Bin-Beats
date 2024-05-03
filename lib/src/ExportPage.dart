@@ -103,7 +103,7 @@ Future<void> addSongsToPlaylist(String accessToken, String playlistId, List<Stri
       body: jsonEncode({'uris': listTrackUris}),
     );
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       print("Songs added to playlist successfully!");
     } else {
       final errorData = jsonDecode(response.body);
@@ -139,7 +139,6 @@ Future<String> createPlaylistForUser(String accessToken, String username, String
     final errorData = jsonDecode(response.body);
     print('Error creating playlist: ${response.statusCode} - ${errorData['error']['message']}');
     throw Exception('Failed to create playlist: ${response.statusCode} - ${errorData['error']['message']}');
-    // throw Exception('Failed to create playlist: ${response.statusCode}');
   }
 }
 
